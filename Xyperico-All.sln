@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base", "Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj", "{054A30BA-B232-4FF1-9F23-1040D075764A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base.MongoDB", "Xyperico.Base\Xyperico.Base.MongoDB\Xyperico.Base.MongoDB\Xyperico.Base.MongoDB.csproj", "{DF1A3B54-FD53-414F-8C54-0D9F6EDEB2C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base.Testing", "Xyperico.Base\Xyperico.Base.Testing\Xyperico.Base.Testing.csproj", "{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5C172328-AA1D-4F8F-A2CD-7E8FFDA1BBA3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Web.Mvc", "Xyperico.Web\Xyperico.Web.Mvc\Xyperico.Web.Mvc.csproj", "{5BAC1705-410B-4B27-AA97-03C1EF567E1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{054A30BA-B232-4FF1-9F23-1040D075764A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{054A30BA-B232-4FF1-9F23-1040D075764A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{054A30BA-B232-4FF1-9F23-1040D075764A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{054A30BA-B232-4FF1-9F23-1040D075764A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1A3B54-FD53-414F-8C54-0D9F6EDEB2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1A3B54-FD53-414F-8C54-0D9F6EDEB2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1A3B54-FD53-414F-8C54-0D9F6EDEB2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1A3B54-FD53-414F-8C54-0D9F6EDEB2C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BAC1705-410B-4B27-AA97-03C1EF567E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BAC1705-410B-4B27-AA97-03C1EF567E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BAC1705-410B-4B27-AA97-03C1EF567E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BAC1705-410B-4B27-AA97-03C1EF567E1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
