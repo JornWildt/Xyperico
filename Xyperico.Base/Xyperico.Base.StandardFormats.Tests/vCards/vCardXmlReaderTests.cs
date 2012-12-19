@@ -37,12 +37,12 @@ namespace Xyperico.Base.StandardFormats.Tests.vCards
         vCardXmlReader reader = new vCardXmlReader();
         vCard c = reader.Read(r, ParseExtensions);
         Assert.IsNotNull(c);
-        Assert.AreEqual("John Doe", c.Fn);
+        Assert.AreEqual("John Doe", c.Fn.Default.Value);
         Assert.AreEqual("jw@me.my", c.EMail.Default.Value);
         Assert.AreEqual("JohnDoe", c.Name);
         Assert.AreEqual("Doe", c.N.FamilyName);
         Assert.AreEqual("J.", c.N.GivenNames);
-        Assert.AreEqual("http://www.somewhere.com", c.Source);
+        Assert.AreEqual("http://www.somewhere.com", c.Source.Default.Value);
 
         vCardProperty p = c.GetExtendedProperty("why", "http://here.net");
         Assert.IsNotNull(p);

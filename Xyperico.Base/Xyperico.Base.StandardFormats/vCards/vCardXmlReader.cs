@@ -65,6 +65,7 @@ namespace Xyperico.Base.StandardFormats.vCards
       XmlNode xn = xcard.SelectSingleNode("vc:n", nsm);
       if (xn is XmlElement)
       {
+        c.N = new vCardN();
         c.N.FamilyName = xn.SelectOptionalInnerText("vc:surname/vc:text", nsm);
         c.N.GivenNames = xn.SelectOptionalInnerText("vc:given/vc:text", nsm);
       }

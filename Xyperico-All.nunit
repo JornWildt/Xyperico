@@ -1,7 +1,9 @@
 ﻿<NUnitProject>
   <Settings activeconfig="Debug" />
   <Config name="Debug" binpathtype="Auto">
+    <assembly path="Xyperico.Net\Xyperico.Net.Tests\bin\Debug\Xyperico.Net.Tests.dll" />
     <assembly path="Xyperico.Base\Xyperico.Base.StandardFormats.Tests\bin\Debug\Xyperico.Base.StandardFormats.Tests.dll" />
+    <assembly path="Xyperico.Base\Xyperico.Base.Tests\bin\Debug\Xyperico.Base.Tests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto" />
 </NUnitProject>

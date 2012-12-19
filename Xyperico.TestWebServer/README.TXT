@@ -1,0 +1,1 @@
+This ASP.NET MVC website is for running the various automatic tests in Xyperico that make web request and expect something specific to be returned.

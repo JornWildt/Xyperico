@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Castle.Windsor;
 using System.Text.RegularExpressions;
 
 

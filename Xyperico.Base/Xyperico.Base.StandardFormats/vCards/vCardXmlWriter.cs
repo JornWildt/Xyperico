@@ -33,16 +33,20 @@ namespace Xyperico.Base.StandardFormats.vCards
       w.WriteAttributeString("xmlns", "", null, vCard.vcard40NS);
       w.WriteStartElement("vcard");
 
-      WriteUriElement(w, "source", c.Source.Default.Value.ToString());
-      WriteTextElement(w, "name", c.Name);
+      if (c.Source.Default != null)
+        WriteUriElement(w, "source", c.Source.Default.Value.ToString());
+      if (c.Name != null)
+        WriteTextElement(w, "name", c.Name);
       WriteTextElement(w, "fn", c.Fn.Default.Value);
       //WriteTextElement(w, "email", c.EMail);
 
-      if (!string.IsNullOrEmpty(c.N.FamilyName) || !string.IsNullOrEmpty(c.N.GivenNames))
+      if (c.N != null && (!string.IsNullOrEmpty(c.N.FamilyName) || !string.IsNullOrEmpty(c.N.GivenNames)))
       {
         w.WriteStartElement("n");
-        WriteTextElement(w, "surname", c.N.FamilyName);
-        WriteTextElement(w, "given", c.N.GivenNames);
+        if (c.N.FamilyName != null)
+          WriteTextElement(w, "surname", c.N.FamilyName);
+        if (c.N.GivenNames != null)
+          WriteTextElement(w, "given", c.N.GivenNames);
         w.WriteEndElement();
       }
 
