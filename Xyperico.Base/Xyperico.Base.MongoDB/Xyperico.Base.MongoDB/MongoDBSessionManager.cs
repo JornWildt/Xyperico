@@ -90,7 +90,8 @@ namespace Xyperico.Base.MongoDB
     private MongoDatabase GetMongoDBFor(ConfigurationSettings.ConfigurationEntryElement config)
     {
       var connectionString = "mongodb://localhost/?safe=true";
-      var server = MongoServer.Create(connectionString);
+      var client = new MongoClient(connectionString);
+      var server = client.GetServer();
       var database = server.GetDatabase(config.Database);
 
       return database;

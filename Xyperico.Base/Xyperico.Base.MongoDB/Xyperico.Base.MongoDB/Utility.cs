@@ -14,9 +14,12 @@ namespace Xyperico.Base.MongoDB
       {
         BsonTypeConverters.Utility.RegisterAllSerializers();
 
-        var conventions = ConventionProfile.GetDefault();
-        conventions.SetMemberFinderConvention(new ProtectedMemberFinderConvention());
-        BsonClassMap.RegisterConventions(conventions, t => true);
+        //var conventions = new ConventionPack();
+        //conventions.Add(new ProtectedMemberFinderConvention());
+        //ConventionRegistry.Register("ProtectedMemberFinderConvention", conventions, t => true);
+        //var conventions = ConventionProfile.GetDefault();
+        //conventions.SetMemberFinderConvention(new ProtectedMemberFinderConvention());
+        //BsonClassMap.RegisterConventions(conventions, t => true);
 
         FirstTime = false;
       }

@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}</ProjectGuid>
+    <ProjectGuid>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xyperico.Base.Testing</RootNamespace>
-    <AssemblyName>Xyperico.Base.Testing</AssemblyName>
+    <RootNamespace>Xyperico.Agres</RootNamespace>
+    <AssemblyName>Xyperico.Agres</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Xyperico.Discuss\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -33,22 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\..\Xyperico.News\packages\Castle.Core.3.2.0\lib\net40-client\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Xyperico.News\packages\Castle.Windsor.3.2.0\lib\net40\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    <Reference Include="CuttingEdge.Conditions">
+      <HintPath>..\..\Xyperico.Discuss\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,19 +45,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlDocumentAssertion.cs" />
-    <Compile Include="DisposingBuilder.cs" />
-    <Compile Include="IDisposingBuilder.cs" />
+    <Compile Include="AbstractAggregate.cs" />
+    <Compile Include="AbstractApplicationService.cs" />
+    <Compile Include="AbstractIdentity.cs" />
+    <Compile Include="AbstractRepository.cs" />
+    <Compile Include="EventStream.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="IEvent.cs" />
+    <Compile Include="IEventStore.cs" />
+    <Compile Include="IHaveIdentity.cs" />
+    <Compile Include="IIdentity.cs" />
+    <Compile Include="InMemoryEventStore\InMemoryEventStore.cs" />
+    <Compile Include="MethodInvoke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelper.cs" />
-    <Compile Include="XmlAssert.cs" />
-    <Compile Include="XmlDocumentAssertion.cs" />
+    <Compile Include="RepositoryItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xyperico.Base\Xyperico.Base.csproj">
+    <ProjectReference Include="..\Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj">
       <Project>{054A30BA-B232-4FF1-9F23-1040D075764A}</Project>
       <Name>Xyperico.Base</Name>
     </ProjectReference>

@@ -59,7 +59,7 @@ namespace Xyperico.Base.MongoDB
     {
       try
       {
-        SafeModeResult result = Collection.Insert(entity);
+        WriteConcernResult result = Collection.Insert(entity);
       }
       catch (MongoCommandException ex)
       {

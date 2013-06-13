@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection;
 using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization;
 
 
 namespace Xyperico.Base.MongoDB
 {
-  public class ProtectedMemberFinderConvention : IMemberFinderConvention
+  public class ProtectedMemberFinderConvention
   {
     #region IMemberFinderConvention Members
 
@@ -49,5 +50,20 @@ namespace Xyperico.Base.MongoDB
     }
 
     #endregion
+
+
+    #region IClassMapConvention
+
+    public void Apply(BsonClassMap classMap)
+    {
+      throw new NotImplementedException();
+    }
+
+    public string Name
+    {
+      get { throw new NotImplementedException(); }
+    }
+
+    #endregion IClassMapConvention
   }
 }
