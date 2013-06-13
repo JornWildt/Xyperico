@@ -18,7 +18,7 @@ namespace Xyperico.Agres
     }
 
 
-    public abstract TId Id { get; protected set; }
+    public TId Id { get; protected set; }
 
 
     public IEnumerable<IEvent> GetChanges()
