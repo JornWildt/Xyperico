@@ -7,14 +7,14 @@ using Xyperico.Base.Exceptions;
 
 namespace Xyperico.Agres
 {
-  public class AbstractRepository<TAggregate, TId>
+  public class GenericRepository<TAggregate, TId>
     where TAggregate : AbstractAggregate<TId>
     where TId : IIdentity
   {
     protected IEventStore EventStore { get; set; }
 
 
-    public AbstractRepository(IEventStore eventStore)
+    public GenericRepository(IEventStore eventStore)
     {
       Condition.Requires(eventStore, "eventStore").IsNotNull();
       EventStore = eventStore;

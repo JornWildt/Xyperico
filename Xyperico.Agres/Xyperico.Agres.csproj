@@ -46,9 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAggregate.cs" />
-    <Compile Include="AbstractApplicationService.cs" />
-    <Compile Include="AbstractIdentity.cs" />
-    <Compile Include="AbstractRepository.cs" />
+    <Compile Include="GenericApplicationService.cs" />
+    <Compile Include="Identity.cs" />
+    <Compile Include="GenericRepository.cs" />
     <Compile Include="EventStream.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IEvent.cs" />

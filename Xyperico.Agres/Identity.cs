@@ -1,11 +1,11 @@
 ﻿namespace Xyperico.Agres
 {
-  public class AbstractIdentity<TId> : IIdentity
+  public class Identity<TId> : IIdentity
   {
     protected TId Id { get; set; }
 
 
-    public static readonly AbstractIdentity<TId> Empty = new AbstractIdentity<TId>();
+    public static readonly Identity<TId> Empty = new Identity<TId>();
 
 
     public virtual string Literal
@@ -14,19 +14,19 @@
     }
 
 
-    public AbstractIdentity()
+    public Identity()
     {
       Id = default(TId);
     }
 
 
-    public AbstractIdentity(TId id)
+    public Identity(TId id)
     {
       Id = id;
     }
 
 
-    public AbstractIdentity(AbstractIdentity<TId> id)
+    public Identity(Identity<TId> id)
     {
       Id = id.Id;
     }
@@ -37,7 +37,7 @@
       if (ReferenceEquals(this, obj))
         return true;
 
-      AbstractIdentity<TId> other = obj as AbstractIdentity<TId>;
+      Identity<TId> other = obj as Identity<TId>;
       if (other == null)
         return false;
 
@@ -45,7 +45,7 @@
     }
 
 
-    public bool Equals(AbstractIdentity<TId> other)
+    public bool Equals(Identity<TId> other)
     {
       if (other == null)
         return false;
@@ -66,13 +66,13 @@
     }
 
 
-    public static bool operator ==(AbstractIdentity<TId> left, AbstractIdentity<TId> right)
+    public static bool operator ==(Identity<TId> left, Identity<TId> right)
     {
       return Equals(left, right);
     }
 
 
-    public static bool operator !=(AbstractIdentity<TId> left, AbstractIdentity<TId> right)
+    public static bool operator !=(Identity<TId> left, Identity<TId> right)
     {
       return !Equals(left, right);
     }

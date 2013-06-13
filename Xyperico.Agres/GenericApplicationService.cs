@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using CuttingEdge.Conditions;
-using Xyperico.Base;
 
 
 namespace Xyperico.Agres
 {
-  public abstract class AbstractApplicationService<TAggregate, TId>
+  public class GenericApplicationService<TAggregate, TId>
     where TAggregate : AbstractAggregate<TId>
     where TId : IIdentity
   {
     protected IEventStore EventStore { get; set; }
 
-    protected AbstractRepository<TAggregate,TId> Repository { get; set; }
+    protected GenericRepository<TAggregate,TId> Repository { get; set; }
 
 
-    public AbstractApplicationService(IEventStore eventStore)
+    public GenericApplicationService(IEventStore eventStore)
     {
       Condition.Requires(eventStore, "eventStore").IsNotNull();
 
       EventStore = eventStore;
-      Repository = new AbstractRepository<TAggregate, TId>(eventStore);
+      Repository = new GenericRepository<TAggregate, TId>(eventStore);
     }
 
 
