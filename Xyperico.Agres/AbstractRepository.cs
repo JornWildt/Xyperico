@@ -2,6 +2,7 @@
 using CuttingEdge.Conditions;
 using Xyperico.Base;
 using System.Collections.Generic;
+using Xyperico.Base.Exceptions;
 
 
 namespace Xyperico.Agres
@@ -27,7 +28,11 @@ namespace Xyperico.Agres
     /// <returns>Aggregate and associated event stream.</returns>
     public RepositoryItem<TAggregate> Get(IIdentity id)
     {
+      Condition.Requires(id, "id").IsNotNull();
+
       EventStream s = EventStore.Load(id);
+      if (s == null)
+        throw new MissingResourceException(string.Format("No event stream found for ID {0} of type {1}", id, id.GetType()));
       TAggregate a = (TAggregate)Activator.CreateInstance(typeof(TAggregate), s.Events);
       return new RepositoryItem<TAggregate>(a, s);
     }
