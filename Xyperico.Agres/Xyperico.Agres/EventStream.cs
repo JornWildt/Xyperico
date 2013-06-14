@@ -7,7 +7,7 @@ namespace Xyperico.Agres
 {
   public class EventStream
   {
-    public int Version { get; protected set; }
+    public long Version { get; protected set; }
 
     public List<IEvent> Events { get; protected set; }
 
@@ -18,7 +18,7 @@ namespace Xyperico.Agres
     }
 
 
-    public EventStream(int version, List<IEvent> events)
+    public EventStream(long version, List<IEvent> events)
     {
       Condition.Requires(version, "version").IsGreaterOrEqual(0);
       Condition.Requires(events, "events").IsNotNull();

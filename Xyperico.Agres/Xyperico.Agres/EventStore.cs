@@ -1,0 +1,48 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using CuttingEdge.Conditions;
+using Xyperico.Agres.Contract;
+
+
+namespace Xyperico.Agres
+{
+  public class EventStore : IEventStore
+  {
+    protected IAppendOnlyStore AppendOnlyStore { get; set; }
+
+    protected ISerializer Serializer { get; set; }
+
+
+    public EventStore(IAppendOnlyStore store, ISerializer serializer)
+    {
+      Condition.Requires(store, "store").IsNotNull();
+      Condition.Requires(serializer, "serializer").IsNotNull();
+      AppendOnlyStore = store;
+      Serializer = serializer;
+    }
+
+
+    public EventStream Load(IIdentity id)
+    {
+      NamedDataSet data = AppendOnlyStore.Load(id.Literal);
+      if (data == null)
+        return null;
+
+      List<IEvent> events = new List<IEvent>(data.Data.Select(d => (IEvent)Serializer.Deserialize(d)));
+      EventStream s = new EventStream(data.Version, events);
+
+      return s;
+    }
+
+    
+    public void Append(IIdentity id, long expectedVersion, IEnumerable<IEvent> events)
+    {
+      foreach (IEvent e in events)
+      {
+        byte[] data = Serializer.Serialize(e);
+        AppendOnlyStore.Append(id.Literal, data, expectedVersion);
+      }
+    }
+  }
+}

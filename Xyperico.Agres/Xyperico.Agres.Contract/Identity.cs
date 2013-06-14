@@ -1,5 +1,9 @@
-﻿namespace Xyperico.Agres.Contract
+﻿using System;
+
+
+namespace Xyperico.Agres.Contract
 {
+  [Serializable]
   public abstract class Identity<TId> : IIdentity
   {
     /// <summary>
