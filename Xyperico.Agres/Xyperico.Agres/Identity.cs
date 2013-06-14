@@ -1,16 +1,26 @@
 ﻿namespace Xyperico.Agres
 {
-  public class Identity<TId> : IIdentity
+  public abstract class Identity<TId> : IIdentity
   {
+    /// <summary>
+    /// Internal representation of ID. Not supposed to be unique between different aggregate types.
+    /// </summary>
     protected TId Id { get; set; }
 
 
-    public static readonly Identity<TId> Empty = new Identity<TId>();
+    private string _literal;
 
-
+    /// <summary>
+    /// String literal representation of ID - to be used as actual concrete ID when storing and looking up identities.
+    /// </summary>
     public virtual string Literal
     {
-      get { return Id.ToString(); }
+      get 
+      { 
+        if (_literal == null)
+          _literal = Prefix + Id.ToString();
+        return _literal;
+      }
     }
 
 
@@ -32,6 +42,13 @@
     }
 
 
+    /// <summary>
+    /// Get string to be prefixed to the base ID - the combination is used in <see cref="Literal"/>.
+    /// </summary>
+    /// <remarks>If you use Guid as the base ID type then you can leave the prefix empty.</remarks>
+    protected abstract string Prefix { get; }
+
+
     public override bool Equals(object obj)
     {
       if (ReferenceEquals(this, obj))
@@ -50,19 +67,19 @@
       if (other == null)
         return false;
 
-      return Id.Equals(other.Id);
+      return Literal.Equals(other.Literal);
     }
 
 
     public override int GetHashCode()
     {
-      return Id.GetHashCode();
+      return Literal.GetHashCode();
     }
 
 
     public override string ToString()
     {
-      return Id.ToString();
+      return Literal;
     }
 
 
