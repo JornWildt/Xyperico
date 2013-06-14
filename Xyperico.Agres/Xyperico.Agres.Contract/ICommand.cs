@@ -1,7 +1,4 @@
-﻿using Xyperico.Base;
-
-
-namespace Xyperico.Agres
+﻿namespace Xyperico.Agres.Contract
 {
   public interface ICommand<TId>
     where TId : IIdentity

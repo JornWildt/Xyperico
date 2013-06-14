@@ -1,5 +1,6 @@
 ﻿using System;
 using CuttingEdge.Conditions;
+using Xyperico.Agres.Contract;
 
 
 namespace Xyperico.Agres

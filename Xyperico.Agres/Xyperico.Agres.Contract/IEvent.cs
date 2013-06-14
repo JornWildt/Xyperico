@@ -1,4 +1,4 @@
-﻿namespace Xyperico.Agres
+﻿namespace Xyperico.Agres.Contract
 {
   public interface IEvent
   {

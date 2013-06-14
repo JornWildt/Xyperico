@@ -1,7 +1,6 @@
 ﻿using System;
 using CuttingEdge.Conditions;
-using Xyperico.Base;
-using System.Collections.Generic;
+using Xyperico.Agres.Contract;
 using Xyperico.Base.Exceptions;
 
 

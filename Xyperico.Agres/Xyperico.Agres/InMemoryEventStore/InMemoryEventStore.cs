@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Xyperico.Base;
+using Xyperico.Agres.Contract;
 using Xyperico.Base.Exceptions;
 
 
