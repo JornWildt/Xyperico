@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</ProjectGuid>
+    <ProjectGuid>{9BA99FF6-E704-47D2-9FF2-D1F311EBEE90}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xyperico.Agres</RootNamespace>
-    <AssemblyName>Xyperico.Agres</AssemblyName>
+    <RootNamespace>Xyperico.Agres.Sql</RootNamespace>
+    <AssemblyName>Xyperico.Agres.Sql</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Xyperico.Discuss\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,12 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CuttingEdge.Conditions">
-      <HintPath>..\..\Xyperico.Discuss\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,25 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractAggregate.cs" />
-    <Compile Include="EventStore.cs" />
-    <Compile Include="GenericApplicationService.cs" />
-    <Compile Include="GenericRepository.cs" />
-    <Compile Include="EventStream.cs" />
-    <Compile Include="IAppendOnlyStore.cs" />
-    <Compile Include="IEventStore.cs" />
-    <Compile Include="IHaveIdentity.cs" />
-    <Compile Include="InMemoryEventStore\InMemoryAppendOnlyStore.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="MethodInvoke.cs" />
-    <Compile Include="AbstractSerializer.cs" />
+    <Compile Include="SqlAppendOnlyStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryItem.cs" />
-    <Compile Include="Serializer\DataContractSerializer.cs" />
-    <Compile Include="Serializer\DotNetBinaryFormaterSerializer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj">
@@ -75,13 +52,12 @@
       <Project>{B18C85D4-0E07-477A-BE44-1F22281D47C7}</Project>
       <Name>Xyperico.Agres.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres\Xyperico.Agres.csproj">
+      <Project>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</Project>
+      <Name>Xyperico.Agres</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="README.TXT" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

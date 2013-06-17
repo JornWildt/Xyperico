@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Xyperico.Agres.Contract;
+using CuttingEdge.Conditions;
 
 
 namespace Xyperico.Agres
@@ -9,16 +10,25 @@ namespace Xyperico.Agres
   {
     const string RestoreMethodName = "RestoreFrom";
 
+    public TId Id { get; protected set; }
+
     protected List<IEvent> Changes { get; set; }
 
-    
-    public AbstractAggregate()
+
+    protected AbstractAggregate()
     {
       Changes = new List<IEvent>();
     }
 
 
-    public TId Id { get; protected set; }
+    protected AbstractAggregate(IEnumerable<IEvent> events)
+      : this()
+    {
+      Condition.Requires(events, "events").IsNotNull();
+
+      Mutate(events);
+    }
+
 
 
     public IEnumerable<IEvent> GetChanges()

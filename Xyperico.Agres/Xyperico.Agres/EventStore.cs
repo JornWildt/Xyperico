@@ -18,6 +18,7 @@ namespace Xyperico.Agres
     {
       Condition.Requires(store, "store").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();
+
       AppendOnlyStore = store;
       Serializer = serializer;
     }
@@ -25,6 +26,8 @@ namespace Xyperico.Agres
 
     public EventStream Load(IIdentity id)
     {
+      Condition.Requires(id, "id").IsNotNull();
+
       NamedDataSet data = AppendOnlyStore.Load(id.Literal);
       if (data == null)
         return null;
@@ -38,6 +41,10 @@ namespace Xyperico.Agres
     
     public void Append(IIdentity id, long expectedVersion, IEnumerable<IEvent> events)
     {
+      Condition.Requires(id, "id").IsNotNull();
+      Condition.Requires(expectedVersion, "expectedVersion").IsGreaterOrEqual(0);
+      Condition.Requires(events, "events").IsNotNull();
+
       foreach (IEvent e in events)
       {
         byte[] data = Serializer.Serialize(e);

@@ -26,7 +26,7 @@ namespace Xyperico.Agres.InMemoryEventStore
         NamedDataSet entry;
         if (!Streams.TryGetValue(name, out entry))
         {
-          entry = new NamedDataSet();
+          entry = new NamedDataSet(name);
           Streams[name] = entry;
         }
         if (entry.Version != expectedVersion)

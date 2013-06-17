@@ -47,12 +47,23 @@
   <ItemGroup>
     <Compile Include="IdentityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlEventStoreTests.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="TestUser\UserCreatedEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestUser\UserId.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Xyperico.Agres\Xyperico.Agres.JsonNet\Xyperico.Agres.JsonNet.csproj">
+      <Project>{0A736229-1204-4F4B-87EC-6D44E811D75B}</Project>
+      <Name>Xyperico.Agres.JsonNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Xyperico.Base\Xyperico.Base.Testing\Xyperico.Base.Testing.csproj">
       <Project>{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}</Project>
       <Name>Xyperico.Base.Testing</Name>
@@ -64,6 +75,10 @@
     <ProjectReference Include="..\Xyperico.Agres.Contract\Xyperico.Agres.Contract.csproj">
       <Project>{B18C85D4-0E07-477A-BE44-1F22281D47C7}</Project>
       <Name>Xyperico.Agres.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres.Sql\Xyperico.Agres.Sql.csproj">
+      <Project>{9BA99FF6-E704-47D2-9FF2-D1F311EBEE90}</Project>
+      <Name>Xyperico.Agres.Sql</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xyperico.Agres\Xyperico.Agres.csproj">
       <Project>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</Project>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using CuttingEdge.Conditions;
 
 namespace Xyperico.Agres
 {
@@ -14,8 +13,11 @@ namespace Xyperico.Agres
     public long Version { get; set; }
 
 
-    public NamedDataSet()
+    public NamedDataSet(string name)
     {
+      Condition.Requires(name, "name").IsNotNullOrEmpty();
+
+      Name = name;
       Data = new List<byte[]>();
     }
   }

@@ -7,6 +7,9 @@ namespace Xyperico.Agres
 {
   public class EventStream
   {
+    /// <summary>
+    /// Stream version (0 is "Not created", 1 is first real version)
+    /// </summary>
     public long Version { get; protected set; }
 
     public List<IEvent> Events { get; protected set; }
