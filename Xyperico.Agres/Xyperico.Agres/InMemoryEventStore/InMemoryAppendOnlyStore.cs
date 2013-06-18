@@ -32,6 +32,7 @@ namespace Xyperico.Agres.InMemoryEventStore
         if (entry.Version != expectedVersion)
           throw new VersionConflictException(name, typeof(object), expectedVersion);
         entry.Data.Add(data);
+        entry.Version++;
       }
     }
 
@@ -39,13 +40,16 @@ namespace Xyperico.Agres.InMemoryEventStore
     public NamedDataSet Load(string name)
     {
       NamedDataSet entry;
-      Streams.TryGetValue(name, out entry);
-      return entry;
+      if (Streams.TryGetValue(name, out entry))
+        return entry;
+      else
+        return new NamedDataSet(name);
     }
 
     
     public void Dispose()
     {
+      Streams.Clear();
     }
   }
 }
