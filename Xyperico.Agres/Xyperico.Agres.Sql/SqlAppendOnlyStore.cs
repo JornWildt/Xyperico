@@ -91,6 +91,8 @@ ORDER BY Version";
     {
       if (CommitOnClose)
         Transaction.Commit();
+      else
+        Transaction.Rollback();
       Connection.Close();
     }
   }

@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryItem.cs" />
     <Compile Include="Serializer\DataContractSerializer.cs" />
+    <Compile Include="Serializer\DataContractSerializerWorker.cs" />
     <Compile Include="Serializer\DotNetBinaryFormaterSerializer.cs" />
   </ItemGroup>
   <ItemGroup>

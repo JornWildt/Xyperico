@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xyperico.Agres;
-using Xyperico.Agres.InMemoryEventStore;
-using Xyperico.Agres.Sql;
-using Xyperico.Agres.JsonNet;
-using Xyperico.Agres.Serializer;
 using PerformanceTestser.TestUser;
+using Xyperico.Agres;
 using Xyperico.Agres.Contract;
+using Xyperico.Agres.InMemoryEventStore;
+using Xyperico.Agres.JsonNet;
+using Xyperico.Agres.ProtoBuf;
+using Xyperico.Agres.Serializer;
+using Xyperico.Agres.Sql;
+using System.IO;
 
 namespace PerformanceTestser
 {
@@ -28,6 +28,7 @@ namespace PerformanceTestser
     {
       AbstractSerializer.RegisterKnownType(typeof(UserCreatedEvent));
 
+      // Create serializers after registering known types
       ISerializer[] Serializers = 
       {
         new DataContractSerializer(),
@@ -36,13 +37,13 @@ namespace PerformanceTestser
         new JsonNetSerializer()
       };
 
-      UserId id = new UserId(1);
-      List<IEvent> events = new List<IEvent>() { new UserCreatedEvent(id, "John") };
-
       foreach (Func<IAppendOnlyStore> aStoreBuilder in AppendOnlyStores)
       {
         foreach (ISerializer serializer in Serializers)
         {
+          UserId id = new UserId(1);
+          List<IEvent> events = new List<IEvent>() { new UserCreatedEvent(id, "John") };
+
           IAppendOnlyStore aStore = aStoreBuilder();
           try
           {
@@ -60,11 +61,12 @@ namespace PerformanceTestser
             DateTime t1 = DateTime.Now;
             do
             {
-              EventStream s = eStore.Load(id);
-              eStore.Append(id, s.Version, events);
+              id = new UserId(100 + count);
+              //EventStream s = eStore.Load(id);
+              eStore.Append(id, 0, new IEvent[] { new UserCreatedEvent(id, "John") });
               ++count;
             }
-            while ((DateTime.Now - t1) < TimeSpan.FromSeconds(1));
+            while ((DateTime.Now - t1) < TimeSpan.FromMilliseconds(1000));
 
             Console.WriteLine("{0} + {1}: {2}", aStore, serializer, count);
           }
