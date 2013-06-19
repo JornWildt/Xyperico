@@ -6,6 +6,7 @@ using Xyperico.Agres.Serializer;
 using Xyperico.Base.Exceptions;
 using System.Threading;
 
+
 namespace Xyperico.Agres.Tests
 {
   public abstract class EventStoreTests : TestHelper
@@ -101,9 +102,12 @@ namespace Xyperico.Agres.Tests
     {
       for (int i = 0; i < 10; ++i)
       {
-        ThreadPool.QueueUserWorkItem(TestLoad, new TestLoadData { N = i, Store = BuildAppendOnlyStore() });
+        ThreadPool.QueueUserWorkItem(TestLoad, new TestLoadData { N = i, Store = AppendOnlyStore });
         System.Threading.Thread.Sleep(Rand.GetInts(50, 200, 1)[0]);
       }
+
+      // Wait somehow for the threads to finish
+      System.Threading.Thread.Sleep(2000);
     }
 
     static Randomizer Rand = new Randomizer();
@@ -112,7 +116,7 @@ namespace Xyperico.Agres.Tests
     {
       TestLoadData data = (TestLoadData)o;
 
-      using (IAppendOnlyStore appendOnlyStore = data.Store)
+      IAppendOnlyStore appendOnlyStore = data.Store;
       {
         ISerializer serializer = new DotNetBinaryFormaterSerializer();
         EventStore store = new EventStore(appendOnlyStore, serializer);

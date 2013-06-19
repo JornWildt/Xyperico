@@ -15,10 +15,12 @@ namespace PerformanceTestser
   public class Program
   {
     const string SqlConnectionString = "Server=localhost;Database=CommunitySite;User Id=comsite;Password=123456;";
+    const string SQLiteConnectionString = "Data Source=C:\\tmp\\AgresEventStore.db";
 
 
     static Func<IAppendOnlyStore>[] AppendOnlyStores =
     {
+      () => new SQLiteAppendOnlyStore(SQLiteConnectionString, false),
       () => new InMemoryAppendOnlyStore(),
       () => new SqlAppendOnlyStore(SqlConnectionString, false)
     };
@@ -26,6 +28,8 @@ namespace PerformanceTestser
 
     public static void Main(string[] args)
     {
+      //SQLiteAppendOnlyStore.CreateTable(SQLiteConnectionString);
+
       AbstractSerializer.RegisterKnownType(typeof(UserCreatedEvent));
 
       // Create serializers after registering known types
