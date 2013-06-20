@@ -143,5 +143,26 @@ ORDER BY Version";
       }
     }
 
+
+    public static bool TableExists(string connectionString)
+    {
+      using (var connection = new SQLiteConnection(connectionString))
+      {
+        connection.Open();
+
+        using (SQLiteCommand cmd = new SQLiteCommand("SELECT 1 FROM sqlite_master WHERE type='table' AND name='EventStore'", connection))
+        {
+          object nameo = cmd.ExecuteScalar();
+          return nameo != null;
+        }
+      }
+    }
+
+
+    public static void CreateTableIfNotExists(string connectionString)
+    {
+      if (!TableExists(connectionString))
+        CreateTable(connectionString);
+    }
   }
 }
