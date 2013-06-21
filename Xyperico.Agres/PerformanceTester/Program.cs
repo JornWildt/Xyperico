@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using PerformanceTestser.TestUser;
 using Xyperico.Agres;
-using Xyperico.Agres.Contract;
 using Xyperico.Agres.InMemoryEventStore;
 using Xyperico.Agres.JsonNet;
 using Xyperico.Agres.ProtoBuf;

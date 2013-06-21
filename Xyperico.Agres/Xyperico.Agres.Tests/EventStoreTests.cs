@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
-using Xyperico.Agres.Contract;
-using Xyperico.Agres.Tests.TestUser;
-using Xyperico.Agres.Serializer;
-using Xyperico.Base.Exceptions;
 using System.Threading;
+using NUnit.Framework;
+using Xyperico.Agres.Serializer;
+using Xyperico.Agres.Tests.TestUser;
 
 
 namespace Xyperico.Agres.Tests

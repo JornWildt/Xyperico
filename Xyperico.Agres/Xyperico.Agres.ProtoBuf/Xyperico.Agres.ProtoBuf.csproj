@@ -52,10 +52,6 @@
     <Compile Include="ProtoBufSerializerWorker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xyperico.Agres.Contract\Xyperico.Agres.Contract.csproj">
-      <Project>{B18C85D4-0E07-477A-BE44-1F22281D47C7}</Project>
-      <Name>Xyperico.Agres.Contract</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Xyperico.Agres\Xyperico.Agres.csproj">
       <Project>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</Project>
       <Name>Xyperico.Agres</Name>

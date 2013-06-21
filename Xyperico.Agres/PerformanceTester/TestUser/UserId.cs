@@ -1,6 +1,6 @@
 ﻿using System;
-using Xyperico.Agres.Contract;
 using ProtoBuf;
+using Xyperico.Agres;
 
 
 namespace PerformanceTestser.TestUser

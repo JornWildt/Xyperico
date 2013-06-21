@@ -1,5 +1,4 @@
 ﻿using System;
-using Xyperico.Agres.Contract;
 
 
 namespace Xyperico.Agres.Tests.TestUser

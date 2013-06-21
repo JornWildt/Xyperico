@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using CuttingEdge.Conditions;
-using Xyperico.Agres.Contract;
 
 
 namespace Xyperico.Agres

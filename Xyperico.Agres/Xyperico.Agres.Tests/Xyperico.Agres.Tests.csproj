@@ -73,10 +73,6 @@
       <Project>{054A30BA-B232-4FF1-9F23-1040D075764A}</Project>
       <Name>Xyperico.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xyperico.Agres.Contract\Xyperico.Agres.Contract.csproj">
-      <Project>{B18C85D4-0E07-477A-BE44-1F22281D47C7}</Project>
-      <Name>Xyperico.Agres.Contract</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Xyperico.Agres.SQLite\Xyperico.Agres.SQLite.csproj">
       <Project>{563C8C4C-A0F7-4AEE-8D5A-93D7CCA39D83}</Project>
       <Name>Xyperico.Agres.SQLite</Name>

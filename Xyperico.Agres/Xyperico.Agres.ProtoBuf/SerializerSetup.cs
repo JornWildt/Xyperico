@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProtoBuf.Meta;
-using Xyperico.Agres.Contract;
 
 
 namespace Xyperico.Agres.ProtoBuf
