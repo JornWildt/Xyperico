@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CuttingEdge.Conditions;
-using System;
 
 
 namespace Xyperico.Agres
@@ -23,6 +23,13 @@ namespace Xyperico.Agres
     public static void RegisterKnownType(Type t)
     {
       KnownTypes.Add(t);
+    }
+
+
+    public static void RegisterKnownTypes(IEnumerable<Type> types)
+    {
+      foreach (Type t in types)
+        RegisterKnownType(t);
     }
 
     

@@ -6,7 +6,7 @@ using Xyperico.Agres.Contract;
 
 namespace Xyperico.Agres.ProtoBuf
 {
-  public static class Configuration
+  public static class SerializerSetup
   {
     private static MetaType IdentityMeta = null;
     private static int IdentityTag = 10;
