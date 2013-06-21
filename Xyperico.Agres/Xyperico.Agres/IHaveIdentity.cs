@@ -1,7 +1,4 @@
-﻿using Xyperico.Base;
-
-
-namespace Xyperico.Agres
+﻿namespace Xyperico.Agres
 {
   public interface IHaveIdentity<TId>
   {

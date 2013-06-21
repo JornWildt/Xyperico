@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xyperico.Base.Exceptions;
+
 
 namespace Xyperico.Agres.InMemoryEventStore
 {
@@ -30,7 +30,7 @@ namespace Xyperico.Agres.InMemoryEventStore
           Streams[name] = entry;
         }
         if (entry.Version != expectedVersion)
-          throw new VersionConflictException(name, typeof(object), expectedVersion);
+          throw new VersionConflictException(expectedVersion, entry.Version, name);
         entry.Data.Add(data);
         entry.Version++;
       }

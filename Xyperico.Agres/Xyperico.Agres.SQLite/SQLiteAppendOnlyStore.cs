@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using Xyperico.Base.Exceptions;
 using System.Data.SQLite;
 
 
@@ -65,7 +64,7 @@ ORDER BY Version";
       catch (SQLiteException ex)
       {
         if (ex.ErrorCode == SqlError_DuplicateKey)
-          throw new VersionConflictException(name, typeof(object), expectedVersion);
+          throw new VersionConflictException(expectedVersion, name);
         throw;
       }
     }

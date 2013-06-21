@@ -59,10 +59,6 @@
       <Project>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</Project>
       <Name>Xyperico.Agres</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj">
-      <Project>{054A30BA-B232-4FF1-9F23-1040D075764A}</Project>
-      <Name>Xyperico.Base</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

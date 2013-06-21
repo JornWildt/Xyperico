@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using Xyperico.Base.Exceptions;
 
 
 namespace Xyperico.Agres.Sql
@@ -63,7 +62,7 @@ ORDER BY Version";
       catch (SqlException ex)
       {
         if (ex.Number == SqlError_DuplicateKey)
-          throw new VersionConflictException(name, typeof(object), expectedVersion);
+          throw new VersionConflictException(expectedVersion, name);
         throw;
       }
     }
