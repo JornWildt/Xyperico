@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAggregate.cs" />
+    <Compile Include="DomainException.cs" />
     <Compile Include="EventStore.cs" />
     <Compile Include="GenericApplicationService.cs" />
     <Compile Include="GenericRepository.cs" />

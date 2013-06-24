@@ -185,6 +185,13 @@ namespace Xyperico.Base.Testing
 
 
     public static void AssertThrows<ExT>(Action blockThatThrowsException,
+                                         Action<ExT> exceptionVerifier) where ExT : System.Exception
+    {
+      AssertThrows<ExT>(blockThatThrowsException, ex => { exceptionVerifier(ex); return true; });
+    }
+
+
+    public static void AssertThrows<ExT>(Action blockThatThrowsException,
                                          Func<ExT, bool> exceptionVerifier) where ExT : System.Exception
     {
       try

@@ -11,6 +11,8 @@ namespace Xyperico.Agres
 
     public TId Id { get; protected set; }
 
+    public int Version { get; private set; }
+
     protected List<IEvent> Changes { get; set; }
 
 
@@ -28,6 +30,15 @@ namespace Xyperico.Agres
       Mutate(events);
     }
 
+
+    /// <summary>
+    /// Verify incoming command - does it signal a valid state transition? To be implemented by inheriting aggregates.
+    /// </summary>
+    /// <remarks>Throw relevant exceptions on invalid state transitions.</remarks>
+    /// <param name="c"></param>
+    public virtual void VerifyCommand(ICommand<TId> c)
+    {
+    }
 
 
     public IEnumerable<IEvent> GetChanges()
@@ -53,6 +64,7 @@ namespace Xyperico.Agres
     protected void Mutate(IEvent e)
     {
       MethodInvoke.InvokeMethodOptional(this, RestoreMethodName, e);
+      ++Version;
     }
 
 
