@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractAggregateTests.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
     <Compile Include="EventStoreTests.cs" />
     <Compile Include="IdentityTests.cs" />

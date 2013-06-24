@@ -35,12 +35,20 @@ namespace Xyperico.Agres
     
     public ISerializeWorker GetWorker(string key)
     {
+      if (KnownTypes.Count == 0)
+        throw new InvalidOperationException("There are no types registered for the serializer!");
+      if (!Workers.ContainsKey(key))
+        throw new InvalidOperationException(string.Format("Unknown type '{0}' - cannot (de)serialize it. Remember to register with AbstractSerializer before use.", key));
+
       return Workers[key];
     }
 
 
     protected virtual void Initialize()
     {
+      if (KnownTypes.Count == 0)
+        throw new InvalidOperationException("There are no types registered for the serializer!");
+
       foreach (Type t in KnownTypes)
       {
         ISerializeWorker w = CreateWorker(t);
