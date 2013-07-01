@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Collections.Generic;
 
 
 namespace Xyperico.Agres.Sql
@@ -13,7 +14,9 @@ namespace Xyperico.Agres.Sql
     SQLiteConnection Connection;
 
     SQLiteCommand AppendCommand;
-    SQLiteCommand ReadCommand;
+    SQLiteCommand LoadCommand;
+    SQLiteCommand ReadFromCommand;
+    SQLiteCommand LastUsedIdCommand;
     SQLiteTransaction Transaction;
 
     bool CommitOnClose;
@@ -39,15 +42,33 @@ VALUES
       AppendCommand.Parameters.Add("@version", DbType.Int64);
       AppendCommand.Transaction = Transaction;
 
-      const string readSql = @"
+      const string loadSql = @"
 SELECT *
 FROM EventStore
 WHERE Name = @name
 ORDER BY Version";
       
-      ReadCommand = new SQLiteCommand(readSql, Connection);
-      ReadCommand.Parameters.Add("@name", DbType.String);
-      ReadCommand.Transaction = Transaction;
+      LoadCommand = new SQLiteCommand(loadSql, Connection);
+      LoadCommand.Parameters.Add("@name", DbType.String);
+      LoadCommand.Transaction = Transaction;
+
+      const string readFromSql = @"
+SELECT *
+FROM EventStore
+WHERE @id <= Id
+ORDER BY Id";
+
+      ReadFromCommand = new SQLiteCommand(readFromSql, Connection);
+      ReadFromCommand.Parameters.Add("@id", DbType.Int64);
+      ReadFromCommand.Transaction = Transaction;
+
+      const string lastUsedIdSql = @"
+SELECT IFNULL(MAX(seq),0)
+FROM SQLITE_SEQUENCE
+WHERE name = 'EventStore'";
+
+      LastUsedIdCommand = new SQLiteCommand(lastUsedIdSql, Connection);
+      LastUsedIdCommand.Transaction = Transaction;
     }
 
 
@@ -73,8 +94,8 @@ ORDER BY Version";
     public NamedDataSet Load(string name)
     {
       NamedDataSet result = new NamedDataSet(name);
-      ReadCommand.Parameters["@name"].Value = name;
-      using (SQLiteDataReader r = ReadCommand.ExecuteReader())
+      LoadCommand.Parameters["@name"].Value = name;
+      using (SQLiteDataReader r = LoadCommand.ExecuteReader())
       {
         while (r.Read())
         {
@@ -87,6 +108,31 @@ ORDER BY Version";
       return result;
     }
 
+
+    public IEnumerable<DataItem> ReadFrom(long id, int count)
+    {
+      ReadFromCommand.Parameters["@id"].Value = id;
+      using (SQLiteDataReader r = ReadFromCommand.ExecuteReader())
+      {
+        while (r.Read() && --count >= 0)
+        {
+          long rid = (long)r["Id"];
+          byte[] data = (byte[])r["Data"];
+          string name = (string)r["Name"];
+          yield return new DataItem(rid, name, data);
+        }
+      }
+    }
+
+
+    public long LastUsedId
+    {
+      get
+      {
+        return (long)LastUsedIdCommand.ExecuteScalar();
+      }
+    }
+
     
     public void Dispose()
     {
@@ -95,7 +141,7 @@ ORDER BY Version";
       else
         Transaction.Rollback();
       AppendCommand.Dispose(); // FIXME: error handling here
-      ReadCommand.Dispose();
+      LoadCommand.Dispose();
       Connection.Close();
     }
 
@@ -107,9 +153,10 @@ ORDER BY Version";
         connection.Open();
 
         string createTableSQL = @"CREATE TABLE EventStore (
-	Name varchar(50) NOT NULL,
-	Data image NOT NULL,
-	Version bigint NOT NULL
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name VARCHAR(50) NOT NULL,
+	Data IMAGE NOT NULL,
+	Version BIGINT NOT NULL
 )";
         using (SQLiteCommand cmd = new SQLiteCommand(createTableSQL, connection))
         {

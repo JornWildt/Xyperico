@@ -5,7 +5,7 @@ using Xyperico.Agres.Sql;
 namespace Xyperico.Agres.Tests
 {
   [TestFixture]
-  public class SQLiteEventStoreTests : EventStoreTests
+  public class SQLiteEventStoreTests : AbstractEventStoreTests
   {
     const string SqlConnectionString = "Data Source=C:\\tmp\\Xyperico.Agres.Tests.db";
 

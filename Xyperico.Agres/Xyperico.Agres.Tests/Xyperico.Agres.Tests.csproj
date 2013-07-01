@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="AbstractAggregateTests.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
-    <Compile Include="EventStoreTests.cs" />
+    <Compile Include="AbstractEventStoreTests.cs" />
     <Compile Include="IdentityTests.cs" />
     <Compile Include="InMemoryEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="TestUser\UserId.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestUser\UserPasswordChangedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

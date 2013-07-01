@@ -5,7 +5,7 @@ using Xyperico.Agres.InMemoryEventStore;
 namespace Xyperico.Agres.Tests
 {
   [TestFixture]
-  public class InMemoryEventStoreTests : EventStoreTests
+  public class InMemoryEventStoreTests : AbstractEventStoreTests
   {
     protected override IAppendOnlyStore BuildAppendOnlyStore()
     {

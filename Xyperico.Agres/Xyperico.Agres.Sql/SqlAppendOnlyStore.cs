@@ -1,5 +1,7 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 
 namespace Xyperico.Agres.Sql
@@ -11,7 +13,9 @@ namespace Xyperico.Agres.Sql
     SqlConnection Connection;
 
     SqlCommand AppendCommand;
-    SqlCommand ReadCommand;
+    SqlCommand LoadCommand;
+    SqlCommand ReadFromCommand;
+    SqlCommand LastUsedIdCommand;
     SqlTransaction Transaction;
 
     bool CommitOnClose;
@@ -37,15 +41,31 @@ VALUES
       AppendCommand.Parameters.Add("@version", SqlDbType.BigInt);
       AppendCommand.Transaction = Transaction;
 
-      const string readSql = @"
+      const string loadSql = @"
 SELECT *
 FROM EventStore
 WHERE Name = @name
 ORDER BY Version";
       
-      ReadCommand = new SqlCommand(readSql, Connection);
-      ReadCommand.Parameters.Add("@name", SqlDbType.VarChar, 50);
-      ReadCommand.Transaction = Transaction;
+      LoadCommand = new SqlCommand(loadSql, Connection);
+      LoadCommand.Parameters.Add("@name", SqlDbType.VarChar, 50);
+      LoadCommand.Transaction = Transaction;
+
+      const string readFromSql = @"
+SELECT *
+FROM EventStore
+WHERE @id <= Id
+ORDER BY Id";
+
+      ReadFromCommand = new SqlCommand(readFromSql, Connection);
+      ReadFromCommand.Parameters.Add("@id", SqlDbType.BigInt);
+      ReadFromCommand.Transaction = Transaction;
+
+      const string lastUsedIdSql = @"
+SELECT IDENT_CURRENT('EventStore')";
+
+      LastUsedIdCommand = new SqlCommand(lastUsedIdSql, Connection);
+      LastUsedIdCommand.Transaction = Transaction;
     }
 
 
@@ -71,8 +91,8 @@ ORDER BY Version";
     public NamedDataSet Load(string name)
     {
       NamedDataSet result = new NamedDataSet(name);
-      ReadCommand.Parameters["@name"].Value = name;
-      using (SqlDataReader r = ReadCommand.ExecuteReader())
+      LoadCommand.Parameters["@name"].Value = name;
+      using (SqlDataReader r = LoadCommand.ExecuteReader())
       {
         while (r.Read())
         {
@@ -83,6 +103,32 @@ ORDER BY Version";
         }
       }
       return result;
+    }
+
+
+    public IEnumerable<DataItem> ReadFrom(long id, int count)
+    {
+      ReadFromCommand.Parameters["@id"].Value = id;
+      using (SqlDataReader r = ReadFromCommand.ExecuteReader())
+      {
+        while (r.Read() && --count >= 0)
+        {
+          int rid = (int)r["Id"];
+          byte[] data = (byte[])r["Data"];
+          string name = (string)r["Name"];
+          yield return new DataItem(rid, name, data);
+        }
+      }
+    }
+
+
+    public long LastUsedId
+    {
+      get
+      {
+        object result = LastUsedIdCommand.ExecuteScalar();
+        return (long)(decimal)result;
+      }
     }
 
     

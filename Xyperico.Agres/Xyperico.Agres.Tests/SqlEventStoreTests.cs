@@ -5,7 +5,7 @@ using Xyperico.Agres.Sql;
 namespace Xyperico.Agres.Tests
 {
   [TestFixture]
-  public class SqlEventStoreTests : EventStoreTests
+  public class SqlEventStoreTests : AbstractEventStoreTests
   {
     const string SqlConnectionString = "Server=localhost;Database=CommunitySite;User Id=comsite;Password=123456;";
 

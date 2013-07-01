@@ -48,7 +48,16 @@ namespace Xyperico.Agres
       {
         byte[] data = Serializer.Serialize(e);
         AppendOnlyStore.Append(id.Literal, data, expectedVersion);
+        ++expectedVersion;
       }
+    }
+
+
+    public IEnumerable<EventStoreItem> ReadFrom(long id, int count)
+    {
+      IEnumerable<DataItem> data = AppendOnlyStore.ReadFrom(id, count);
+
+      return data.Select(d => new EventStoreItem(d.Id, d.Name, (IEvent)Serializer.Deserialize(d.Data)));
     }
   }
 }
