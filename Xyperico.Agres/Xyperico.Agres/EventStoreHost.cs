@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Threading.Tasks;
 using CuttingEdge.Conditions;
-using System.Threading.Tasks;
+using Xyperico.Agres.DocumentStore;
+
 
 namespace Xyperico.Agres
 {
-  public class EventStoreManager
+  public class EventStoreHost
   {
     protected IEventStore EventStore { get; set; }
     protected IEventPublisher EventPublisher { get; set; }
     protected EventStorePublisher EventStorePublisher { get; set; }
+    protected IDocumentStoreFactory DocumentStoreFactory { get; set; }
 
-    public EventStoreManager(IEventStore store, IEventPublisher publisher)
+    public EventStoreHost(IEventStore store, IEventPublisher publisher, IDocumentStoreFactory documentStoreFactory)
     {
       Condition.Requires(store, "store").IsNotNull();
       Condition.Requires(publisher, "publisher").IsNotNull();
 
       EventStore = store;
       EventPublisher = publisher;
-      EventStorePublisher = new EventStorePublisher(store, publisher);
+      DocumentStoreFactory = documentStoreFactory;
+      EventStorePublisher = new EventStorePublisher(store, publisher, documentStoreFactory);
     }
 
 

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAggregate.cs" />
+    <Compile Include="ConsolePublisher.cs" />
     <Compile Include="DocumentStore\DocumentRepository.cs" />
     <Compile Include="DocumentStore\DotNetBinaryStreamSerializer.cs" />
     <Compile Include="DocumentStore\FileDocumentStore.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="DomainException.cs" />
     <Compile Include="EventStore.cs" />
     <Compile Include="EventStoreItem.cs" />
-    <Compile Include="EventStoreManager.cs" />
+    <Compile Include="EventStoreHost.cs" />
     <Compile Include="EventStorePublisher.cs" />
     <Compile Include="GenericApplicationService.cs" />
     <Compile Include="GenericRepository.cs" />

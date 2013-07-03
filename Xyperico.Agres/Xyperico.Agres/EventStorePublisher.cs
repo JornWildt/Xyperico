@@ -2,6 +2,7 @@
 using CuttingEdge.Conditions;
 using log4net;
 using System.Threading;
+using Xyperico.Agres.DocumentStore;
 
 
 namespace Xyperico.Agres
@@ -11,17 +12,18 @@ namespace Xyperico.Agres
     static private ILog Logger = LogManager.GetLogger(typeof(EventStorePublisher));
 
     private IEventStore EventStore;
-
+    private DocumentRepository LastPublishedIdRepository;
     private IEventPublisher EventPublisher;
 
 
-    public EventStorePublisher(IEventStore store, IEventPublisher publisher)
+    public EventStorePublisher(IEventStore store, IEventPublisher publisher, IDocumentStoreFactory documentStoreFactory)
     {
       Condition.Requires(store, "store").IsNotNull();
       Condition.Requires(publisher, "publisher").IsNotNull();
 
       EventStore = store;
       EventPublisher = publisher;
+      LastPublishedIdRepository = new DocumentRepository(documentStoreFactory);
     }
 
 
@@ -62,18 +64,27 @@ namespace Xyperico.Agres
 
     protected long ReadLastPublishedEventId()
     {
-      return 0;
+      LastPublishedEventIdItem item = LastPublishedIdRepository.GetSingleton<LastPublishedEventIdItem>();
+      return item.Id;
     }
 
 
     protected void StoreLastPublishedEventId(long lastPublishedEventId)
     {
+      LastPublishedIdRepository.PutSingleton(new LastPublishedEventIdItem { Id = lastPublishedEventId });
+    }
+
+
+    [Serializable]
+    class LastPublishedEventIdItem
+    {
+      public long Id;
     }
 
 
     protected long PublishEvents(long lastPublishedEventId, int count = 10)
     {
-      var events = EventStore.ReadFrom(lastPublishedEventId, count);
+      var events = EventStore.ReadFrom(lastPublishedEventId+1, count);
       foreach (EventStoreItem item in events)
       {
         if (item.Id < lastPublishedEventId)

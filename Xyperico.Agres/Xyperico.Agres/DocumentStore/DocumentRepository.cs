@@ -1,4 +1,5 @@
 ﻿using CuttingEdge.Conditions;
+using System;
 
 
 namespace Xyperico.Agres.DocumentStore
@@ -24,6 +25,21 @@ namespace Xyperico.Agres.DocumentStore
     public bool TryGetSingleton<TValue>(out TValue value)
     {
       return Factory.Create<SingletonKey, TValue>().TryGet(SingletonKey.Key, out value);
+    }
+
+
+    public TValue GetSingleton<TValue>() where TValue : new()
+    {
+      return GetSingleton(() => new TValue());
+    }
+
+
+    public TValue GetSingleton<TValue>(Func<TValue> builder)
+    {
+      TValue value;
+      if (Factory.Create<SingletonKey, TValue>().TryGet(SingletonKey.Key, out value))
+        return value;
+      return builder();
     }
 
 
