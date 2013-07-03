@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAggregateTests.cs" />
+    <Compile Include="DocumentStore\AbstractDocumentRepositoryTests.cs" />
+    <Compile Include="DocumentStore\AbstractDocumentStoreTests.cs" />
+    <Compile Include="DocumentStore\FileDocumentRepositoryTests.cs" />
+    <Compile Include="DocumentStore\FileDocumentStoreTests.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
     <Compile Include="AbstractEventStoreTests.cs" />
     <Compile Include="IdentityTests.cs" />

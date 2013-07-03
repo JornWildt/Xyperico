@@ -51,6 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAggregate.cs" />
+    <Compile Include="DocumentStore\DocumentRepository.cs" />
+    <Compile Include="DocumentStore\DotNetBinaryStreamSerializer.cs" />
+    <Compile Include="DocumentStore\FileDocumentStore.cs" />
+    <Compile Include="DocumentStore\FileDocumentStoreFactory.cs" />
+    <Compile Include="DocumentStore\IDocumentStore.cs" />
+    <Compile Include="DocumentStore\IDocumentStoreFactory.cs" />
+    <Compile Include="DocumentStore\IStreamSerializer.cs" />
     <Compile Include="DomainException.cs" />
     <Compile Include="EventStore.cs" />
     <Compile Include="EventStoreItem.cs" />
