@@ -28,6 +28,16 @@ namespace Xyperico.Agres.Sql
       CommitOnClose = commitOnClose;
 
       Connection.Open();
+      using (var c = new SQLiteCommand("PRAGMA synchronous=OFF", Connection))
+      {
+        c.ExecuteNonQuery();
+        c.Dispose();
+      }
+      using (var c = new SQLiteCommand("PRAGMA journal_mode=WAL;", Connection))
+      {
+        c.ExecuteNonQuery();
+        c.Dispose();
+      }
 
       const string appendSql = @"
 INSERT INTO EventStore
@@ -195,6 +205,13 @@ WHERE name = 'EventStore'";
           return nameo != null;
         }
       }
+    }
+
+
+    public static void DropTableIfExists(string connectionString)
+    {
+      if (TableExists(connectionString))
+        DropTable(connectionString);
     }
 
 

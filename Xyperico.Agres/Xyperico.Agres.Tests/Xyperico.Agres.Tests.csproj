@@ -53,6 +53,7 @@
     <Compile Include="AbstractAggregateTests.cs" />
     <Compile Include="DocumentStore\AbstractDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\AbstractDocumentStoreTests.cs" />
+    <Compile Include="DocumentStore\BsonNetFileDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\JsonNetFileDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\FileDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreTests.cs" />

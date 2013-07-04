@@ -19,6 +19,7 @@ namespace Xyperico.Agres.Tests.DocumentStore
       DocumentStore_Class = BuildDocumentStore_Class();
     }
 
+    protected virtual bool EnablePrimitiveTypeTests { get { return true; } }
 
     protected abstract IDocumentStore<string, long> BuildDocumentStore_Int();
     protected abstract IDocumentStore<string, MySerializableData> BuildDocumentStore_Class();
@@ -27,9 +28,12 @@ namespace Xyperico.Agres.Tests.DocumentStore
     [Test]
     public void CanPutGetAndDeletePrimitiveType()
     {
+      if (!EnablePrimitiveTypeTests)
+        Assert.Pass();
+
       // Act
       DocumentStore_Int.Put("abc", 102030);
-      
+
       long result1;
       bool ok1 = DocumentStore_Int.TryGet("abc", out result1);
 

@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BsonNetSerializer.cs" />
+    <Compile Include="BsonNetStreamSerializer.cs" />
     <Compile Include="JsonNetSerializer.cs" />
     <Compile Include="JsonNetStreamSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,7 +5,7 @@ using Newtonsoft.Json.Bson;
 
 namespace Xyperico.Agres.JsonNet
 {
-  public class JsonNetSerializer : ISerializer
+  public class BsonNetSerializer : ISerializer
   {
     JsonSerializer Serializer = new JsonSerializer() { TypeNameHandling = TypeNameHandling.Auto };
 

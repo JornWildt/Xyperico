@@ -19,16 +19,22 @@ namespace PerformanceTestser
 
     static Func<IAppendOnlyStore>[] AppendOnlyStores =
     {
-      () => new SQLiteAppendOnlyStore(SQLiteConnectionString, false),
+      CreateSQLiteStore,
       () => new InMemoryAppendOnlyStore(),
       () => new SqlAppendOnlyStore(SqlConnectionString, false)
     };
 
 
+    static IAppendOnlyStore CreateSQLiteStore()
+    {
+      SQLiteAppendOnlyStore.DropTableIfExists(SQLiteConnectionString);
+      SQLiteAppendOnlyStore.CreateTable(SQLiteConnectionString);
+      return new SQLiteAppendOnlyStore(SQLiteConnectionString, false);
+    }
+
+
     public static void Main(string[] args)
     {
-      //SQLiteAppendOnlyStore.CreateTable(SQLiteConnectionString);
-
       AbstractSerializer.RegisterKnownType(typeof(UserCreatedEvent));
 
       // Create serializers after registering known types
@@ -37,6 +43,7 @@ namespace PerformanceTestser
         new DataContractSerializer(),
         new ProtoBufSerializer(),
         new DotNetBinaryFormaterSerializer(),
+        new BsonNetSerializer(),
         new JsonNetSerializer()
       };
 
