@@ -9,17 +9,11 @@ namespace Xyperico.Agres.Tests
   {
     const string SqlConnectionString = "Data Source=C:\\tmp\\Xyperico.Agres.Tests.db";
 
-    protected override void TestFixtureSetUp()
+    protected override void SetUp()
     {
-      base.TestFixtureSetUp();
+      base.SetUp();
+      try { SQLiteAppendOnlyStore.DropTable(SqlConnectionString); } catch { }
       SQLiteAppendOnlyStore.CreateTable(SqlConnectionString);
-    }
-
-
-    protected override void TestFixtureTearDown()
-    {
-      SQLiteAppendOnlyStore.DropTable(SqlConnectionString);
-      base.TestFixtureTearDown();
     }
 
 

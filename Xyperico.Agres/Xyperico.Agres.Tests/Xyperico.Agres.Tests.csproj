@@ -38,6 +38,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\Xyperico.Discuss\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.640, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Xyperico.Discuss\packages\protobuf-net.2.0.0.640\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +55,7 @@
     <Compile Include="DocumentStore\AbstractDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\FileDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreTests.cs" />
+    <Compile Include="DocumentStore\ProtoBufFileDocumentStoreTests.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
     <Compile Include="AbstractEventStoreTests.cs" />
     <Compile Include="IdentityTests.cs" />
@@ -78,6 +82,10 @@
     <ProjectReference Include="..\..\Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj">
       <Project>{054A30BA-B232-4FF1-9F23-1040D075764A}</Project>
       <Name>Xyperico.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres.ProtoBuf\Xyperico.Agres.ProtoBuf.csproj">
+      <Project>{D150EABC-E736-4BD1-9FC1-CB6F607E000E}</Project>
+      <Name>Xyperico.Agres.ProtoBuf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xyperico.Agres.SQLite\Xyperico.Agres.SQLite.csproj">
       <Project>{563C8C4C-A0F7-4AEE-8D5A-93D7CCA39D83}</Project>

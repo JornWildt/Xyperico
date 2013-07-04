@@ -37,20 +37,13 @@ namespace Xyperico.Agres
           if (lastPublishedEventId == null)
             lastPublishedEventId = ReadLastPublishedEventId();
 
-          lastPublishedEventId = PublishEvents(lastPublishedEventId.Value);
+          bool mayHaveMoreEventsToPublish;
+          lastPublishedEventId = PublishEvents(lastPublishedEventId.Value, 3, out mayHaveMoreEventsToPublish);
 
           StoreLastPublishedEventId(lastPublishedEventId.Value);
 
-          Thread.Sleep(1000);
-
-
-          // Get lock on unpublished event list
-          // Get ID of last published events (if needed)
-          // Read events since last published event
-          // Publish events externally
-          // Register new latests event
-          // Unlock
-          // If not more to do - then wait some time
+          if (!mayHaveMoreEventsToPublish)
+            Thread.Sleep(1000);
         }
         catch (Exception ex)
         {
@@ -82,9 +75,10 @@ namespace Xyperico.Agres
     }
 
 
-    protected long PublishEvents(long lastPublishedEventId, int count = 10)
+    protected long PublishEvents(long lastPublishedEventId, int count, out bool mayHaveMoreEventsToPublish)
     {
       var events = EventStore.ReadFrom(lastPublishedEventId+1, count);
+      int foundCount = 0;
       foreach (EventStoreItem item in events)
       {
         if (item.Id < lastPublishedEventId)
@@ -94,7 +88,9 @@ namespace Xyperico.Agres
 
         EventPublisher.Publish(item.Event);
         lastPublishedEventId = item.Id;
+        ++foundCount;
       }
+      mayHaveMoreEventsToPublish = (foundCount == count);
       return lastPublishedEventId;
     }
   }

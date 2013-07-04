@@ -21,7 +21,8 @@ namespace Xyperico.Agres.DocumentStore
       Formatter.Serialize(s, item);
     }
 
-    public object Deserialize(Stream s)
+    
+    public object Deserialize(Type t, Stream s)
     {
       return Formatter.Deserialize(s);
     }

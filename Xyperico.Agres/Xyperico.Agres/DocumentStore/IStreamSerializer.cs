@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 
 namespace Xyperico.Agres.DocumentStore
@@ -6,6 +7,6 @@ namespace Xyperico.Agres.DocumentStore
   public interface IStreamSerializer
   {
     void Serialize(Stream s, object item);
-    object Deserialize(Stream s);
+    object Deserialize(Type t, Stream s);
   }
 }

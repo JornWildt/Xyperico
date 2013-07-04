@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Collections.Generic;
+using System;
 
 
 namespace Xyperico.Agres.Sql
@@ -17,7 +18,6 @@ namespace Xyperico.Agres.Sql
     SQLiteCommand LoadCommand;
     SQLiteCommand ReadFromCommand;
     SQLiteCommand LastUsedIdCommand;
-    SQLiteTransaction Transaction;
 
     bool CommitOnClose;
 
@@ -28,7 +28,6 @@ namespace Xyperico.Agres.Sql
       CommitOnClose = commitOnClose;
 
       Connection.Open();
-      Transaction = Connection.BeginTransaction();
 
       const string appendSql = @"
 INSERT INTO EventStore
@@ -40,7 +39,6 @@ VALUES
       AppendCommand.Parameters.Add("@name", DbType.String, 50);
       AppendCommand.Parameters.Add("@data", DbType.Binary);
       AppendCommand.Parameters.Add("@version", DbType.Int64);
-      AppendCommand.Transaction = Transaction;
 
       const string loadSql = @"
 SELECT *
@@ -50,7 +48,6 @@ ORDER BY Version";
       
       LoadCommand = new SQLiteCommand(loadSql, Connection);
       LoadCommand.Parameters.Add("@name", DbType.String);
-      LoadCommand.Transaction = Transaction;
 
       const string readFromSql = @"
 SELECT *
@@ -60,7 +57,6 @@ ORDER BY Id";
 
       ReadFromCommand = new SQLiteCommand(readFromSql, Connection);
       ReadFromCommand.Parameters.Add("@id", DbType.Int64);
-      ReadFromCommand.Transaction = Transaction;
 
       const string lastUsedIdSql = @"
 SELECT IFNULL(MAX(seq),0)
@@ -68,7 +64,6 @@ FROM SQLITE_SEQUENCE
 WHERE name = 'EventStore'";
 
       LastUsedIdCommand = new SQLiteCommand(lastUsedIdSql, Connection);
-      LastUsedIdCommand.Transaction = Transaction;
     }
 
 
@@ -136,12 +131,10 @@ WHERE name = 'EventStore'";
     
     public void Dispose()
     {
-      if (CommitOnClose)
-        Transaction.Commit();
-      else
-        Transaction.Rollback();
-      AppendCommand.Dispose(); // FIXME: error handling here
-      LoadCommand.Dispose();
+      try { AppendCommand.Dispose(); } catch { }
+      try { LoadCommand.Dispose(); } catch { }
+      try { ReadFromCommand.Dispose(); } catch { }
+      try { LastUsedIdCommand.Dispose(); } catch { }
       Connection.Close();
     }
 

@@ -45,7 +45,7 @@ namespace Xyperico.Agres.DocumentStore
 
       using (Stream s = File.Open(filename, FileMode.Open, FileAccess.Read))
       {
-        object result = Serializer.Deserialize(s);
+        object result = Serializer.Deserialize(typeof(TValue), s);
         value = (TValue)result;
       }
 

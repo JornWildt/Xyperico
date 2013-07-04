@@ -75,6 +75,7 @@ namespace Xyperico.Agres
       }
     }
 
+
     public virtual object Deserialize(byte[] data)
     {
       Condition.Requires(data, "data").IsNotNull();
