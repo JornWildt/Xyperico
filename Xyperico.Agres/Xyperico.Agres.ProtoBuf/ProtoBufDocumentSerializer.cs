@@ -6,7 +6,7 @@ using PBSerializer = ProtoBuf.Serializer.NonGeneric;
 
 namespace Xyperico.Agres.ProtoBuf
 {
-  public class ProtoBufStreamSerializer : IStreamSerializer
+  public class ProtoBufDocumentSerializer : IDocumentSerializer
   {
     public void Serialize(Stream s, object item)
     {

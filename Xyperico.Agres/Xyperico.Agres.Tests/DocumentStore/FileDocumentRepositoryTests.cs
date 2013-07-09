@@ -9,7 +9,7 @@ namespace Xyperico.Agres.Tests.DocumentStore
   {
     protected override IDocumentStoreFactory BuildFactory()
     {
-      IStreamSerializer serializer = new DotNetBinaryStreamSerializer();
+      IDocumentSerializer serializer = new DotNetBinaryDocumentSerializer();
       return new FileDocumentStoreFactory(StorageBaseDir, serializer);
     }
   }

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Xyperico.Agres.DocumentStore;
 
 
 namespace Xyperico.Agres.JsonNet
 {
-  public class JsonNetStreamSerializer : IStreamSerializer
+  public class BsonNetDocumentSerializer : IDocumentSerializer
   {
     JsonSerializer Serializer = new JsonSerializer();// { TypeNameHandling = TypeNameHandling.Auto };
 
 
     public void Serialize(Stream s, object item)
     {
-      using (var tw = new StreamWriter(s, Encoding.UTF8))
-      using (var jw = new JsonTextWriter(tw))
+      using (var jw = new BsonWriter(s))
       {
         Serializer.Serialize(jw, item);
       }
@@ -24,8 +23,7 @@ namespace Xyperico.Agres.JsonNet
 
     public object Deserialize(Type t, Stream s)
     {
-      using (var tr = new StreamReader(s, Encoding.UTF8))
-      using (var jr = new JsonTextReader(tr))
+      using (var jr = new BsonReader(s))
       {
         return Serializer.Deserialize(jr, t);
       }

@@ -10,14 +10,14 @@ namespace Xyperico.Agres.Tests.DocumentStore
   {
     protected override IDocumentStore<string, long> BuildDocumentStore_Int()
     {
-      ProtoBufStreamSerializer serializer = new ProtoBufStreamSerializer();
+      ProtoBufDocumentSerializer serializer = new ProtoBufDocumentSerializer();
       return new FileDocumentStore<string, long>(StorageBaseDir, serializer);
     }
 
 
     protected override IDocumentStore<string, MySerializableData> BuildDocumentStore_Class()
     {
-      ProtoBufStreamSerializer serializer = new ProtoBufStreamSerializer();
+      ProtoBufDocumentSerializer serializer = new ProtoBufDocumentSerializer();
       return new FileDocumentStore<string, MySerializableData>(StorageBaseDir, serializer);
     }
   }

@@ -53,12 +53,12 @@
     <Compile Include="AbstractAggregate.cs" />
     <Compile Include="ConsolePublisher.cs" />
     <Compile Include="DocumentStore\DocumentRepository.cs" />
-    <Compile Include="DocumentStore\DotNetBinaryStreamSerializer.cs" />
+    <Compile Include="DocumentStore\DotNetBinaryDocumentSerializer.cs" />
     <Compile Include="DocumentStore\FileDocumentStore.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreFactory.cs" />
     <Compile Include="DocumentStore\IDocumentStore.cs" />
     <Compile Include="DocumentStore\IDocumentStoreFactory.cs" />
-    <Compile Include="DocumentStore\IStreamSerializer.cs" />
+    <Compile Include="DocumentStore\IDocumentSerializer.cs" />
     <Compile Include="DomainException.cs" />
     <Compile Include="EventStore.cs" />
     <Compile Include="EventStoreItem.cs" />
@@ -78,6 +78,10 @@
     <Compile Include="InMemoryEventStore\InMemoryAppendOnlyStore.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="Log4NetPublisher.cs" />
+    <Compile Include="MessageBus\IMessageSink.cs" />
+    <Compile Include="MessageBus\IMessageSource.cs" />
+    <Compile Include="MessageBus\Message.cs" />
+    <Compile Include="MessageBus\MessageBusHost.cs" />
     <Compile Include="MethodInvoke.cs" />
     <Compile Include="AbstractSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

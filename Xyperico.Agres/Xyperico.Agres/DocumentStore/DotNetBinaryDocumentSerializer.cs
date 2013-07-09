@@ -5,12 +5,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Xyperico.Agres.DocumentStore
 {
-  public class DotNetBinaryStreamSerializer : IStreamSerializer
+  public class DotNetBinaryDocumentSerializer : IDocumentSerializer
   {
     protected BinaryFormatter Formatter { get; set; }
 
 
-    public DotNetBinaryStreamSerializer()
+    public DotNetBinaryDocumentSerializer()
     {
       Formatter = new BinaryFormatter();
     }

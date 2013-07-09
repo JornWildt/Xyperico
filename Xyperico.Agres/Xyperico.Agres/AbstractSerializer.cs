@@ -65,13 +65,24 @@ namespace Xyperico.Agres
       Condition.Requires(item, "item").IsNotNull();
 
       using (MemoryStream s = new MemoryStream())
+      {
+        Serialize(s, item);
+        return s.ToArray();
+      }
+    }
+
+
+    public virtual void Serialize(Stream s, object item)
+    {
+      Condition.Requires(s, "s").IsNotNull();
+      Condition.Requires(item, "item").IsNotNull();
+
       using (BinaryWriter bw = new BinaryWriter(s))
       {
         string key = item.GetType().FullName;
         bw.Write(key);
         ISerializeWorker w = GetWorker(key);
         w.Serialize(s, item);
-        return s.ToArray();
       }
     }
 
@@ -81,6 +92,16 @@ namespace Xyperico.Agres
       Condition.Requires(data, "data").IsNotNull();
 
       using (MemoryStream s = new MemoryStream(data))
+      {
+        return Deserialize(s);
+      }
+    }
+
+
+    public virtual object Deserialize(Stream s)
+    {
+      Condition.Requires(s, "s").IsNotNull();
+
       using (BinaryReader br = new BinaryReader(s))
       {
         string key = br.ReadString();

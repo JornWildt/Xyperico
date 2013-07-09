@@ -10,14 +10,14 @@ namespace Xyperico.Agres.Tests.DocumentStore
   {
     protected override IDocumentStore<string, long> BuildDocumentStore_Int()
     {
-      JsonNetStreamSerializer serializer = new JsonNetStreamSerializer();
+      JsonNetDocumentSerializer serializer = new JsonNetDocumentSerializer();
       return new FileDocumentStore<string, long>(StorageBaseDir, serializer);
     }
 
 
     protected override IDocumentStore<string, MySerializableData> BuildDocumentStore_Class()
     {
-      JsonNetStreamSerializer serializer = new JsonNetStreamSerializer();
+      JsonNetDocumentSerializer serializer = new JsonNetDocumentSerializer();
       return new FileDocumentStore<string, MySerializableData>(StorageBaseDir, serializer);
     }
   }

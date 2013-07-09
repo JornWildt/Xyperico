@@ -28,6 +28,14 @@ namespace Xyperico.Agres.Serializer
     }
 
 
+    public void Serialize(Stream s, object item)
+    {
+      Condition.Requires(s, "s").IsNotNull();
+      Condition.Requires(item, "item").IsNotNull();
+      Formatter.Serialize(s, item);
+    }
+
+
     public object Deserialize(byte[] data)
     {
       Condition.Requires(data, "data").IsNotNull();
@@ -36,6 +44,13 @@ namespace Xyperico.Agres.Serializer
       {
         return Formatter.Deserialize(s);
       }
+    }
+
+
+    public object Deserialize(Stream s)
+    {
+      Condition.Requires(s, "s").IsNotNull();
+      return Formatter.Deserialize(s);
     }
   }
 }

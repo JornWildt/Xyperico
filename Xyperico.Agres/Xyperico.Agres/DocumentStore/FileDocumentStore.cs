@@ -6,12 +6,12 @@ namespace Xyperico.Agres.DocumentStore
 {
   public class FileDocumentStore<TKey,TValue> : IDocumentStore<TKey, TValue>
   {
-    protected IStreamSerializer Serializer { get; set; }
+    protected IDocumentSerializer Serializer { get; set; }
 
     protected string BaseDirectory { get; set; }
 
 
-    public FileDocumentStore(string baseDir, IStreamSerializer serializer)
+    public FileDocumentStore(string baseDir, IDocumentSerializer serializer)
     {
       Condition.Requires(baseDir, "baseDir").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();

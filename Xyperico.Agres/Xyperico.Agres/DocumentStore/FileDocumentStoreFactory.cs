@@ -7,10 +7,10 @@ namespace Xyperico.Agres.DocumentStore
   {
     protected string BaseDir { get; set; }
 
-    protected IStreamSerializer Serializer { get; set; }
+    protected IDocumentSerializer Serializer { get; set; }
 
 
-    public FileDocumentStoreFactory(string baseDir, IStreamSerializer serializer)
+    public FileDocumentStoreFactory(string baseDir, IDocumentSerializer serializer)
     {
       Condition.Requires(baseDir, "baseDir").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();
