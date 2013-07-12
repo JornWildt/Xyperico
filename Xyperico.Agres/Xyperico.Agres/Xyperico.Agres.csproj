@@ -75,13 +75,19 @@
     <Compile Include="IEventStore.cs" />
     <Compile Include="IHaveIdentity.cs" />
     <Compile Include="IIdentity.cs" />
+    <Compile Include="IMessage.cs" />
     <Compile Include="InMemoryEventStore\InMemoryAppendOnlyStore.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="Log4NetPublisher.cs" />
+    <Compile Include="MessageBus\DefaultMessageHandlerConvention.cs" />
+    <Compile Include="MessageBus\IHandleMessage.cs" />
+    <Compile Include="MessageBus\IMessageHandlerConvention.cs" />
     <Compile Include="MessageBus\IMessageSink.cs" />
     <Compile Include="MessageBus\IMessageSource.cs" />
     <Compile Include="MessageBus\Message.cs" />
     <Compile Include="MessageBus\MessageBusHost.cs" />
+    <Compile Include="MessageBus\MessageDispatcher.cs" />
+    <Compile Include="MessageBus\MessageHandlerRegistration.cs" />
     <Compile Include="MethodInvoke.cs" />
     <Compile Include="AbstractSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,7 +103,12 @@
   <ItemGroup>
     <Content Include="README.TXT" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj">
+      <Project>{054A30BA-B232-4FF1-9F23-1040D075764A}</Project>
+      <Name>Xyperico.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

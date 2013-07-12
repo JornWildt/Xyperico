@@ -58,6 +58,8 @@
     <Compile Include="DocumentStore\FileDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\ProtoBufFileDocumentStoreTests.cs" />
+    <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />
+    <Compile Include="MessageBus\MessageDispatcherTests.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
     <Compile Include="AbstractEventStoreTests.cs" />
     <Compile Include="IdentityTests.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace Xyperico.Agres
 {
-  public interface IEvent : IMessage
+  public interface IMessage
   {
   }
 }

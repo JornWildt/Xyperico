@@ -1,6 +1,6 @@
 ﻿namespace Xyperico.Agres
 {
-  public interface ICommand
+  public interface ICommand : IMessage
   {
   }
 
