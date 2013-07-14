@@ -9,11 +9,16 @@ namespace Xyperico.Agres.MessageBus
 {
   public class MessageDispatcher
   {
+    public IObjectContainer ObjectContainer { get; set; }
+
+
     private List<MessageHandlerRegistration> MessageHandlers { get; set; }
 
     
-    public MessageDispatcher()
+    public MessageDispatcher(IObjectContainer objectContainer)
     {
+      Condition.Requires(objectContainer, "objectContainer").IsNotNull();
+      ObjectContainer = objectContainer;
       MessageHandlers = new List<MessageHandlerRegistration>();
     }
 
@@ -57,9 +62,21 @@ namespace Xyperico.Agres.MessageBus
             {
               MessageHandlerRegistration registration = new MessageHandlerRegistration(messageType, method);
               MessageHandlers.Add(registration);
+              if (!ObjectContainer.HasComponent(method.DeclaringType))
+                ObjectContainer.AddComponent(method.DeclaringType, method.DeclaringType);
             }
           }
         }
+      }
+    }
+
+
+    public void Dispatch(object message)
+    {
+      foreach (MessageHandlerRegistration handler in MessageHandlers)
+      {
+        if (handler.IsHandlerFor(message))
+          handler.Invoke(ObjectContainer, message);
       }
     }
 

@@ -27,6 +27,13 @@ namespace Xyperico.Base.ObjectContainers
     }
 
 
+    public IObjectContainer AddComponent(Type serviceType, Type classType)
+    {
+      Container.Register(Component.For(serviceType).ImplementedBy(classType));
+      return this;
+    }
+
+
     public IObjectContainer AddComponent(string key, Type serviceType, Type classType)
     {
       Container.Register(Component.For(serviceType).ImplementedBy(classType).Named(key));

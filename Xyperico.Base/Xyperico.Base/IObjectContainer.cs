@@ -19,6 +19,7 @@ namespace Xyperico.Base
   public interface IObjectContainer : IObjectResolver
   {
     IObjectContainer AddComponent<T1, T2>() where T2 : T1 where T1 : class;
+    IObjectContainer AddComponent(Type serviceType, Type classType);
     IObjectContainer AddComponent(string key, Type serviceType, Type classType);
 
     void AddTransientComponent(Type t1, Type t2);
