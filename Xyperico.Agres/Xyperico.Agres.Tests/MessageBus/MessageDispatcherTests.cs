@@ -96,6 +96,23 @@ namespace Xyperico.Agres.Tests.MessageBus
     }
 
 
+    [Test]
+    public void WhenInstantiatingMessageHandlerItPerformsDependencyInjection()
+    {
+      // Arrange
+      DispatcherObjectContainer.AddComponent<IMyService, MyService>();
+      Dispatcher.RegisterMessageHandlers(typeof(MyServiceMessage).Assembly);
+      MyServiceMessage message = new MyServiceMessage();
+      Count = 0;
+
+      // Act
+      Dispatcher.Dispatch(message);
+
+      // Assert
+      Assert.AreEqual(999, Count);
+    }
+
+
     static int Count = 0;
 
     class MyMessageHandler
@@ -154,5 +171,38 @@ namespace Xyperico.Agres.Tests.MessageBus
         Count += 10;
       }
     }
+
+
+    public interface IMyService
+    {
+      int Value { get; }
+    }
+
+
+    public class MyService : IMyService
+    {
+      public int Value
+      {
+        get { return 999; }
+      }
+    }
+
+
+    public class MyServiceMessage : IMessage
+    {
+    }
+
+
+    public class MyServiceMessageHandler : IHandleMessage<MyServiceMessage>
+    {
+      public IMyService MyService { get; set; }
+
+      public void Handle(MyServiceMessage message)
+      {
+        Assert.IsNotNull(MyService, "MyService must be set by dependency injection.");
+        Count = MyService.Value;
+      }
+    }
+
   }
 }
