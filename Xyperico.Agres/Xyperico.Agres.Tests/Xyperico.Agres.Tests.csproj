@@ -41,6 +41,9 @@
     <Reference Include="Castle.Windsor, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\..\Xyperico.Discuss\packages\Castle.Windsor.3.2.0\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Xyperico.Discuss\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\Xyperico.Discuss\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -66,6 +69,7 @@
     <Compile Include="DocumentStore\ProtoBufFileDocumentStoreTests.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />
     <Compile Include="MessageBus\MessageDispatcherTests.cs" />
+    <Compile Include="SetupFixture.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
     <Compile Include="AbstractEventStoreTests.cs" />
     <Compile Include="IdentityTests.cs" />

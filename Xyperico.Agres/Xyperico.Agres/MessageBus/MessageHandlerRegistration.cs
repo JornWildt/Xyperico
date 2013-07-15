@@ -21,16 +21,16 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public bool IsHandlerFor(object message)
-    {
-      return MessageType.IsAssignableFrom(message.GetType());
-    }
-
-
     public void Invoke(IObjectContainer dependencyResolver, object message)
     {
       object handlerInstance = dependencyResolver.Resolve(Method.DeclaringType);
       Method.Invoke(handlerInstance, new object[] { message });
+    }
+
+
+    public override string ToString()
+    {
+      return Method.DeclaringType.ToString();
     }
   }
 }
