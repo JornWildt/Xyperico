@@ -1,5 +1,6 @@
 ﻿using System;
 using CuttingEdge.Conditions;
+using log4net;
 
 
 namespace Xyperico.Agres.MessageBus
@@ -16,6 +17,15 @@ namespace Xyperico.Agres.MessageBus
       MessageSource = messageSource;
 
       Initialize();
+    }
+
+
+    public static Configuration Configure
+    {
+      get 
+      {
+        return new Configuration(); 
+      }
     }
 
 

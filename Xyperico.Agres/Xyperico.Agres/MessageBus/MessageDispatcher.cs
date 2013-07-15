@@ -35,13 +35,13 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public void RegisterMessageHandlers(IEnumerable<Assembly> assemblies, IMessageHandlerConvention messageHandlerLocator)
+    public void RegisterMessageHandlers(IEnumerable<Assembly> assemblies, IMessageHandlerConvention messageHandlerConvention)
     {
       Condition.Requires(assemblies, "assemblies").IsNotNull();
-      Condition.Requires(messageHandlerLocator, "messageHandlerLocator").IsNotNull();
+      Condition.Requires(messageHandlerConvention, "messageHandlerLocator").IsNotNull();
 
       foreach (Assembly assembly in assemblies)
-        InternalRegisterMessageHandlers(assembly, messageHandlerLocator);
+        InternalRegisterMessageHandlers(assembly, messageHandlerConvention);
 
       SortRegisteredHandlers();
     }

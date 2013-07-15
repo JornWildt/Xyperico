@@ -79,12 +79,14 @@
     <Compile Include="InMemoryEventStore\InMemoryAppendOnlyStore.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="Log4NetPublisher.cs" />
+    <Compile Include="MessageBus\Configuration.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConvention.cs" />
     <Compile Include="MessageBus\IHandleMessage.cs" />
     <Compile Include="MessageBus\IMessageHandlerConvention.cs" />
     <Compile Include="MessageBus\IMessageSink.cs" />
     <Compile Include="MessageBus\IMessageSource.cs" />
     <Compile Include="MessageBus\Message.cs" />
+    <Compile Include="MessageBus\MessageBusConfigurationExtensions.cs" />
     <Compile Include="MessageBus\MessageBusHost.cs" />
     <Compile Include="MessageBus\MessageDispatcher.cs" />
     <Compile Include="MessageBus\MessageHandlerRegistration.cs" />
