@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using CuttingEdge.Conditions;
 using Xyperico.Base;
@@ -40,44 +41,90 @@ namespace Xyperico.Agres.MessageBus
       Condition.Requires(messageHandlerLocator, "messageHandlerLocator").IsNotNull();
 
       foreach (Assembly assembly in assemblies)
-        RegisterMessageHandlers(assembly, messageHandlerLocator);
+        InternalRegisterMessageHandlers(assembly, messageHandlerLocator);
+
+      SortRegisteredHandlers();
     }
 
 
     public void RegisterMessageHandlers(Assembly assembly)
     {
-      RegisterMessageHandlers(assembly, new DefaultMessageHandlerConvention());
+      InternalRegisterMessageHandlers(assembly, new DefaultMessageHandlerConvention());
+
+      SortRegisteredHandlers();
     }
 
 
     public void RegisterMessageHandlers(Assembly assembly, IMessageHandlerConvention messageHandlerConvention)
+    {
+      InternalRegisterMessageHandlers(assembly, messageHandlerConvention);
+    }
+
+
+    internal void InternalRegisterMessageHandlers(Assembly assembly, IMessageHandlerConvention messageHandlerConvention)
     {
       Condition.Requires(assembly, "assembly").IsNotNull();
       Condition.Requires(messageHandlerConvention, "messageHandlerLocator").IsNotNull();
 
       Logger.DebugFormat("Scanning assembly '{0}' for message handlers. Using message handler convention '{1}'.", assembly, messageHandlerConvention);
 
+      // Go through all types and all their methods looking for message handlers
       foreach (Type handler in assembly.GetTypes())
       {
         foreach (MethodInfo method in handler.GetMethods())
         {
+          // Only test single-parameter methods for handlers
           ParameterInfo[] parameters = method.GetParameters();
           if (parameters.Length == 1)
           {
-            Type messageType = parameters[0].ParameterType;
-            if (messageHandlerConvention.IsMessageHandler(method, messageType))
+            Type baseType = parameters[0].ParameterType;
+
+            if (messageHandlerConvention.IsMessageHandler(method, baseType))
             {
-              Logger.DebugFormat("Found message handler '{0}' on '{1}' for message type '{2}'.", method, method.DeclaringType, messageType);
-              MessageHandlerRegistration registration = new MessageHandlerRegistration(messageType, method);
-              MessageHandlers.Add(registration);
-              if (!MessageHandlerIndex.ContainsKey(messageType))
-                MessageHandlerIndex.Add(messageType, new List<MessageHandlerRegistration>());
-              MessageHandlerIndex[messageType].Add(registration);
-              if (!ObjectContainer.HasComponent(method.DeclaringType))
-                ObjectContainer.AddComponent(method.DeclaringType, method.DeclaringType);
+              // Go through all other messages that inherit from the handlers message parameter
+              foreach (Type messageType in GetAllInheritedClasses(baseType))
+              {
+                Logger.DebugFormat("Register message handler '{0}' on '{1}' for message type '{2}'.", method, method.DeclaringType, messageType);
+                MessageHandlerRegistration registration = new MessageHandlerRegistration(messageType, method);
+                MessageHandlers.Add(registration);
+                if (!MessageHandlerIndex.ContainsKey(messageType))
+                  MessageHandlerIndex.Add(messageType, new List<MessageHandlerRegistration>());
+                MessageHandlerIndex[messageType].Add(registration);
+                if (!ObjectContainer.HasComponent(method.DeclaringType))
+                  ObjectContainer.AddComponent(method.DeclaringType, method.DeclaringType);
+              }
             }
           }
         }
+      }
+    }
+
+    
+    private IEnumerable<Type> GetAllInheritedClasses(Type baseType)
+    {
+      return baseType.Assembly.GetTypes().Where(t => t.IsSubclassOf(baseType))
+             .Union(new Type[] { baseType });
+    }
+
+
+    void SortRegisteredHandlers()
+    {
+      foreach (var entry in MessageHandlerIndex)
+      {
+        entry.Value.Sort(new InheritanceComparerer());
+      }
+    }
+
+    
+    private class InheritanceComparerer : IComparer<MessageHandlerRegistration>
+    {
+      public int Compare(MessageHandlerRegistration x, MessageHandlerRegistration y)
+      {
+        if (x.ParameterType == y.ParameterType)
+          return 0;
+        if (x.ParameterType.IsSubclassOf(y.ParameterType))
+          return 1;
+        return -1;
       }
     }
 

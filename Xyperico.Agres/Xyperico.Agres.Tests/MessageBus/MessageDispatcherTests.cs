@@ -4,6 +4,7 @@ using Xyperico.Agres.MessageBus;
 using System.Collections.Generic;
 using Xyperico.Base;
 using Xyperico.Base.ObjectContainers;
+using System;
 
 
 namespace Xyperico.Agres.Tests.MessageBus
@@ -113,6 +114,24 @@ namespace Xyperico.Agres.Tests.MessageBus
     }
 
 
+    [TestCase(typeof(MyBaseMessage), "BASE:")]
+    [TestCase(typeof(MyInheritedMessage1), "BASE:INH1:")]
+    [TestCase(typeof(MyInheritedMessage2), "BASE:INH1:INH2:")]
+    public void ItInvokesMessageHandlersOrderedByInheritance(Type msgType, string expectedOutput)
+    {
+      // Arrange
+      Dispatcher.RegisterMessageHandlers(msgType.Assembly);
+      IMessage message = (IMessage)Activator.CreateInstance(msgType);
+      MyInheritanceMessageHandler.Sequence = "";
+
+      // Act
+      Dispatcher.Dispatch(message);
+
+      // Assert
+      Assert.AreEqual(expectedOutput, MyInheritanceMessageHandler.Sequence);
+    }
+
+
     static int Count = 0;
 
     class MyMessageHandler
@@ -201,6 +220,45 @@ namespace Xyperico.Agres.Tests.MessageBus
       {
         Assert.IsNotNull(MyService, "MyService must be set by dependency injection.");
         Count = MyService.Value;
+      }
+    }
+
+
+    public class MyBaseMessage : IMessage
+    {
+    }
+
+
+    public class MyInheritedMessage1 : MyBaseMessage
+    {
+    }
+
+
+    public class MyInheritedMessage2 : MyInheritedMessage1
+    {
+    }
+
+
+    public class MyInheritanceMessageHandler
+      : IHandleMessage<MyBaseMessage>,
+        IHandleMessage<MyInheritedMessage1>,
+        IHandleMessage<MyInheritedMessage2>
+    {
+      public static string Sequence;
+
+      public void Handle(MyBaseMessage message)
+      {
+        Sequence += "BASE:";
+      }
+
+      public void Handle(MyInheritedMessage1 message)
+      {
+        Sequence += "INH1:";
+      }
+
+      public void Handle(MyInheritedMessage2 message)
+      {
+        Sequence += "INH2:";
       }
     }
 
