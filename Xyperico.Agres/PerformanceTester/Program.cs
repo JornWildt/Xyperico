@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using PerformanceTestser.TestUser;
 using Xyperico.Agres;
-using Xyperico.Agres.InMemoryEventStore;
+using Xyperico.Agres.EventStore;
 using Xyperico.Agres.JsonNet;
 using Xyperico.Agres.ProtoBuf;
-using Xyperico.Agres.Serializer;
+using Xyperico.Agres.Serialization;
 using Xyperico.Agres.Sql;
-using System.IO;
+
 
 namespace PerformanceTestser
 {
@@ -57,7 +57,7 @@ namespace PerformanceTestser
           IAppendOnlyStore aStore = aStoreBuilder();
           try
           {
-            EventStore eStore = new EventStore(aStore, serializer);
+            EventStoreDB eStore = new EventStoreDB(aStore, serializer);
             eStore.Append(id, 0, events);
 
             // Warm up various caches

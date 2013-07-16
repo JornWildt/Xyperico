@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CuttingEdge.Conditions;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public class NamedDataSet
   {

@@ -3,7 +3,7 @@ using System.IO;
 using DCSerializer = System.Runtime.Serialization.DataContractSerializer;
 
 
-namespace Xyperico.Agres.Serializer
+namespace Xyperico.Agres.Serialization
 {
   class DataContractSerializerWorker : ISerializeWorker
   {

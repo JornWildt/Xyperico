@@ -1,19 +1,19 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
 using CuttingEdge.Conditions;
+using Xyperico.Agres.Serialization;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
-  public class EventStore : IEventStore
+  public class EventStoreDB : IEventStore
   {
     protected IAppendOnlyStore AppendOnlyStore { get; set; }
 
     protected ISerializer Serializer { get; set; }
 
 
-    public EventStore(IAppendOnlyStore store, ISerializer serializer)
+    public EventStoreDB(IAppendOnlyStore store, ISerializer serializer)
     {
       Condition.Requires(store, "store").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();

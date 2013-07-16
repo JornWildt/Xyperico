@@ -1,7 +1,7 @@
 ﻿using log4net;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public class Log4NetPublisher : IEventPublisher
   {

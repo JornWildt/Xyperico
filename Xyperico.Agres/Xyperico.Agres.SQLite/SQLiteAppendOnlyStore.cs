@@ -1,8 +1,7 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
-using System.Collections.Generic;
-using System;
+using Xyperico.Agres.EventStore;
 
 
 namespace Xyperico.Agres.Sql

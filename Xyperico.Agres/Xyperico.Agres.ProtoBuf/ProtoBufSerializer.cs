@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using Xyperico.Agres.Serialization;
 
 
 namespace Xyperico.Agres.ProtoBuf

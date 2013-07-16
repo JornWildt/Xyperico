@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Messaging;
 using CuttingEdge.Conditions;
-using Xyperico.Agres.DocumentStore;
+using Xyperico.Agres.Serialization;
 
 
 namespace Xyperico.Agres.MSMQ

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using CuttingEdge.Conditions;
+using Xyperico.Agres.Utility;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public abstract class AbstractAggregate<TId> : IHaveIdentity<TId>
     where TId : IIdentity

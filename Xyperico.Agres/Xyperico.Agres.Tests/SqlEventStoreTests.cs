@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Xyperico.Agres.EventStore;
 using Xyperico.Agres.Sql;
 
 

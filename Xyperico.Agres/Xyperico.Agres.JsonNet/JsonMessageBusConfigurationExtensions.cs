@@ -1,4 +1,5 @@
 ﻿using Xyperico.Agres.MessageBus;
+using Xyperico.Agres.Serialization;
 
 
 namespace Xyperico.Agres.JsonNet

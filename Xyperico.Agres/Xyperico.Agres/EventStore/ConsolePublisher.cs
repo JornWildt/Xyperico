@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public class ConsolePublisher : IEventPublisher
   {

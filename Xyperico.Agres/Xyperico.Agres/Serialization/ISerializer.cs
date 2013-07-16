@@ -1,7 +1,7 @@
 ﻿using System.IO;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.Serialization
 {
   public interface ISerializer
   {

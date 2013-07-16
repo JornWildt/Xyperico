@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using Xyperico.Agres.Serialization;
 
 
 namespace Xyperico.Agres.JsonNet

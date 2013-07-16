@@ -2,7 +2,7 @@
 using CuttingEdge.Conditions;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public class GenericApplicationService<TAggregate, TId>
     where TAggregate : AbstractAggregate<TId>

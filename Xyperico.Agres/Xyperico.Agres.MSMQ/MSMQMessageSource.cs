@@ -2,12 +2,15 @@
 using CuttingEdge.Conditions;
 using Xyperico.Agres.MessageBus;
 using Msmq = System.Messaging;
+using log4net;
 
 
 namespace Xyperico.Agres.MSMQ
 {
   public class MSMQMessageSource : IMessageSource
   {
+    private static ILog Logger = LogManager.GetLogger(typeof(MSMQMessageSource));
+
     protected string QueueName { get; set; }
 
     protected Msmq.IMessageFormatter MessageFormater { get; set; }
@@ -55,6 +58,10 @@ namespace Xyperico.Agres.MSMQ
 
         // Success - remove message
         Queue.ReceiveById(m.Id);
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(string.Format("Failed to read or deserialize message from queue {0}", QueueName), ex);
       }
       finally
       {

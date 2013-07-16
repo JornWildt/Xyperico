@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using CuttingEdge.Conditions;
 
 
-namespace Xyperico.Agres.Serializer
+namespace Xyperico.Agres.Serialization
 {
   public class DotNetBinaryFormaterSerializer : ISerializer
   {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Xyperico.Agres.Serialization;
 using PBSerializer = ProtoBuf.Serializer.NonGeneric;
 
 

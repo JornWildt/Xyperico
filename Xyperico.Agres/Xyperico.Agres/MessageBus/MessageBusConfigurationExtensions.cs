@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using CuttingEdge.Conditions;
-using Xyperico.Base;
-using System;
 using log4net;
+using Xyperico.Agres.Serialization;
+using Xyperico.Base;
 
 
 namespace Xyperico.Agres.MessageBus

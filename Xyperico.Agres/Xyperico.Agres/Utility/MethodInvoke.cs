@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.Utility
 {
   internal static class MethodInvoke
   {

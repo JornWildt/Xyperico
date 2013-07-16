@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Xyperico.Agres.InMemoryEventStore;
+using Xyperico.Agres.EventStore;
 
 
 namespace Xyperico.Agres.Tests

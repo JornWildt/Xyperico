@@ -3,7 +3,7 @@ using CuttingEdge.Conditions;
 using Xyperico.Agres.DocumentStore;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public class EventStoreHost
   {

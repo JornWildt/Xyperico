@@ -5,7 +5,7 @@ using System.Threading;
 using Xyperico.Agres.DocumentStore;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public class EventStorePublisher
   {

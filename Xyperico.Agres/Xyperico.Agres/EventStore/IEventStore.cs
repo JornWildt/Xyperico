@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.EventStore
 {
   public interface IEventStore
   {

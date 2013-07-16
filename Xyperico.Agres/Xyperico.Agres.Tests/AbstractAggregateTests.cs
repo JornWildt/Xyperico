@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Xyperico.Agres.Serialization;
 
 
 namespace Xyperico.Agres.Tests

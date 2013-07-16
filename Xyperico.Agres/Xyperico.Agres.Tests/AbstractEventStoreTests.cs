@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
-using Xyperico.Agres.Serializer;
+using Xyperico.Agres.EventStore;
+using Xyperico.Agres.Serialization;
 using Xyperico.Agres.Tests.TestUser;
 
 
@@ -11,7 +12,7 @@ namespace Xyperico.Agres.Tests
   public abstract class AbstractEventStoreTests : TestHelper
   {
     protected IAppendOnlyStore AppendOnlyStore { get; set; }
-    protected EventStore EventStore { get; set; }
+    protected EventStoreDB EventStore { get; set; }
 
 
     protected override void SetUp()
@@ -24,7 +25,7 @@ namespace Xyperico.Agres.Tests
       // Use a simple serializer that works for just about everything
       ISerializer serializer = new DotNetBinaryFormaterSerializer();
       
-      EventStore = new EventStore(AppendOnlyStore, serializer);
+      EventStore = new EventStoreDB(AppendOnlyStore, serializer);
     }
 
 
@@ -157,7 +158,7 @@ namespace Xyperico.Agres.Tests
       IAppendOnlyStore appendOnlyStore = data.Store;
       {
         ISerializer serializer = new DotNetBinaryFormaterSerializer();
-        EventStore store = new EventStore(appendOnlyStore, serializer);
+        EventStoreDB store = new EventStoreDB(appendOnlyStore, serializer);
 
         UserId id = new UserId(data.N);
         EventStream s = store.Load(id);

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Xyperico.Agres.Serializer
+namespace Xyperico.Agres.Serialization
 {
   public class DataContractSerializer : AbstractSerializer
   {

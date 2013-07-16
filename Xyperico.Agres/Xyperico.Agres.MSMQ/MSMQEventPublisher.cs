@@ -1,6 +1,7 @@
 ﻿using System;
-using Msmq = System.Messaging;
 using CuttingEdge.Conditions;
+using Xyperico.Agres.EventStore;
+using Msmq = System.Messaging;
 
 
 namespace Xyperico.Agres.MSMQ

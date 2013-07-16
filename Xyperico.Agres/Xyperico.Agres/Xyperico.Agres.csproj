@@ -50,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractAggregate.cs" />
-    <Compile Include="ConsolePublisher.cs" />
+    <Compile Include="EventStore\AbstractAggregate.cs" />
+    <Compile Include="EventStore\ConsolePublisher.cs" />
     <Compile Include="DocumentStore\DocumentRepository.cs" />
     <Compile Include="DocumentStore\DotNetBinaryDocumentSerializer.cs" />
     <Compile Include="DocumentStore\FileDocumentStore.cs" />
@@ -60,25 +60,25 @@
     <Compile Include="DocumentStore\IDocumentStoreFactory.cs" />
     <Compile Include="DocumentStore\IDocumentSerializer.cs" />
     <Compile Include="DomainException.cs" />
-    <Compile Include="EventStore.cs" />
-    <Compile Include="EventStoreItem.cs" />
-    <Compile Include="EventStoreHost.cs" />
-    <Compile Include="EventStorePublisher.cs" />
-    <Compile Include="GenericApplicationService.cs" />
-    <Compile Include="GenericRepository.cs" />
-    <Compile Include="EventStream.cs" />
-    <Compile Include="IAppendOnlyStore.cs" />
+    <Compile Include="EventStore\EventStoreDB.cs" />
+    <Compile Include="EventStore\EventStoreItem.cs" />
+    <Compile Include="EventStore\EventStoreHost.cs" />
+    <Compile Include="EventStore\EventStorePublisher.cs" />
+    <Compile Include="EventStore\GenericApplicationService.cs" />
+    <Compile Include="EventStore\GenericRepository.cs" />
+    <Compile Include="EventStore\EventStream.cs" />
+    <Compile Include="EventStore\IAppendOnlyStore.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Identity.cs" />
     <Compile Include="IEvent.cs" />
-    <Compile Include="IEventPublisher.cs" />
-    <Compile Include="IEventStore.cs" />
+    <Compile Include="EventStore\IEventPublisher.cs" />
+    <Compile Include="EventStore\IEventStore.cs" />
     <Compile Include="IHaveIdentity.cs" />
     <Compile Include="IIdentity.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="InMemoryEventStore\InMemoryAppendOnlyStore.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="Log4NetPublisher.cs" />
+    <Compile Include="EventStore\InMemoryAppendOnlyStore.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="EventStore\Log4NetPublisher.cs" />
     <Compile Include="MessageBus\Configuration.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConvention.cs" />
     <Compile Include="MessageBus\IHandleMessage.cs" />
@@ -90,14 +90,14 @@
     <Compile Include="MessageBus\MessageBusHost.cs" />
     <Compile Include="MessageBus\MessageDispatcher.cs" />
     <Compile Include="MessageBus\MessageHandlerRegistration.cs" />
-    <Compile Include="MethodInvoke.cs" />
-    <Compile Include="AbstractSerializer.cs" />
+    <Compile Include="Utility\MethodInvoke.cs" />
+    <Compile Include="Serialization\AbstractSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryItem.cs" />
-    <Compile Include="Serializer\DataContractSerializer.cs" />
-    <Compile Include="Serializer\DataContractSerializerWorker.cs" />
-    <Compile Include="Serializer\DotNetBinaryFormaterSerializer.cs" />
-    <Compile Include="VersionConflictException.cs" />
+    <Compile Include="EventStore\RepositoryItem.cs" />
+    <Compile Include="Serialization\DataContractSerializer.cs" />
+    <Compile Include="Serialization\DataContractSerializerWorker.cs" />
+    <Compile Include="Serialization\DotNetBinaryFormaterSerializer.cs" />
+    <Compile Include="EventStore\VersionConflictException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

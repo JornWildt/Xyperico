@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Xyperico.Agres.EventStore;
 
 
-namespace Xyperico.Agres.InMemoryEventStore
+namespace Xyperico.Agres.EventStore
 {
   public class InMemoryAppendOnlyStore : IAppendOnlyStore
   {

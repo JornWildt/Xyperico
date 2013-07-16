@@ -4,7 +4,7 @@ using System.IO;
 using CuttingEdge.Conditions;
 
 
-namespace Xyperico.Agres
+namespace Xyperico.Agres.Serialization
 {
   public interface ISerializeWorker
   {
