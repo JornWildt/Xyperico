@@ -6,7 +6,7 @@ using Msmq = System.Messaging;
 
 namespace Xyperico.Agres.MSMQ
 {
-  public class MSMQMessageSource : IMessageSource, IDisposable
+  public class MSMQMessageSource : IMessageSource
   {
     protected string QueueName { get; set; }
 
@@ -49,6 +49,7 @@ namespace Xyperico.Agres.MSMQ
       try
       {
         Msmq.Message mm = Queue.EndPeek(result);
+        mm.Formatter = MessageFormater;
         Message m = new Message(mm.Id, mm.Body);
         OnMessageReceived(new MessageReceivedEventArgs(m));
 

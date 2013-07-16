@@ -50,6 +50,7 @@
     <Compile Include="BsonNetDocumentSerializer.cs" />
     <Compile Include="JsonNetSerializer.cs" />
     <Compile Include="JsonNetDocumentSerializer.cs" />
+    <Compile Include="JsonMessageBusConfigurationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

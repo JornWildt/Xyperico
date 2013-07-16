@@ -8,13 +8,13 @@ namespace Xyperico.Agres.JsonNet
 {
   public class JsonNetSerializer : ISerializer
   {
-    JsonSerializer Serializer = new JsonSerializer() { TypeNameHandling = TypeNameHandling.Auto };
+    JsonSerializer Serializer = new JsonSerializer() { TypeNameHandling = TypeNameHandling.All };
 
 
     public byte[] Serialize(object item)
     {
       using (var s = new MemoryStream())
-      using (var t = new StreamWriter(s, Encoding.UTF8))
+      using (var t = new StreamWriter(s, new UTF8Encoding(false)))
       using (var w = new JsonTextWriter(t))
       {
         Serializer.Serialize(w, item);
@@ -25,7 +25,7 @@ namespace Xyperico.Agres.JsonNet
 
     public void Serialize(Stream s, object item)
     {
-      using (var t = new StreamWriter(s, Encoding.UTF8))
+      using (var t = new StreamWriter(s, new UTF8Encoding(false)))
       using (var w = new JsonTextWriter(t))
       {
         Serializer.Serialize(w, item);
@@ -36,7 +36,7 @@ namespace Xyperico.Agres.JsonNet
     public object Deserialize(byte[] data)
     {
       using (var s = new MemoryStream())
-      using (var t = new StreamReader(s, Encoding.UTF8))
+      using (var t = new StreamReader(s, new UTF8Encoding(false)))
       using (var r = new JsonTextReader(t))
       {
         return Serializer.Deserialize(r);
@@ -46,7 +46,7 @@ namespace Xyperico.Agres.JsonNet
 
     public object Deserialize(Stream s)
     {
-      using (var t = new StreamReader(s, Encoding.UTF8))
+      using (var t = new StreamReader(s, new UTF8Encoding(false)))
       using (var r = new JsonTextReader(t))
       {
         return Serializer.Deserialize(r);

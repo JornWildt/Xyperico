@@ -10,9 +10,9 @@ namespace Xyperico.Agres.MessageBus
     
     public T Get<T>(string key)
     {
-      T v;
-      TryGet<T>(key, out v);
-      return v;
+      if (Settings.ContainsKey(key))
+        return (T)Settings[key];
+      return default(T);
     }
 
 

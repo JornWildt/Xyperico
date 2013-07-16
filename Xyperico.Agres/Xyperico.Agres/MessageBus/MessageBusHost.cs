@@ -9,12 +9,16 @@ namespace Xyperico.Agres.MessageBus
   {
     protected IMessageSource MessageSource { get; set; }
 
+    protected MessageDispatcher Dispatcher { get; set; }
 
-    public MessageBusHost(IMessageSource messageSource)
+
+    public MessageBusHost(IMessageSource messageSource, MessageDispatcher dispatcher)
     {
       Condition.Requires(messageSource, "messageSource").IsNotNull();
+      Condition.Requires(dispatcher, "dispatcher").IsNotNull();
       
       MessageSource = messageSource;
+      Dispatcher = dispatcher;
 
       Initialize();
     }
@@ -43,7 +47,7 @@ namespace Xyperico.Agres.MessageBus
 
     void MessageSource_MessageReceived(object sender, MessageReceivedEventArgs e)
     {
-      Console.WriteLine("Received message");
+      Dispatcher.Dispatch(e.Message.Body);
     }
 
     

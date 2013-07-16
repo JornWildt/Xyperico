@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MSMQMessageBusConfigurationExtensions.cs" />
     <Compile Include="MSMQMessageFormatter.cs" />
     <Compile Include="MSMQEventPublisher.cs" />
     <Compile Include="MSMQMessageSink.cs" />
