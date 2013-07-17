@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Xyperico.Agres.EventStore;
-using Xyperico.Agres.Sql;
+using Xyperico.Agres.SQLite;
 
 
 namespace Xyperico.Agres.Tests

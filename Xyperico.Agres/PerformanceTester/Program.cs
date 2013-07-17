@@ -7,6 +7,7 @@ using Xyperico.Agres.JsonNet;
 using Xyperico.Agres.ProtoBuf;
 using Xyperico.Agres.Serialization;
 using Xyperico.Agres.Sql;
+using Xyperico.Agres.SQLite;
 
 
 namespace PerformanceTestser

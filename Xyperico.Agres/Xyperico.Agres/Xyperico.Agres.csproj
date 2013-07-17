@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationExtensions.cs" />
+    <Compile Include="Configuration\AbstractConfiguration.cs" />
     <Compile Include="EventStore\AbstractAggregate.cs" />
     <Compile Include="EventStore\ConsolePublisher.cs" />
     <Compile Include="DocumentStore\DocumentRepository.cs" />
@@ -60,6 +62,8 @@
     <Compile Include="DocumentStore\IDocumentStoreFactory.cs" />
     <Compile Include="DocumentStore\IDocumentSerializer.cs" />
     <Compile Include="DomainException.cs" />
+    <Compile Include="EventStore\EventStoreConfiguration.cs" />
+    <Compile Include="EventStore\EventStoreConfigurationExtensions.cs" />
     <Compile Include="EventStore\EventStoreDB.cs" />
     <Compile Include="EventStore\EventStoreItem.cs" />
     <Compile Include="EventStore\EventStoreHost.cs" />
@@ -77,9 +81,12 @@
     <Compile Include="IIdentity.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="EventStore\InMemoryAppendOnlyStore.cs" />
+    <Compile Include="Configuration\LoggingConfiguration.cs" />
+    <Compile Include="MessageBus\MessageBusConfiguration.cs" />
+    <Compile Include="Configuration\ObjectContainerConfiguration.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="EventStore\Log4NetPublisher.cs" />
-    <Compile Include="MessageBus\Configuration.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConvention.cs" />
     <Compile Include="MessageBus\IHandleMessage.cs" />
     <Compile Include="MessageBus\IMessageHandlerConvention.cs" />

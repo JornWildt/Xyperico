@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using CuttingEdge.Conditions;
 using log4net;
+using Xyperico.Agres.Configuration;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
 
@@ -14,70 +15,12 @@ namespace Xyperico.Agres.MessageBus
     private static readonly ILog Logger = LogManager.GetLogger(typeof(MessageBusConfigurationExtensions));
 
     private const string MessageDispatcher_SettingsKey = "MessageBusConfiguration_MessageDispatcher";
-    private const string ObjectContainer_SettingsKey = "MessageBusConfiguration_ObjectContainer";
     private const string MessageSerializer_SettingsKey = "MessageBusConfiguration_MessageSerializer";
     private const string MessageSource_SettingsKey = "MessageBusConfiguration_MessageSource";
+    private const string MessageBusHost_SettingsKey = "MessageBusConfiguration_MessageBusHost";
 
 
-    /// <summary>
-    /// Activate default log4net behavior (which is log4net.Config.XmlConfigurator.Configure()).
-    /// </summary>
-    /// <param name="cfg"></param>
-    /// <returns></returns>
-    public static Configuration WithLog4Net(this Configuration cfg)
-    {
-      log4net.Config.XmlConfigurator.Configure();
-      Logger.Info("******************************************************************");
-      Logger.Info("Starting application");
-      Logger.Info("******************************************************************");
-      Logger.Debug("Using default log4net behavior");
-      return cfg;
-    }
-
-
-    /// <summary>
-    /// Custom log4net activation - do what is required to configure log4net in "configurator".
-    /// </summary>
-    /// <param name="cfg"></param>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    public static Configuration WithLog4Net(this Configuration cfg, Action configurator)
-    {
-      configurator();
-      Logger.Info("******************************************************************");
-      Logger.Info("Starting application");
-      Logger.Info("******************************************************************");
-      Logger.Debug("Using custom log4net behavior");
-      return cfg;
-    }
-
-
-    public static Configuration WithObjectContainer(this Configuration cfg, IObjectContainer container)
-    {
-      Condition.Requires(cfg, "cfg").IsNotNull();
-      Condition.Requires(container, "container").IsNotNull();
-
-      IObjectContainer c;
-      if (cfg.TryGet<IObjectContainer>(ObjectContainer_SettingsKey, out c))
-        throw new InvalidOperationException(string.Format("Cannot set object container twice. Existing container is {0} - now got {1}.", c, container));
-
-      cfg.Set(ObjectContainer_SettingsKey, container);
-      Logger.DebugFormat("Using object container {0}", container);
-
-      return cfg;
-    }
-
-
-    public static IObjectContainer GetObjectContainer(this Configuration cfg)
-    {
-      IObjectContainer container = cfg.Get<IObjectContainer>(ObjectContainer_SettingsKey);
-      if (container == null)
-        throw new InvalidOperationException(string.Format("No object container has been configured for dependency injection."));
-      return container;
-    }
-
-
-    public static Configuration ScanAssemblies(this Configuration cfg, IEnumerable<Assembly> assemblies, IMessageHandlerConvention messageHandlerConvention = null)
+    public static MessageBusConfiguration ScanAssemblies(this MessageBusConfiguration cfg, IEnumerable<Assembly> assemblies, IMessageHandlerConvention messageHandlerConvention = null)
     {
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(assemblies, "assemblies").IsNotNull();
@@ -89,7 +32,17 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static Configuration WithMessageSerializer(this Configuration cfg, ISerializer serializer)
+    public static BaseConfiguration Done(this MessageBusConfiguration cfg)
+    {
+      MessageBusHost busHost = new MessageBusHost(GetMessageSource(cfg), GetDispatcher(cfg));
+
+      cfg.Set(MessageBusHost_SettingsKey, busHost);
+
+      return new BaseConfiguration(cfg);
+    }
+
+
+    public static void SetMessageSerializer(MessageBusConfiguration cfg, ISerializer serializer)
     {
       Condition.Requires(serializer, "serializer").IsNotNull();
 
@@ -99,12 +52,10 @@ namespace Xyperico.Agres.MessageBus
       
       cfg.Set(MessageSerializer_SettingsKey, serializer);
       Logger.DebugFormat("Using message serializer {0}", serializer);
-      
-      return cfg;
     }
 
 
-    public static ISerializer GetMessageSerializer(this Configuration cfg)
+    public static ISerializer GetMessageSerializer(MessageBusConfiguration cfg)
     {
       ISerializer serializer = cfg.Get<ISerializer>(MessageSerializer_SettingsKey);
       if (serializer == null)
@@ -113,7 +64,7 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static Configuration WithMessageSource(this Configuration cfg, IMessageSource messageSource)
+    public static void SetMessageSource(MessageBusConfiguration cfg, IMessageSource messageSource)
     {
       Condition.Requires(messageSource, "messageSource").IsNotNull();
 
@@ -123,12 +74,10 @@ namespace Xyperico.Agres.MessageBus
 
       cfg.Set(MessageSource_SettingsKey, messageSource);
       Logger.DebugFormat("Using message source {0}", messageSource);
-
-      return cfg;
     }
 
 
-    public static IMessageSource GetMessageSource(this Configuration cfg)
+    public static IMessageSource GetMessageSource(MessageBusConfiguration cfg)
     {
       IMessageSource messageSource = cfg.Get<IMessageSource>(MessageSource_SettingsKey);
       if (messageSource == null)
@@ -137,19 +86,19 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static void Start(this Configuration cfg)
+    public static MessageBusHost GetMessageBusHost(AbstractConfiguration cfg)
     {
-      MessageBusHost busHost = new MessageBusHost(cfg.GetMessageSource(), cfg.GetDispatcher());
-      busHost.Start();
+      MessageBusHost busHost = cfg.Get<MessageBusHost>(MessageBusHost_SettingsKey);
+      return busHost;
     }
 
 
-    private static MessageDispatcher GetDispatcher(this Configuration cfg)
+    private static MessageDispatcher GetDispatcher(MessageBusConfiguration cfg)
     {
       MessageDispatcher dispatcher;
       if (!cfg.TryGet<MessageDispatcher>(MessageDispatcher_SettingsKey, out dispatcher))
       {
-        IObjectContainer container = cfg.GetObjectContainer();
+        IObjectContainer container = Xyperico.Agres.Configuration.ConfigurationExtensions.GetObjectContainer(cfg);
         dispatcher = new MessageDispatcher(container);
         cfg.Set(MessageDispatcher_SettingsKey, dispatcher);
       }

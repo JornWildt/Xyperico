@@ -7,13 +7,13 @@ namespace Xyperico.Agres.MSMQ
 {
   public static class MSMQMessageBusConfigurationExtensions
   {
-    public static Configuration WithMSMQ(this Configuration cfg, string queueName)
+    public static MessageBusConfiguration WithMSMQ(this MessageBusConfiguration cfg, string queueName)
     {
-      ISerializer serializer = cfg.GetMessageSerializer();
+      ISerializer serializer = Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.GetMessageSerializer(cfg);
       Msmq.IMessageFormatter messageFormater = new MSMQMessageFormatter(serializer);
 
       IMessageSource messageSource = new MSMQMessageSource(queueName, messageFormater);
-      cfg.WithMessageSource(messageSource);
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSource(cfg, messageSource);
 
       return cfg;
     }

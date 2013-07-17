@@ -1,13 +1,25 @@
 ﻿using System.Collections.Generic;
 
 
-namespace Xyperico.Agres.MessageBus
+namespace Xyperico.Agres.Configuration
 {
-  public class Configuration
+  public abstract class AbstractConfiguration
   {
     private Dictionary<string, object> Settings { get; set; }
 
-    
+
+    public AbstractConfiguration()
+    {
+      Settings = new Dictionary<string, object>();
+    }
+
+
+    public AbstractConfiguration(AbstractConfiguration src)
+    {
+      Settings = src.Settings;
+    }
+
+
     public T Get<T>(string key)
     {
       if (Settings.ContainsKey(key))
@@ -35,12 +47,6 @@ namespace Xyperico.Agres.MessageBus
     public void Set<T>(string key, T value)
     {
       Settings[key] = value;
-    }
-
-
-    public Configuration()
-    {
-      Settings = new Dictionary<string, object>();
     }
   }
 }

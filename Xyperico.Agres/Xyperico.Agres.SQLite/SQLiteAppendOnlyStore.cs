@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using Xyperico.Agres.EventStore;
 
 
-namespace Xyperico.Agres.Sql
+namespace Xyperico.Agres.SQLite
 {
   public class SQLiteAppendOnlyStore : IAppendOnlyStore
   {

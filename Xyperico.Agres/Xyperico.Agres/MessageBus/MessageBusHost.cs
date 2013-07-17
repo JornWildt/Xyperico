@@ -24,15 +24,6 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static Configuration Configure
-    {
-      get 
-      {
-        return new Configuration(); 
-      }
-    }
-
-
     public void Start()
     {
       MessageSource.Start();

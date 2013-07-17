@@ -6,10 +6,10 @@ namespace Xyperico.Agres.JsonNet
 {
   public static class JsonMessageBusConfigurationExtensions
   {
-    public static Configuration WithJsonMessageSerializer(this Configuration cfg)
+    public static MessageBusConfiguration WithJsonMessageSerializer(this MessageBusConfiguration cfg)
     {
       ISerializer serializer = new JsonNetSerializer();
-      cfg.WithMessageSerializer(serializer);
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSerializer(cfg, serializer);
       return cfg;
     }
   }

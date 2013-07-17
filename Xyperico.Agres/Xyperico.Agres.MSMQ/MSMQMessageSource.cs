@@ -43,7 +43,7 @@ namespace Xyperico.Agres.MSMQ
     {
       ReceiveTimeout = TimeSpan.FromSeconds(1000);
       Queue = new Msmq.MessageQueue(QueueName);
-      Queue.Formatter = MessageFormater;
+      //Queue.Formatter = MessageFormater;
     }
 
 
@@ -52,7 +52,8 @@ namespace Xyperico.Agres.MSMQ
       try
       {
         Msmq.Message mm = Queue.EndPeek(result);
-        mm.Formatter = MessageFormater;
+        //mm.Formatter = MessageFormater;
+        mm.Formatter = new Msmq.XmlMessageFormatter(new String[] { "Xyperico.Discuss.Forums.Commands.CreateForumCommand,Xyperico.Discuss" });
         Message m = new Message(mm.Id, mm.Body);
         OnMessageReceived(new MessageReceivedEventArgs(m));
 
@@ -61,7 +62,7 @@ namespace Xyperico.Agres.MSMQ
       }
       catch (Exception ex)
       {
-        Logger.Error(string.Format("Failed to read or deserialize message from queue {0}", QueueName), ex);
+        Logger.Error(string.Format("Failed to handle message from queue {0}", QueueName), ex);
       }
       finally
       {
