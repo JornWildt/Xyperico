@@ -103,7 +103,7 @@
     <Compile Include="EventStore\RepositoryItem.cs" />
     <Compile Include="Serialization\DataContractSerializer.cs" />
     <Compile Include="Serialization\DataContractSerializerWorker.cs" />
-    <Compile Include="Serialization\DotNetBinaryFormaterSerializer.cs" />
+    <Compile Include="Serialization\DotNetBinarySerializer.cs" />
     <Compile Include="EventStore\VersionConflictException.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -68,6 +68,7 @@
     <Compile Include="DocumentStore\FileDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\ProtoBufFileDocumentStoreTests.cs" />
+    <Compile Include="DotNetBinarySerializerTests.cs" />
     <Compile Include="JsonNet\BsonNetSerializerTests.cs" />
     <Compile Include="JsonNet\JsonNetSerializerTests.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />

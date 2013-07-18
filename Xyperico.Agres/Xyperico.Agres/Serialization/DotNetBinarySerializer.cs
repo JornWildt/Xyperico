@@ -5,12 +5,12 @@ using CuttingEdge.Conditions;
 
 namespace Xyperico.Agres.Serialization
 {
-  public class DotNetBinaryFormaterSerializer : ISerializer
+  public class DotNetBinarySerializer : ISerializer
   {
     protected BinaryFormatter Formatter { get; set; }
 
 
-    public DotNetBinaryFormaterSerializer()
+    public DotNetBinarySerializer()
     {
       Formatter = new BinaryFormatter();
     }

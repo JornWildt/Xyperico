@@ -23,7 +23,7 @@ namespace Xyperico.Agres.Tests
       AppendOnlyStore = BuildAppendOnlyStore();
       
       // Use a simple serializer that works for just about everything
-      ISerializer serializer = new DotNetBinaryFormaterSerializer();
+      ISerializer serializer = new DotNetBinarySerializer();
       
       EventStore = new EventStoreDB(AppendOnlyStore, serializer);
     }
@@ -157,7 +157,7 @@ namespace Xyperico.Agres.Tests
 
       IAppendOnlyStore appendOnlyStore = data.Store;
       {
-        ISerializer serializer = new DotNetBinaryFormaterSerializer();
+        ISerializer serializer = new DotNetBinarySerializer();
         EventStoreDB store = new EventStoreDB(appendOnlyStore, serializer);
 
         UserId id = new UserId(data.N);

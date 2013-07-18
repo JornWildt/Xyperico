@@ -68,6 +68,7 @@ namespace Xyperico.Agres.Tests
   }
 
 
+  [Serializable]
   class MySerializationMessage
   {
     public MySerializationId Id { get; private set; }
@@ -87,6 +88,7 @@ namespace Xyperico.Agres.Tests
   }
 
 
+  [Serializable]
   public class MySerializationId : Identity<Guid>
   {
     public MySerializationId()
