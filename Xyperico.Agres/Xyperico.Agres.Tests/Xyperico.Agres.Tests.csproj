@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAggregateTests.cs" />
+    <Compile Include="AbstractSerializerTests.cs" />
     <Compile Include="DocumentStore\AbstractDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\AbstractDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\BsonNetFileDocumentStoreTests.cs" />
@@ -67,6 +68,8 @@
     <Compile Include="DocumentStore\FileDocumentRepositoryTests.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreTests.cs" />
     <Compile Include="DocumentStore\ProtoBufFileDocumentStoreTests.cs" />
+    <Compile Include="JsonNet\BsonNetSerializerTests.cs" />
+    <Compile Include="JsonNet\JsonNetSerializerTests.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />
     <Compile Include="MessageBus\MessageDispatcherTests.cs" />
     <Compile Include="SetupFixture.cs" />

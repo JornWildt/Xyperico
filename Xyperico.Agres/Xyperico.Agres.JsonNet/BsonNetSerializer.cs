@@ -8,15 +8,21 @@ namespace Xyperico.Agres.JsonNet
 {
   public class BsonNetSerializer : ISerializer
   {
-    JsonSerializer Serializer = new JsonSerializer() { TypeNameHandling = TypeNameHandling.Auto };
+    JsonSerializer Serializer = new JsonSerializer()
+    {
+      TypeNameHandling = TypeNameHandling.Objects,
+      ContractResolver = new PrivateSetterContractResolver()
+    };
 
 
     public byte[] Serialize(object item)
     {
       using (var s = new MemoryStream())
-      using (var w = new BsonWriter(s))
       {
-        Serializer.Serialize(w, item);
+        using (var w = new BsonWriter(s))
+        {
+          Serializer.Serialize(w, item);
+        }
         return s.ToArray();
       }
     }
@@ -36,7 +42,7 @@ namespace Xyperico.Agres.JsonNet
     
     public object Deserialize(byte[] data)
     {
-      using (var s = new MemoryStream())
+      using (var s = new MemoryStream(data))
       using (var r = new BsonReader(s))
       {
         return Serializer.Deserialize(r);

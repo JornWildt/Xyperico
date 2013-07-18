@@ -52,8 +52,8 @@ namespace Xyperico.Agres.MSMQ
       try
       {
         Msmq.Message mm = Queue.EndPeek(result);
-        //mm.Formatter = MessageFormater;
-        mm.Formatter = new Msmq.XmlMessageFormatter(new String[] { "Xyperico.Discuss.Forums.Commands.CreateForumCommand,Xyperico.Discuss" });
+        mm.Formatter = MessageFormater;
+        //mm.Formatter = new Msmq.XmlMessageFormatter(new String[] { "Xyperico.Discuss.Forums.Commands.CreateForumCommand,Xyperico.Discuss" });
         Message m = new Message(mm.Id, mm.Body);
         OnMessageReceived(new MessageReceivedEventArgs(m));
 

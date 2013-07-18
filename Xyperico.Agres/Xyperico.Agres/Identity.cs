@@ -1,10 +1,13 @@
 ﻿using System;
+using CuttingEdge.Conditions;
+using System.ComponentModel;
 
 
 namespace Xyperico.Agres
 {
   [Serializable]
   public abstract class Identity<TId> : IIdentity
+    where TId : IEquatable<TId>
   {
     /// <summary>
     /// Internal representation of ID. Not supposed to be unique between different aggregate types.
@@ -25,6 +28,24 @@ namespace Xyperico.Agres
           _literal = Prefix + Id.ToString();
         return _literal;
       }
+      set
+      {
+        Condition.Requires(value, "value").IsNotNullOrEmpty().StartsWith(Prefix);
+        string id = value.Substring(Prefix.Length);
+        Id = ParseId(id);
+      }
+    }
+
+    
+    private TId ParseId(string str)
+    {
+      TId id = default(TId);
+      var converter = TypeDescriptor.GetConverter(typeof(TId));
+      if (converter != null)
+        id = (TId)converter.ConvertFromString(str);
+      if (id == null || id.Equals(default(TId)))
+        throw new InvalidOperationException(string.Format("Could not convert string '{0}' to {1}.", str, typeof(TId)));
+      return id;
     }
 
 
