@@ -33,6 +33,14 @@ namespace Xyperico.Agres.DocumentStore
     }
 
 
+    public TValue Get(TKey key)
+    {
+      TValue result;
+      TryGet(key, out result);
+      return result;
+    }
+
+
     public bool TryGet(TKey key, out TValue value)
     {
       string filename = GetFileName(key);
@@ -60,6 +68,28 @@ namespace Xyperico.Agres.DocumentStore
         return false;
       File.Delete(filename);
       return true;
+    }
+
+
+    public void Clear()
+    {
+      string path = typeof(TValue).Name;
+      string fullPath = Path.Combine(BaseDirectory, path);
+      IOException error = null;
+      foreach (string filename in Directory.EnumerateFiles(fullPath))
+      {
+        try
+        {
+          File.Delete(filename);
+        }
+        catch (IOException ex)
+        {
+          error = ex;
+        }
+      }
+
+      if (error != null)
+        throw new IOException(string.Format("Failed to delete one or more files in '{0}'.", fullPath), error);
     }
 
     #endregion

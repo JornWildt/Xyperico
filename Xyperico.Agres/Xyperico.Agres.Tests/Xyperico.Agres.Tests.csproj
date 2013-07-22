@@ -73,6 +73,7 @@
     <Compile Include="JsonNet\JsonNetSerializerTests.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />
     <Compile Include="MessageBus\MessageDispatcherTests.cs" />
+    <Compile Include="MessageBus\SubscriptionServiceTests.cs" />
     <Compile Include="SetupFixture.cs" />
     <Compile Include="SQLiteEventStoreTests.cs" />
     <Compile Include="AbstractEventStoreTests.cs" />

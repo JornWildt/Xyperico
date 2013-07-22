@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using CuttingEdge.Conditions;
 using log4net;
-using Xyperico.Base;
 using Xyperico.Agres.EventStore;
 using Xyperico.Agres.MessageBus;
+using Xyperico.Agres.Serialization;
+using Xyperico.Base;
 
 
 namespace Xyperico.Agres.Configuration
@@ -70,6 +72,16 @@ namespace Xyperico.Agres.Configuration
       if (container == null)
         throw new InvalidOperationException(string.Format("No object container has been configured for dependency injection."));
       return container;
+    }
+
+
+    public static BaseConfiguration RegisterSerializableTypes(this BaseConfiguration cfg, IEnumerable<Type> types)
+    {
+      Condition.Requires(cfg, "cfg").IsNotNull();
+      Condition.Requires(types, "types").IsNotNull();
+
+      AbstractSerializer.RegisterKnownTypes(types);
+      return cfg;
     }
 
 

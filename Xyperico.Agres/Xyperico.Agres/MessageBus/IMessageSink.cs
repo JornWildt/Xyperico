@@ -5,6 +5,6 @@ namespace Xyperico.Agres.MessageBus
 {
   public interface IMessageSink : IDisposable
   {
-    void Send(Message m);
+    void Send(QueueName destination, Message m);
   }
 }

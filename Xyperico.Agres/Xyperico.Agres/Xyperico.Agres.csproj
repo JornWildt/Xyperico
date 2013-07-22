@@ -41,6 +41,7 @@
       <HintPath>..\..\..\Xyperico.Discuss\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -82,8 +83,16 @@
     <Compile Include="IMessage.cs" />
     <Compile Include="EventStore\InMemoryAppendOnlyStore.cs" />
     <Compile Include="Configuration\LoggingConfiguration.cs" />
+    <Compile Include="MessageBus\Subscription\ISubscriptionService.cs" />
     <Compile Include="MessageBus\MessageBusConfiguration.cs" />
     <Compile Include="Configuration\ObjectContainerConfiguration.cs" />
+    <Compile Include="MessageBus\Subscription\RouteRegistration.cs" />
+    <Compile Include="MessageBus\Subscription\SubscriptionMessageHandlers.cs" />
+    <Compile Include="MessageBus\Subscription\SubscriptionSettings.cs" />
+    <Compile Include="MessageBus\Subscription\SubscriptionRegistration.cs" />
+    <Compile Include="MessageBus\Subscription\SubscribeCommand.cs" />
+    <Compile Include="MessageBus\Subscription\SubscriptionService.cs" />
+    <Compile Include="QueueName.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="EventStore\Log4NetPublisher.cs" />
     <Compile Include="Configuration\Configuration.cs" />

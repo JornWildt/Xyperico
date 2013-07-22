@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CuttingEdge.Conditions;
+﻿using CuttingEdge.Conditions;
 using Xyperico.Agres.Configuration;
 using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.Serialization;
@@ -17,16 +15,6 @@ namespace Xyperico.Agres.EventStore
     private const string DocumentStoreFactory_SettingsKey = "EventStoreConfiguration_DocumentStoreFactory";
     private const string EventPublisher_SettingsKey = "EventStoreConfiguration_EventPublisher";
     private const string EventStoreHost_SettingsKey = "EventStoreConfiguration_EventStoreHost";
-
-    
-    public static EventStoreConfiguration RegisterSerializableTypes(this EventStoreConfiguration cfg, IEnumerable<Type> types)
-    {
-      Condition.Requires(cfg, "cfg").IsNotNull();
-      Condition.Requires(types, "types").IsNotNull();
-
-      AbstractSerializer.RegisterKnownTypes(types);
-      return cfg;
-    }
 
 
     public static EventStoreConfiguration WithFileDocumentStore(this EventStoreConfiguration cfg, string baseDir)
