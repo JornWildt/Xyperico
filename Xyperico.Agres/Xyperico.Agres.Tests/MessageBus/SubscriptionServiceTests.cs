@@ -80,6 +80,25 @@ namespace Xyperico.Agres.Tests.MessageBus
 
 
     [Test]
+    public void WhenCreatingWithDefaultConstructorValuesItInitializesFromConfigFile()
+    {
+      // Arrange
+      IDocumentSerializer serializer = new JsonNetDocumentSerializer();
+      IDocumentStoreFactory store = new FileDocumentStoreFactory(StorageBaseDir, serializer);
+      SubscriptionService service = new SubscriptionService(store);
+
+      Assert.AreEqual("Zebra", service.InputQueueName.Name);
+
+      IList<RouteRegistration> routes = service.GetRoutes().ToList();
+      Assert.AreEqual(2, routes.Count);
+      Assert.AreEqual("Abc.Def", routes[0].MessageTypeFilter);
+      Assert.AreEqual("Alibaba", routes[0].Destination.Name);
+      Assert.AreEqual("Xyz.Qwe", routes[1].MessageTypeFilter);
+      Assert.AreEqual("RobinHat", routes[1].Destination.Name);
+    }
+
+
+    [Test]
     public void WhenSubscribingItFollowsMatchingRoutes()
     {
       // Arrange
