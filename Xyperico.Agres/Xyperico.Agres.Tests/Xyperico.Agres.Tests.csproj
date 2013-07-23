@@ -51,6 +51,7 @@
       <HintPath>..\..\..\Xyperico.Discuss\packages\protobuf-net.2.0.0.640\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,6 +72,7 @@
     <Compile Include="DotNetBinarySerializerTests.cs" />
     <Compile Include="JsonNet\BsonNetSerializerTests.cs" />
     <Compile Include="JsonNet\JsonNetSerializerTests.cs" />
+    <Compile Include="MessageBus\ConfigurationSettingsTests.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />
     <Compile Include="MessageBus\MessageDispatcherTests.cs" />
     <Compile Include="MessageBus\SubscriptionServiceTests.cs" />

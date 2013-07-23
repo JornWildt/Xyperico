@@ -83,6 +83,7 @@
     <Compile Include="IMessage.cs" />
     <Compile Include="EventStore\InMemoryAppendOnlyStore.cs" />
     <Compile Include="Configuration\LoggingConfiguration.cs" />
+    <Compile Include="MessageBus\MessageBusSettings.cs" />
     <Compile Include="MessageBus\Subscription\ISubscriptionService.cs" />
     <Compile Include="MessageBus\MessageBusConfiguration.cs" />
     <Compile Include="Configuration\ObjectContainerConfiguration.cs" />

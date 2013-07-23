@@ -9,8 +9,6 @@ namespace Xyperico.Agres.MessageBus.Subscription
 {
   public class SubscriptionService : ISubscriptionService
   {
-    #region Public interface
-
     public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory, QueueName localQueueName)
     {
       Condition.Requires(subscriptionStoreFactory, "subscriptionStoreFactory").IsNotNull();
@@ -20,6 +18,8 @@ namespace Xyperico.Agres.MessageBus.Subscription
       LocalQueueName = localQueueName;
     }
 
+
+    #region ISubscriptionService
 
     public void AddRoute(string messageTypeFilter, QueueName destination)
     {
