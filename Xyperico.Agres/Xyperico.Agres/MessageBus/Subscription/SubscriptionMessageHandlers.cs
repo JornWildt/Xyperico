@@ -16,7 +16,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
     {
       Type messageType = Type.GetType(message.SubscribedMessagesTypeName);
       if (messageType == null)
-        throw new InvalidOperationException(string.Format("Could not reflect properties of type '{0}'. Is the associated assembly loaded?", message.SubscribedMessagesTypeName));
+        throw new InvalidOperationException(string.Format("Could not reflect properties of message type '{0}' while handling incoming subscribe command. Is the associated assembly loaded?", message.SubscribedMessagesTypeName));
       SubscriptionService.AddSubscriber(messageType, new QueueName(message.SubscriberQueueName));
     }
   }

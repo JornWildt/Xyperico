@@ -11,11 +11,13 @@ namespace Xyperico.Agres.MessageBus.Subscription
   {
     #region Public interface
 
-    public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory)
+    public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory, QueueName localQueueName)
     {
       Condition.Requires(subscriptionStoreFactory, "subscriptionStoreFactory").IsNotNull();
+      Condition.Requires(localQueueName, "localQueueName").IsNotNull();
       Routes = new List<RouteRegistration>();
       Subscriptions = subscriptionStoreFactory.Create<Type, SubscriptionRegistration>();
+      LocalQueueName = localQueueName;
     }
 
 
@@ -37,8 +39,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
       if (route == null)
         throw new InvalidOperationException(string.Format("Could not find any message routing information for message type '{0}'.", messageType));
 
-      string messageTypeName = messageType.FullName;
-      SubscribeCommand cmd = new SubscribeCommand(messageTypeName, LocalInputQueueName);
+      SubscribeCommand cmd = new SubscribeCommand(messageType, LocalQueueName);
       Message msg = new Message(cmd);
       messageSink.Send(route.Destination, msg);
     }
@@ -78,7 +79,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
 
     IDocumentStore<Type, SubscriptionRegistration> Subscriptions { get; set; }
 
-    string LocalInputQueueName { get; set; }
+    QueueName LocalQueueName { get; set; }
 
 
     private RouteRegistration FindRoute(Type messageType)

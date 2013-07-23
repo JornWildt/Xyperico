@@ -1,4 +1,5 @@
 ﻿using CuttingEdge.Conditions;
+using System;
 
 
 namespace Xyperico.Agres.MessageBus.Subscription
@@ -9,12 +10,12 @@ namespace Xyperico.Agres.MessageBus.Subscription
     public string SubscriberQueueName { get; protected set; }
 
 
-    public SubscribeCommand(string subscribedMessagesTypeName, string subscriberQueueName)
+    public SubscribeCommand(Type subscribedMessageType, QueueName subscriberQueue)
     {
-      Condition.Requires(subscribedMessagesTypeName, "subscribedMessagesTypeName").IsNotNullOrEmpty();
-      Condition.Requires(subscriberQueueName, "subscriberQueueName").IsNotNullOrEmpty();
-      SubscribedMessagesTypeName = subscribedMessagesTypeName;
-      SubscriberQueueName = subscriberQueueName;
+      Condition.Requires(subscribedMessageType, "subscribedMessageType").IsNotNull();
+      Condition.Requires(subscriberQueue, "subscriberQueue").IsNotNull();
+      SubscribedMessagesTypeName = subscribedMessageType.AssemblyQualifiedName;
+      SubscriberQueueName = subscriberQueue.Name;
     }
   }
 }

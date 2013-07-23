@@ -33,5 +33,11 @@ namespace Xyperico.Agres
     {
       return Name.GetHashCode();
     }
+
+
+    public static implicit operator QueueName(string name)
+    {
+      return new QueueName(name);
+    }
   }
 }
