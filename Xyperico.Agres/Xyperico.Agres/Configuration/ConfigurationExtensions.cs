@@ -6,6 +6,7 @@ using Xyperico.Agres.EventStore;
 using Xyperico.Agres.MessageBus;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
+using Xyperico.Agres.MessageBus.Subscription;
 
 
 namespace Xyperico.Agres.Configuration
@@ -97,8 +98,17 @@ namespace Xyperico.Agres.Configuration
     }
 
 
-    public static void Start(this BaseConfiguration cfg)
+    public static IMessageBus Start(this BaseConfiguration cfg)
     {
+      AutoSubscribeToHandledMessages(cfg);
+
+      ISubscriptionService subscriptionService = MessageBusConfigurationExtensions.GetSubscriptionService(cfg);
+      IMessageSink messageSink = MessageBusConfigurationExtensions.GetMessageSink(cfg);
+      IObjectContainer container = GetObjectContainer(cfg);
+      
+      Xyperico.Agres.MessageBus.Implementation.MessageBus bus = new Agres.MessageBus.Implementation.MessageBus(subscriptionService, messageSink);
+      container.RegisterInstance<IMessageBus>(bus);
+
       MessageBusHost busHost = MessageBusConfigurationExtensions.GetMessageBusHost(cfg);
       if (busHost == null)
         throw new InvalidOperationException("Cannot start application: no MessageBusHost has been configured.");
@@ -109,6 +119,22 @@ namespace Xyperico.Agres.Configuration
 
       eStoreHost.Start();
       busHost.Start();
+
+      return bus;
+    }
+
+
+    private static void AutoSubscribeToHandledMessages(BaseConfiguration cfg)
+    {
+      ISubscriptionService subscriptionService = MessageBusConfigurationExtensions.GetSubscriptionService(cfg);
+      IMessageSink messageSink = MessageBusConfigurationExtensions.GetMessageSink(cfg);
+
+      MessageDispatcher dispatcher = MessageBusConfigurationExtensions.GetDispatcher(cfg);
+      foreach (Type msg in dispatcher.GetHandledMessages())
+      {
+        if (typeof(IEvent).IsAssignableFrom(msg))
+          subscriptionService.Subscribe(msg, messageSink);
+      }
     }
   }
 }

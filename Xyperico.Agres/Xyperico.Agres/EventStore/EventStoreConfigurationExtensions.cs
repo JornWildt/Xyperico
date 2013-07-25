@@ -9,6 +9,9 @@ namespace Xyperico.Agres.EventStore
 {
   public static class EventStoreConfigurationExtensions
   {
+    //private static ILog Logger = LogManager.GetLogger(typeof(EventStoreConfigurationExtensions));
+
+
     private const string AppendOnlyStore_SettingsKey = "EventStoreConfiguration_AppendOnlyStore";
     private const string MessageSerializer_SettingsKey = "EventStoreConfiguration_MessageSerializer";
     private const string DocumentSerializer_SettingsKey = "EventStoreConfiguration_DocumentSerializer";
@@ -19,6 +22,7 @@ namespace Xyperico.Agres.EventStore
 
     public static EventStoreConfiguration WithFileDocumentStore(this EventStoreConfiguration cfg, string baseDir)
     {
+      //Logger.Debug("Using plain files for storing documents used in event store");
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(baseDir, "baseDir").IsNotNull();
 

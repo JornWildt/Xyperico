@@ -38,8 +38,6 @@ namespace Xyperico.Agres.MSMQ
 
         // Stupid writers close the stream - make sure to "reopen" it (by copying)
         message.BodyStream = new MemoryStream(s.ToArray());
-
-        object x = Serializer.Deserialize(new MemoryStream(s.ToArray()));
       }
     }
 

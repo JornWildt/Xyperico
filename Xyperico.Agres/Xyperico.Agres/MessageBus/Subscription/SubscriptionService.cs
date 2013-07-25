@@ -62,6 +62,15 @@ namespace Xyperico.Agres.MessageBus.Subscription
     }
 
 
+    public QueueName GetDestinationForMessage(Type messageType)
+    {
+      RouteRegistration route = FindRoute(messageType);
+      if (route == null)
+        return null;
+      return route.Destination;
+    }
+
+
     public void Subscribe(Type messageType, IMessageSink messageSink)
     {
       Condition.Requires(messageType, "messageType").IsNotNull();
@@ -92,14 +101,14 @@ namespace Xyperico.Agres.MessageBus.Subscription
     }
 
 
-    public IEnumerable<string> GetSubscribers(Type messageType)
+    public IEnumerable<QueueName> GetSubscribers(Type messageType)
     {
       Condition.Requires(messageType, "messageType").IsNotNull();
 
       SubscriptionRegistration registration;
       if (Subscriptions.TryGet(messageType, out registration))
         return registration.SubscriberQueueNames;
-      return Enumerable.Empty<string>();
+      return Enumerable.Empty<QueueName>();
     }
 
     #endregion

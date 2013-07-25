@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using CuttingEdge.Conditions;
+using log4net;
 
 
 namespace Xyperico.Agres.Serialization
@@ -15,6 +16,8 @@ namespace Xyperico.Agres.Serialization
 
   public abstract class AbstractSerializer : ISerializer
   {
+    private static ILog Logger = LogManager.GetLogger(typeof(AbstractSerializer));
+
     private static List<Type> KnownTypes = new List<Type>();
 
     private Dictionary<string, ISerializeWorker> Workers = new Dictionary<string, ISerializeWorker>();
@@ -22,12 +25,14 @@ namespace Xyperico.Agres.Serialization
     
     public static void RegisterKnownType(Type t)
     {
+      Logger.DebugFormat("Register type '{0}' for serialization", t);
       KnownTypes.Add(t);
     }
 
 
     public static void RegisterKnownTypes(IEnumerable<Type> types)
     {
+      Logger.Debug("Registering known types for serialization");
       foreach (Type t in types)
         RegisterKnownType(t);
     }

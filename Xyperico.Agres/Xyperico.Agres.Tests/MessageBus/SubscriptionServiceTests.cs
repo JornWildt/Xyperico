@@ -32,24 +32,24 @@ namespace Xyperico.Agres.Tests.MessageBus
     public void CanAddAndGetSubscribers()
     {
       // Act
-      IList<string> subscribers11 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
-      IList<string> subscribers12 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
+      IList<QueueName> subscribers11 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+      IList<QueueName> subscribers12 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
 
       Service.AddSubscriber(typeof(MessageToSubscribe1), new QueueName("beebob"));
-      IList<string> subscribers21 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
-      IList<string> subscribers22 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
+      IList<QueueName> subscribers21 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+      IList<QueueName> subscribers22 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
 
       Service.AddSubscriber(typeof(MessageToSubscribe2), new QueueName("beebob"));
-      IList<string> subscribers31 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
-      IList<string> subscribers32 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
+      IList<QueueName> subscribers31 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+      IList<QueueName> subscribers32 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
 
       Service.AddSubscriber(typeof(MessageToSubscribe1), new QueueName("other"));
-      IList<string> subscribers41 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
-      IList<string> subscribers42 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
+      IList<QueueName> subscribers41 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+      IList<QueueName> subscribers42 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
 
       Service.AddSubscriber(typeof(MessageToSubscribe2), new QueueName("other"));
-      IList<string> subscribers51 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
-      IList<string> subscribers52 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
+      IList<QueueName> subscribers51 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+      IList<QueueName> subscribers52 = Service.GetSubscribers(typeof(MessageToSubscribe2)).ToList();
 
       // Assert
       Assert.AreEqual(0, subscribers11.Count);
@@ -57,25 +57,25 @@ namespace Xyperico.Agres.Tests.MessageBus
       
       Assert.AreEqual(1, subscribers21.Count);
       Assert.AreEqual(0, subscribers22.Count);
-      Assert.AreEqual("beebob", subscribers21[0]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers21[0]);
 
       Assert.AreEqual(1, subscribers31.Count);
       Assert.AreEqual(1, subscribers32.Count);
-      Assert.AreEqual("beebob", subscribers31[0]);
-      Assert.AreEqual("beebob", subscribers32[0]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers31[0]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers32[0]);
 
       Assert.AreEqual(2, subscribers41.Count);
       Assert.AreEqual(1, subscribers42.Count);
-      Assert.AreEqual("beebob", subscribers41[0]);
-      Assert.AreEqual("other", subscribers41[1]);
-      Assert.AreEqual("beebob", subscribers42[0]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers41[0]);
+      Assert.AreEqual(new QueueName("other"), subscribers41[1]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers42[0]);
 
       Assert.AreEqual(2, subscribers51.Count);
       Assert.AreEqual(2, subscribers52.Count);
-      Assert.AreEqual("beebob", subscribers51[0]);
-      Assert.AreEqual("other", subscribers51[1]);
-      Assert.AreEqual("beebob", subscribers52[0]);
-      Assert.AreEqual("other", subscribers52[1]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers51[0]);
+      Assert.AreEqual(new QueueName("other"), subscribers51[1]);
+      Assert.AreEqual(new QueueName("beebob"), subscribers52[0]);
+      Assert.AreEqual(new QueueName("other"), subscribers52[1]);
     }
 
 
@@ -129,9 +129,9 @@ namespace Xyperico.Agres.Tests.MessageBus
       handlers.Handle(cmd);
 
       // Assert
-      IList<string> subscribers = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+      IList<QueueName> subscribers = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
       Assert.AreEqual(1, subscribers.Count);
-      Assert.AreEqual("WhollyBob", subscribers[0]);
+      Assert.AreEqual(new QueueName("WhollyBob"), subscribers[0]);
     }
 
 

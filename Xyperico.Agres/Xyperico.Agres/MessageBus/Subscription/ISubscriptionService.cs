@@ -18,6 +18,8 @@ namespace Xyperico.Agres.MessageBus.Subscription
 
     IEnumerable<RouteRegistration> GetRoutes();
 
+    QueueName GetDestinationForMessage(Type messageType);
+
     /// <summary>
     /// Local process making a subscription request to remote service
     /// </summary>
@@ -37,6 +39,6 @@ namespace Xyperico.Agres.MessageBus.Subscription
     /// </summary>
     /// <param name="messageType"></param>
     /// <returns></returns>
-    IEnumerable<string> GetSubscribers(Type messageType);
+    IEnumerable<QueueName> GetSubscribers(Type messageType);
   }
 }

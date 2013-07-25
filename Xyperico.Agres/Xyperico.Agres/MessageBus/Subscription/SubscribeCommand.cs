@@ -9,6 +9,9 @@ namespace Xyperico.Agres.MessageBus.Subscription
     public string SubscribedMessagesTypeName { get; protected set; }
     public string SubscriberQueueName { get; protected set; }
 
+    public SubscribeCommand()
+    {
+    }
 
     public SubscribeCommand(Type subscribedMessageType, QueueName subscriberQueue)
     {

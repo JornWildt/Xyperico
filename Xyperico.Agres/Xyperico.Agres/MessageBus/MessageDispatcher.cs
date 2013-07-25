@@ -66,7 +66,8 @@ namespace Xyperico.Agres.MessageBus
       Condition.Requires(assembly, "assembly").IsNotNull();
       Condition.Requires(messageHandlerConvention, "messageHandlerLocator").IsNotNull();
 
-      Logger.DebugFormat("Scanning assembly '{0}' for message handlers. Using message handler convention '{1}'.", assembly, messageHandlerConvention);
+      Logger.DebugFormat("Scanning assembly '{0}' for message handlers.", assembly);
+      Logger.DebugFormat("Using message handler convention '{0}'.", messageHandlerConvention);
 
       // Go through all types and all their methods looking for message handlers
       foreach (Type handler in assembly.GetTypes())
@@ -84,7 +85,7 @@ namespace Xyperico.Agres.MessageBus
               // Go through all other messages that inherit from the handlers message parameter
               foreach (Type messageType in GetAllInheritedClasses(baseType))
               {
-                Logger.DebugFormat("Register message handler '{0}' on '{1}' for message type '{2}'.", method, method.DeclaringType, messageType);
+                Logger.DebugFormat("Register message handler '{0}' on '{1}' for message type '{2}'.", method.Name, method.DeclaringType, messageType);
                 MessageHandlerRegistration registration = new MessageHandlerRegistration(messageType, method);
                 MessageHandlers.Add(registration);
                 if (!MessageHandlerIndex.ContainsKey(messageType))
@@ -107,7 +108,7 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    void SortRegisteredHandlers()
+    private void SortRegisteredHandlers()
     {
       foreach (var entry in MessageHandlerIndex)
       {
@@ -147,6 +148,12 @@ namespace Xyperico.Agres.MessageBus
     public IEnumerable<MessageHandlerRegistration> GetMessageHandlerRegistrations()
     {
       return MessageHandlers;
+    }
+
+
+    public IEnumerable<Type> GetHandledMessages()
+    {
+      return MessageHandlers.Select(h => h.MessageType).Distinct();
     }
   }
 }
