@@ -7,12 +7,8 @@ namespace Xyperico.Agres.MSMQ
 {
   public static class MSMQMessageBusConfigurationExtensions
   {
-    //private static ILog Logger = LogManager.GetLogger(typeof(EventStoreConfigurationExtensions));
-
-
     public static MessageBusConfiguration WithMSMQ(this MessageBusConfiguration cfg, string queueName)
     {
-      //Logger.Debug("Using MSMQ for message transport");
       ISerializer serializer = Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.GetMessageSerializer(cfg);
       Msmq.IMessageFormatter messageFormater = new MSMQMessageFormatter(serializer);
 

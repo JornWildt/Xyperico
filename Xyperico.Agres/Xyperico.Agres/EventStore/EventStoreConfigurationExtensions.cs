@@ -1,4 +1,5 @@
 ﻿using CuttingEdge.Conditions;
+using log4net;
 using Xyperico.Agres.Configuration;
 using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.Serialization;
@@ -9,7 +10,7 @@ namespace Xyperico.Agres.EventStore
 {
   public static class EventStoreConfigurationExtensions
   {
-    //private static ILog Logger = LogManager.GetLogger(typeof(EventStoreConfigurationExtensions));
+    private static ILog Logger = LogManager.GetLogger(typeof(EventStoreConfigurationExtensions));
 
 
     private const string AppendOnlyStore_SettingsKey = "EventStoreConfiguration_AppendOnlyStore";
@@ -22,7 +23,7 @@ namespace Xyperico.Agres.EventStore
 
     public static EventStoreConfiguration WithFileDocumentStore(this EventStoreConfiguration cfg, string baseDir)
     {
-      //Logger.Debug("Using plain files for storing documents used in event store");
+      Logger.Debug("Using plain files for storing documents used in event store");
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(baseDir, "baseDir").IsNotNull();
 
@@ -58,6 +59,7 @@ namespace Xyperico.Agres.EventStore
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(store, "store").IsNotNull();
       cfg.Set(AppendOnlyStore_SettingsKey, store);
+      Logger.DebugFormat("Using {0} as storage engine for EventStore", store);
     }
 
 
@@ -66,6 +68,7 @@ namespace Xyperico.Agres.EventStore
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();
       cfg.Set(MessageSerializer_SettingsKey, serializer);
+      Logger.DebugFormat("Using {0} as serializer for messages in event store", serializer);
     }
 
 

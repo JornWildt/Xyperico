@@ -83,7 +83,7 @@ namespace Xyperico.Agres.MessageBus
         throw new InvalidOperationException(string.Format("Cannot set message serializer twice. Existing serializer is {0} - now got {1}.", s, serializer));
       
       cfg.Set(MessageSerializer_SettingsKey, serializer);
-      Logger.DebugFormat("Using message serializer {0}", serializer);
+      Logger.DebugFormat("Using {0} as serializer for messages on message bus", serializer);
     }
 
 
@@ -105,7 +105,7 @@ namespace Xyperico.Agres.MessageBus
         throw new InvalidOperationException(string.Format("Cannot set subscription serializer twice. Existing serializer is {0} - now got {1}.", s, serializer));
 
       cfg.Set(SubscriptionSerializer_SettingsKey, serializer);
-      Logger.DebugFormat("Using subscription serializer {0}", serializer);
+      Logger.DebugFormat("Using {0} as serializer for subscription registrations", serializer);
     }
 
 

@@ -43,7 +43,6 @@ namespace Xyperico.Agres.MSMQ
     {
       ReceiveTimeout = TimeSpan.FromSeconds(1000);
       Queue = new Msmq.MessageQueue(QueueName);
-      //Queue.Formatter = MessageFormater;
     }
 
 
@@ -53,8 +52,8 @@ namespace Xyperico.Agres.MSMQ
       {
         Msmq.Message mm = Queue.EndPeek(result);
         mm.Formatter = MessageFormater;
-        //mm.Formatter = new Msmq.XmlMessageFormatter(new String[] { "Xyperico.Discuss.Forums.Commands.CreateForumCommand,Xyperico.Discuss" });
         Message m = new Message(mm.Id, mm.Body);
+        Logger.DebugFormat("Received message {0} on {1} via MSMQ", m.Body, QueueName);
         OnMessageReceived(new MessageReceivedEventArgs(m));
 
         // Success - remove message

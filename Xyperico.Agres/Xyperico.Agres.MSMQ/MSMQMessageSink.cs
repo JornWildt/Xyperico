@@ -1,6 +1,7 @@
 ﻿using Xyperico.Agres.MessageBus;
 using Xyperico.Agres.Serialization;
 using CuttingEdge.Conditions;
+using log4net;
 using Msmq = System.Messaging;
 
 
@@ -8,6 +9,8 @@ namespace Xyperico.Agres.MSMQ
 {
   public class MSMQMessageSink : IMessageSink
   {
+    private static ILog Logger = LogManager.GetLogger(typeof(MSMQMessageSink));
+
     private Msmq.IMessageFormatter MessageFormater { get; set; }
 
 
@@ -20,6 +23,7 @@ namespace Xyperico.Agres.MSMQ
 
     public void Send(QueueName destination, Message msg)
     {
+      Logger.DebugFormat("Send {0} to {1} via MSMQ", msg.Body, destination);
       using (Msmq.MessageQueue q = new Msmq.MessageQueue(destination.Name))
       {
         Msmq.Message m = new Msmq.Message();
