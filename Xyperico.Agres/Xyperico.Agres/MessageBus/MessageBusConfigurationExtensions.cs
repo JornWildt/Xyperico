@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using CuttingEdge.Conditions;
 using log4net;
@@ -31,6 +32,9 @@ namespace Xyperico.Agres.MessageBus
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(assemblies, "assemblies").IsNotNull();
 
+      // Also scan core message handlers
+      assemblies = assemblies.Union(new Assembly[] { Assembly.GetExecutingAssembly() });
+
       MessageDispatcher dispatcher = GetDispatcher(cfg);
       dispatcher.RegisterMessageHandlers(assemblies, messageHandlerConvention ?? new DefaultMessageHandlerConvention());
 
@@ -54,12 +58,11 @@ namespace Xyperico.Agres.MessageBus
 
     public static BaseConfiguration Done(this MessageBusConfiguration cfg)
     {
+      IObjectContainer container = ConfigurationExtensions.GetObjectContainer(cfg);
       IDocumentStoreFactory subscriptionStoreFactory = GetSubscriptionStore(cfg);
       ISubscriptionService subscriptionService = new SubscriptionService(subscriptionStoreFactory);
       cfg.Set(SubscriptionService_SettingsKey, subscriptionService);
-
-      MessageBusHost busHost = new MessageBusHost(GetMessageSource(cfg), GetDispatcher(cfg));
-      cfg.Set(MessageBusHost_SettingsKey, busHost);
+      container.RegisterInstance<ISubscriptionService>(subscriptionService);
 
       return new BaseConfiguration(cfg);
     }
@@ -109,7 +112,7 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static IDocumentSerializer GetSubscriptionSerializer(MessageBusConfiguration cfg)
+    public static IDocumentSerializer GetSubscriptionSerializer(AbstractConfiguration cfg)
     {
       IDocumentSerializer serializer = cfg.Get<IDocumentSerializer>(SubscriptionSerializer_SettingsKey);
       if (serializer == null)
@@ -118,7 +121,7 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static IDocumentStoreFactory GetSubscriptionStore(MessageBusConfiguration cfg)
+    public static IDocumentStoreFactory GetSubscriptionStore(AbstractConfiguration cfg)
     {
       IDocumentStoreFactory store = cfg.Get<IDocumentStoreFactory>(SubscriptionStoreFactory_SettingsKey);
       if (store == null)
@@ -144,7 +147,7 @@ namespace Xyperico.Agres.MessageBus
     {
       IMessageSource messageSource = cfg.Get<IMessageSource>(MessageSource_SettingsKey);
       if (messageSource == null)
-        throw new InvalidOperationException(string.Format("No message source has been configured."));
+        throw new InvalidOperationException(string.Format("No message source has been configured for message bus."));
       return messageSource;
     }
 

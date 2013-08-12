@@ -4,6 +4,7 @@ using Xyperico.Agres.Configuration;
 using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
+using System;
 
 
 namespace Xyperico.Agres.EventStore
@@ -12,14 +13,15 @@ namespace Xyperico.Agres.EventStore
   {
     private static ILog Logger = LogManager.GetLogger(typeof(EventStoreConfigurationExtensions));
 
-
     private const string AppendOnlyStore_SettingsKey = "EventStoreConfiguration_AppendOnlyStore";
     private const string MessageSerializer_SettingsKey = "EventStoreConfiguration_MessageSerializer";
     private const string DocumentSerializer_SettingsKey = "EventStoreConfiguration_DocumentSerializer";
     private const string DocumentStoreFactory_SettingsKey = "EventStoreConfiguration_DocumentStoreFactory";
     private const string EventPublisher_SettingsKey = "EventStoreConfiguration_EventPublisher";
-    private const string EventStoreHost_SettingsKey = "EventStoreConfiguration_EventStoreHost";
+    private const string EventStoreDB_SettingsKey = "EventStoreConfiguration_EventStoreDB";
 
+
+    #region End user configuration methods
 
     public static EventStoreConfiguration WithFileDocumentStore(this EventStoreConfiguration cfg, string baseDir)
     {
@@ -39,20 +41,25 @@ namespace Xyperico.Agres.EventStore
     {
       IAppendOnlyStore aStore = cfg.Get<IAppendOnlyStore>(AppendOnlyStore_SettingsKey);
       ISerializer messageSerializer = cfg.Get<ISerializer>(MessageSerializer_SettingsKey);
+
+      if (aStore == null)
+        throw new InvalidOperationException("Mising storage mechanism (IAppendOnlyStore) for event store.");
+      if (messageSerializer == null)
+        throw new InvalidOperationException("Missing event serializer for event store.");
+
       EventStoreDB eStore = new EventStoreDB(aStore, messageSerializer);
+      cfg.Set(EventStoreDB_SettingsKey, eStore);
 
       IObjectContainer container = Xyperico.Agres.Configuration.ConfigurationExtensions.GetObjectContainer(cfg);
       container.RegisterInstance<IEventStore>(eStore);
 
-      IDocumentStoreFactory docStoreFactory = cfg.Get<IDocumentStoreFactory>(DocumentStoreFactory_SettingsKey);
-      IEventPublisher eventPublisher = cfg.Get<IEventPublisher>(EventPublisher_SettingsKey);
-
-      EventStoreHost host = new EventStoreHost(eStore, eventPublisher, docStoreFactory);
-      cfg.Set(EventStoreHost_SettingsKey, host);
-
       return new BaseConfiguration(cfg);
     }
 
+    #endregion
+
+
+    #region Low level configuration methods
 
     public static void SetAppendOnlyStore(EventStoreConfiguration cfg, IAppendOnlyStore store)
     {
@@ -94,9 +101,32 @@ namespace Xyperico.Agres.EventStore
     }
 
 
-    public static EventStoreHost GetEventStoreHost(BaseConfiguration cfg)
+    public static IEventPublisher GetEventPublisher(AbstractConfiguration cfg, bool mustExists)
     {
-      return cfg.Get<EventStoreHost>(EventStoreHost_SettingsKey);
+      IEventPublisher eventPublisher = cfg.Get<IEventPublisher>(EventPublisher_SettingsKey);
+      if (eventPublisher == null && mustExists)
+        throw new InvalidOperationException("Missing event publisher for event store.");
+      return eventPublisher;
     }
+
+
+    public static IDocumentStoreFactory GetDocumentStoreFactory(AbstractConfiguration cfg)
+    {
+      IDocumentStoreFactory docStoreFactory = cfg.Get<IDocumentStoreFactory>(DocumentStoreFactory_SettingsKey);
+      if (docStoreFactory == null)
+        throw new InvalidOperationException("Missing document store factory for event store.");
+      return docStoreFactory;
+    }
+
+
+    public static EventStoreDB GetEventStoreDB(AbstractConfiguration cfg)
+    {
+      EventStoreDB eStore = cfg.Get<EventStoreDB>(EventStoreDB_SettingsKey);
+      if (eStore == null)
+        throw new InvalidOperationException("Missing event store. Are you missing a call to Done() in the event store configuration code?");
+      return eStore;
+    }
+
+    #endregion
   }
 }

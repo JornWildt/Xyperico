@@ -135,6 +135,23 @@ namespace Xyperico.Agres.Tests.MessageBus
     }
 
 
+    [Test]
+    public void WhenRegisteringExistingSubscriberItDoesNotCreateMultipleRegistrations()
+    {
+      // Arrange
+      Service.AddSubscriber(typeof(MessageToSubscribe1), "Mamma");
+      IList<QueueName> s1 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+
+      // Act
+      Service.AddSubscriber(typeof(MessageToSubscribe1), "Mamma");
+      IList<QueueName> s2 = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
+
+      // Assert
+      Assert.AreEqual(1, s1.Count);
+      Assert.AreEqual(1, s2.Count);
+    }
+
+
     private class MessageSinkStub : IMessageSink
     {
       public QueueName LastDestination;

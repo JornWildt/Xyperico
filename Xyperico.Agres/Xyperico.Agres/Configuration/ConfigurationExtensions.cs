@@ -7,6 +7,7 @@ using Xyperico.Agres.MessageBus;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
 using Xyperico.Agres.MessageBus.Subscription;
+using Xyperico.Agres.DocumentStore;
 
 
 namespace Xyperico.Agres.Configuration
@@ -102,25 +103,48 @@ namespace Xyperico.Agres.Configuration
     {
       AutoSubscribeToHandledMessages(cfg);
 
-      ISubscriptionService subscriptionService = MessageBusConfigurationExtensions.GetSubscriptionService(cfg);
-      IMessageSink messageSink = MessageBusConfigurationExtensions.GetMessageSink(cfg);
-      IObjectContainer container = GetObjectContainer(cfg);
-      
-      Xyperico.Agres.MessageBus.Implementation.MessageBus bus = new Agres.MessageBus.Implementation.MessageBus(subscriptionService, messageSink);
-      container.RegisterInstance<IMessageBus>(bus);
-
-      MessageBusHost busHost = MessageBusConfigurationExtensions.GetMessageBusHost(cfg);
-      if (busHost == null)
-        throw new InvalidOperationException("Cannot start application: no MessageBusHost has been configured.");
-
-      EventStoreHost eStoreHost = EventStoreConfigurationExtensions.GetEventStoreHost(cfg);
-      if (eStoreHost == null)
-        throw new InvalidOperationException("Cannot start application: no EventStoreHost has been configured.");
+      IMessageBus messageBus = BuildMessageBus(cfg);
+      MessageBusHost busHost = BuildMessageBusHost(cfg);
+      EventStoreHost eStoreHost = BuildEventStoreHost(cfg, messageBus);
 
       eStoreHost.Start();
       busHost.Start();
 
+      return messageBus;
+    }
+
+
+    private static IMessageBus BuildMessageBus(AbstractConfiguration cfg)
+    {
+      ISubscriptionService subscriptionService = MessageBusConfigurationExtensions.GetSubscriptionService(cfg);
+      IMessageSink messageSink = MessageBusConfigurationExtensions.GetMessageSink(cfg);
+      IObjectContainer container = GetObjectContainer(cfg);
+
+      Xyperico.Agres.MessageBus.Implementation.MessageBus bus = new Agres.MessageBus.Implementation.MessageBus(subscriptionService, messageSink);
+      container.RegisterInstance<IMessageBus>(bus);
+
       return bus;
+    }
+
+
+    private static MessageBusHost BuildMessageBusHost(AbstractConfiguration cfg)
+    {
+      MessageBusHost busHost = new MessageBusHost(MessageBusConfigurationExtensions.GetMessageSource(cfg), MessageBusConfigurationExtensions.GetDispatcher(cfg));
+      return busHost;
+    }
+
+    
+    private static EventStoreHost BuildEventStoreHost(BaseConfiguration cfg, IMessageBus messageBus)
+    {
+      IEventPublisher eventPublisher = EventStoreConfigurationExtensions.GetEventPublisher(cfg, false);
+      if (eventPublisher == null)
+        eventPublisher = new MessageBusEventPublisher(messageBus);
+      IDocumentStoreFactory docStoreFactory = EventStoreConfigurationExtensions.GetDocumentStoreFactory(cfg);
+      EventStoreDB eStore = EventStoreConfigurationExtensions.GetEventStoreDB(cfg);
+
+      EventStoreHost host = new EventStoreHost(eStore, eventPublisher, docStoreFactory);
+
+      return host;
     }
 
 

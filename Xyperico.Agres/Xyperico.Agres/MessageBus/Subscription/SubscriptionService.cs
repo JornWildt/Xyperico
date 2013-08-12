@@ -95,7 +95,8 @@ namespace Xyperico.Agres.MessageBus.Subscription
       if (!Subscriptions.TryGet(messageType, out registration))
         registration = new SubscriptionRegistration();
 
-      registration.SubscriberQueueNames.Add(destination.Name);
+      if (!registration.SubscriberQueueNames.Any(q => q == destination))
+        registration.SubscriberQueueNames.Add(destination.Name);
 
       Subscriptions.Put(messageType, registration);
     }
