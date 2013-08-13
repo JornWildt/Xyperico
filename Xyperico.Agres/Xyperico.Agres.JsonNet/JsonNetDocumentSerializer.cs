@@ -18,6 +18,8 @@ namespace Xyperico.Agres.JsonNet
       using (var jw = new JsonTextWriter(tw))
       {
         Serializer.Serialize(jw, item);
+        // Make sure nothing from any previous serialization is left in the stream
+        s.SetLength(s.Position);
       }
     }
 

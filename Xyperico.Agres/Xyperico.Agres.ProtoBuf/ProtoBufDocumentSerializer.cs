@@ -11,6 +11,8 @@ namespace Xyperico.Agres.ProtoBuf
     public void Serialize(Stream s, object item)
     {
       PBSerializer.Serialize(s, item);
+      // Make sure nothing from any previous serialization is left in the stream
+      s.SetLength(s.Position);
     }
 
 

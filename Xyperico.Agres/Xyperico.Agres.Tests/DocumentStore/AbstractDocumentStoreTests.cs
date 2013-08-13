@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using Xyperico.Agres.DocumentStore;
-using System;
+﻿using System;
+using NUnit.Framework;
 using ProtoBuf;
+using Xyperico.Agres.DocumentStore;
 
 
 namespace Xyperico.Agres.Tests.DocumentStore
@@ -54,7 +54,7 @@ namespace Xyperico.Agres.Tests.DocumentStore
     public void CanPutGetAndDeleteClass()
     {
       // Arrange
-      MySerializableData data = new MySerializableData { Value = 15 };
+      MySerializableData data = new MySerializableData { Value = "15" };
 
       // Act
       DocumentStore_Class.Put("abc", data);
@@ -75,12 +75,32 @@ namespace Xyperico.Agres.Tests.DocumentStore
     }
 
 
+    [Test]
+    public void ItCanHandleWritingAndReadingDifferentSizesOfDataToTheSameDocument()
+    {
+      // Arrange
+      MySerializableData data1 = new MySerializableData { Value = "Abcdefghijklmn" };
+      MySerializableData data2 = new MySerializableData { Value = "Xyz" };
+
+      // Act
+      DocumentStore_Class.Put("rwxyz", data1);
+      MySerializableData result1 = DocumentStore_Class.Get("rwxyz");
+      
+      DocumentStore_Class.Put("rwxyz", data2);
+      MySerializableData result2 = DocumentStore_Class.Get("rwxyz");
+
+      // Assert
+      Assert.AreEqual(data1.Value, result1.Value);
+      Assert.AreEqual(data2.Value, result2.Value);
+    }
+
+
     [Serializable]
     [ProtoContract]
     public class MySerializableData
     {
       [ProtoMember(1)]
-      public long Value { get; set; }
+      public string Value { get; set; }
     }
   }
 }
