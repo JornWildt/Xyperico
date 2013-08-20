@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using CuttingEdge.Conditions;
 using Xyperico.Agres.DocumentStore;
+using log4net;
 
 
 namespace Xyperico.Agres.MessageBus.Subscription
 {
   public class SubscriptionService : ISubscriptionService
   {
+    private static ILog Logger = LogManager.GetLogger(typeof(SubscriptionService));
+
+
     /// <summary>
     /// Create SubscriptionService with empty message routing and supplied input queue name.
     /// </summary>
@@ -80,6 +84,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
       if (route == null)
         throw new InvalidOperationException(string.Format("Could not find any message routing information for message type '{0}'.", messageType));
 
+      Logger.DebugFormat("Subscribing to {0} at {1}.", messageType, route.Destination);
       SubscribeCommand cmd = new SubscribeCommand(messageType, InputQueueName);
       Message msg = new Message(cmd);
       messageSink.Send(route.Destination, msg);

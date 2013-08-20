@@ -20,6 +20,12 @@ namespace Xyperico.Agres.Configuration
     }
 
 
+    public bool ContainsKey(string key)
+    {
+      return Settings.ContainsKey(key);
+    }
+
+
     public T Get<T>(string key)
     {
       if (Settings.ContainsKey(key))

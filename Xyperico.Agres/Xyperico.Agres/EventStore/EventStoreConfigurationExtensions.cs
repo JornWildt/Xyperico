@@ -1,10 +1,10 @@
-﻿using CuttingEdge.Conditions;
+﻿using System;
+using CuttingEdge.Conditions;
 using log4net;
 using Xyperico.Agres.Configuration;
 using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
-using System;
 
 
 namespace Xyperico.Agres.EventStore
@@ -23,13 +23,24 @@ namespace Xyperico.Agres.EventStore
 
     #region End user configuration methods
 
+    /// <summary>
+    /// Use file based storing of events and internal data structures.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <param name="baseDir"></param>
+    /// <returns></returns>
     public static EventStoreConfiguration WithFileDocumentStore(this EventStoreConfiguration cfg, string baseDir)
     {
+      if (cfg.ContainsKey(DocumentStoreFactory_SettingsKey))
+        throw new InvalidOperationException("You should not configure document store for event store twice.");
+
       Logger.Debug("Using plain files for storing documents used in event store");
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(baseDir, "baseDir").IsNotNull();
 
       IDocumentSerializer documentSerializer = cfg.Get<IDocumentSerializer>(DocumentSerializer_SettingsKey);
+      if (documentSerializer == null)
+        throw new InvalidOperationException("No document serializer has been configured for event store.");
       IDocumentStoreFactory docStoreFactory = new FileDocumentStoreFactory(baseDir, documentSerializer);
       cfg.Set(DocumentStoreFactory_SettingsKey, docStoreFactory);
 
@@ -37,6 +48,11 @@ namespace Xyperico.Agres.EventStore
     }
 
 
+    /// <summary>
+    /// No more configuration needed for event store - now configure something else or start event store.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
     public static BaseConfiguration Done(this EventStoreConfiguration cfg)
     {
       IAppendOnlyStore aStore = cfg.Get<IAppendOnlyStore>(AppendOnlyStore_SettingsKey);
@@ -50,7 +66,7 @@ namespace Xyperico.Agres.EventStore
       EventStoreDB eStore = new EventStoreDB(aStore, messageSerializer);
       cfg.Set(EventStoreDB_SettingsKey, eStore);
 
-      IObjectContainer container = Xyperico.Agres.Configuration.ConfigurationExtensions.GetObjectContainer(cfg);
+      IObjectContainer container = Xyperico.Agres.Configuration.ObjectContainerConfigurationExtensions.GetObjectContainer(cfg);
       container.RegisterInstance<IEventStore>(eStore);
 
       return new BaseConfiguration(cfg);
@@ -63,6 +79,9 @@ namespace Xyperico.Agres.EventStore
 
     public static void SetAppendOnlyStore(EventStoreConfiguration cfg, IAppendOnlyStore store)
     {
+      if (cfg.ContainsKey(AppendOnlyStore_SettingsKey))
+        throw new InvalidOperationException("You should not configure append-only back-end store for event store twice.");
+
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(store, "store").IsNotNull();
       cfg.Set(AppendOnlyStore_SettingsKey, store);
@@ -72,6 +91,9 @@ namespace Xyperico.Agres.EventStore
 
     public static void SetMessageSerializer(EventStoreConfiguration cfg, ISerializer serializer)
     {
+      if (cfg.ContainsKey(MessageSerializer_SettingsKey))
+        throw new InvalidOperationException("You should not configure message serializer for event store twice.");
+
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();
       cfg.Set(MessageSerializer_SettingsKey, serializer);
@@ -87,6 +109,9 @@ namespace Xyperico.Agres.EventStore
 
     public static void SetDocumentSerializer(EventStoreConfiguration cfg, IDocumentSerializer serializer)
     {
+      if (cfg.ContainsKey(DocumentSerializer_SettingsKey))
+        throw new InvalidOperationException("You should not configure document serializer for event store twice.");
+
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(serializer, "serializer").IsNotNull();
       cfg.Set(DocumentSerializer_SettingsKey, serializer);
@@ -95,6 +120,9 @@ namespace Xyperico.Agres.EventStore
 
     public static void SetEventPublisher(EventStoreConfiguration cfg, IEventPublisher publisher)
     {
+      if (cfg.ContainsKey(DocumentSerializer_SettingsKey))
+        throw new InvalidOperationException("You should not configure event publisher for event store twice.");
+
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(publisher, "publisher").IsNotNull();
       cfg.Set(EventPublisher_SettingsKey, publisher);

@@ -3,31 +3,31 @@ using Xyperico.Agres.MessageBus;
 using Xyperico.Agres.Serialization;
 
 
-namespace Xyperico.Agres.JsonNet
+namespace Xyperico.Agres.ProtoBuf
 {
-  public static class JsonMessageBusConfigurationExtensions
+  public static class ProtoBufMessageBusConfigurationExtensions
   {
     /// <summary>
-    /// Use JSON for message serialization.
+    /// Use ProtoBuf for message serialization.
     /// </summary>
     /// <param name="cfg"></param>
     /// <returns></returns>
-    public static MessageBusConfiguration WithJsonMessageSerializer(this MessageBusConfiguration cfg)
+    public static MessageBusConfiguration WithProtoBufMessageSerializer(this MessageBusConfiguration cfg)
     {
-      ISerializer serializer = new JsonNetSerializer();
+      ISerializer serializer = new ProtoBufSerializer();
       Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSerializer(cfg, serializer);
       return cfg;
     }
 
 
     /// <summary>
-    /// Use JSON for subscription serialization.
+    /// Use ProtoBuf for subscription serialization.
     /// </summary>
     /// <param name="cfg"></param>
     /// <returns></returns>
-    public static MessageBusConfiguration WithJsonSubscriptionSerializer(this MessageBusConfiguration cfg)
+    public static MessageBusConfiguration WithProtoBufSubscriptionSerializer(this MessageBusConfiguration cfg)
     {
-      IDocumentSerializer serializer = new JsonNetDocumentSerializer();
+      IDocumentSerializer serializer = new ProtoBufDocumentSerializer();
       Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetSubscriptionSerializer(cfg, serializer);
       return cfg;
     }

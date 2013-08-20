@@ -7,6 +7,11 @@ namespace Xyperico.Agres.JsonNet
 {
   public static class JsonEventStoreConfigurationExtensions
   {
+    /// <summary>
+    /// Use JSON for event serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
     public static EventStoreConfiguration WithJsonEventSerializer(this EventStoreConfiguration cfg)
     {
       ISerializer serializer = new JsonNetSerializer();
@@ -15,6 +20,11 @@ namespace Xyperico.Agres.JsonNet
     }
 
 
+    /// <summary>
+    /// Use JSON for document serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
     public static EventStoreConfiguration WithJsonDocumentSerializer(this EventStoreConfiguration cfg)
     {
       IDocumentSerializer serializer = new JsonNetDocumentSerializer();

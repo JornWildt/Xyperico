@@ -7,6 +7,12 @@ namespace Xyperico.Agres.MSMQ
 {
   public static class MSMQMessageBusConfigurationExtensions
   {
+    /// <summary>
+    /// Use MSMQ for message transport.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <param name="queueName"></param>
+    /// <returns></returns>
     public static MessageBusConfiguration WithMSMQ(this MessageBusConfiguration cfg, string queueName)
     {
       ISerializer serializer = Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.GetMessageSerializer(cfg);

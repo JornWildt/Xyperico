@@ -51,8 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationExtensions.cs" />
+    <Compile Include="Configuration\BaseConfigurationExtensions.cs" />
     <Compile Include="Configuration\AbstractConfiguration.cs" />
+    <Compile Include="Configuration\Configure.cs" />
+    <Compile Include="Configuration\LoggingConfigurationExtensions.cs" />
+    <Compile Include="Configuration\ObjectContainerConfigurationExtensions.cs" />
     <Compile Include="EventStore\AbstractAggregate.cs" />
     <Compile Include="EventStore\ConsolePublisher.cs" />
     <Compile Include="DocumentStore\DocumentRepository.cs" />
@@ -99,7 +102,7 @@
     <Compile Include="QueueName.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="EventStore\Log4NetPublisher.cs" />
-    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\BaseConfiguration.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConvention.cs" />
     <Compile Include="MessageBus\IHandleMessage.cs" />
     <Compile Include="MessageBus\IMessageHandlerConvention.cs" />

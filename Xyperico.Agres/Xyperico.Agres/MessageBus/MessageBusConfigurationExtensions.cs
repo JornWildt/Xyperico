@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using CuttingEdge.Conditions;
 using log4net;
 using Xyperico.Agres.Configuration;
+using Xyperico.Agres.DocumentStore;
+using Xyperico.Agres.MessageBus.Subscription;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
-using Xyperico.Agres.MessageBus.Subscription;
-using Xyperico.Agres.DocumentStore;
 
 
 namespace Xyperico.Agres.MessageBus
@@ -27,23 +24,19 @@ namespace Xyperico.Agres.MessageBus
     private const string SubscriptionService_SettingsKey = "MessageBusConfiguration_SubscriptionService";
 
 
-    public static MessageBusConfiguration ScanAssemblies(this MessageBusConfiguration cfg, IEnumerable<Assembly> assemblies, IMessageHandlerConvention messageHandlerConvention = null)
-    {
-      Condition.Requires(cfg, "cfg").IsNotNull();
-      Condition.Requires(assemblies, "assemblies").IsNotNull();
+    #region End user configuration methods
 
-      // Also scan core message handlers
-      assemblies = assemblies.Union(new Assembly[] { Assembly.GetExecutingAssembly() });
-
-      MessageDispatcher dispatcher = GetDispatcher(cfg);
-      dispatcher.RegisterMessageHandlers(assemblies, messageHandlerConvention ?? new DefaultMessageHandlerConvention());
-
-      return cfg;
-    }
-
-
+    /// <summary>
+    /// Use file based storage for subscriptions.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <param name="baseDir"></param>
+    /// <returns></returns>
     public static MessageBusConfiguration WithFileSubscriptionStore(this MessageBusConfiguration cfg, string baseDir)
     {
+      if (cfg.ContainsKey(SubscriptionStoreFactory_SettingsKey))
+        throw new InvalidOperationException("You should not configure subscription store for message bus twice.");
+
       Logger.Debug("Using plain files for storing subscription registrations.");
       Condition.Requires(cfg, "cfg").IsNotNull();
       Condition.Requires(baseDir, "baseDir").IsNotNull();
@@ -56,9 +49,14 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
+    /// <summary>
+    /// No more configuration needed for message bus - now configure something else or start the bus.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
     public static BaseConfiguration Done(this MessageBusConfiguration cfg)
     {
-      IObjectContainer container = ConfigurationExtensions.GetObjectContainer(cfg);
+      IObjectContainer container = ObjectContainerConfigurationExtensions.GetObjectContainer(cfg);
       IDocumentStoreFactory subscriptionStoreFactory = GetSubscriptionStore(cfg);
       ISubscriptionService subscriptionService = new SubscriptionService(subscriptionStoreFactory);
       cfg.Set(SubscriptionService_SettingsKey, subscriptionService);
@@ -67,12 +65,16 @@ namespace Xyperico.Agres.MessageBus
       return new BaseConfiguration(cfg);
     }
 
+    #endregion
+
+    
+    #region Low level configuration methods
 
     public static ISubscriptionService GetSubscriptionService(AbstractConfiguration cfg)
     {
       ISubscriptionService service = cfg.Get<ISubscriptionService>(SubscriptionService_SettingsKey);
       if (service == null)
-        throw new InvalidOperationException("Missing subscription service configuration. Please make sure both subscription store and subscription serializer has been configured");
+        throw new InvalidOperationException("Missing message bus subscription service configuration. Please make sure both subscription store and subscription serializer has been configured");
       return service;
     }
 
@@ -90,7 +92,7 @@ namespace Xyperico.Agres.MessageBus
     }
 
 
-    public static ISerializer GetMessageSerializer(MessageBusConfiguration cfg)
+    public static ISerializer GetMessageSerializer(AbstractConfiguration cfg)
     {
       ISerializer serializer = cfg.Get<ISerializer>(MessageSerializer_SettingsKey);
       if (serializer == null)
@@ -105,7 +107,7 @@ namespace Xyperico.Agres.MessageBus
 
       IDocumentSerializer s;
       if (cfg.TryGet<IDocumentSerializer>(SubscriptionSerializer_SettingsKey, out s))
-        throw new InvalidOperationException(string.Format("Cannot set subscription serializer twice. Existing serializer is {0} - now got {1}.", s, serializer));
+        throw new InvalidOperationException(string.Format("Cannot set message bus subscription serializer twice. Existing serializer is {0} - now got {1}.", s, serializer));
 
       cfg.Set(SubscriptionSerializer_SettingsKey, serializer);
       Logger.DebugFormat("Using {0} as serializer for subscription registrations", serializer);
@@ -116,7 +118,7 @@ namespace Xyperico.Agres.MessageBus
     {
       IDocumentSerializer serializer = cfg.Get<IDocumentSerializer>(SubscriptionSerializer_SettingsKey);
       if (serializer == null)
-        throw new InvalidOperationException(string.Format("No subscription serializer has been configured."));
+        throw new InvalidOperationException(string.Format("No message bus subscription serializer has been configured."));
       return serializer;
     }
 
@@ -125,7 +127,7 @@ namespace Xyperico.Agres.MessageBus
     {
       IDocumentStoreFactory store = cfg.Get<IDocumentStoreFactory>(SubscriptionStoreFactory_SettingsKey);
       if (store == null)
-        throw new InvalidOperationException(string.Format("No subscription store has been configured."));
+        throw new InvalidOperationException(string.Format("No message bus subscription store has been configured."));
       return store;
     }
 
@@ -186,11 +188,13 @@ namespace Xyperico.Agres.MessageBus
       MessageDispatcher dispatcher;
       if (!cfg.TryGet<MessageDispatcher>(MessageDispatcher_SettingsKey, out dispatcher))
       {
-        IObjectContainer container = Xyperico.Agres.Configuration.ConfigurationExtensions.GetObjectContainer(cfg);
+        IObjectContainer container = Xyperico.Agres.Configuration.ObjectContainerConfigurationExtensions.GetObjectContainer(cfg);
         dispatcher = new MessageDispatcher(container);
         cfg.Set(MessageDispatcher_SettingsKey, dispatcher);
       }
       return dispatcher;
     }
+
+    #endregion
   }
 }
