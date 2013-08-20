@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace Xyperico.Agres.MessageBus.Subscription
 {
+  [Serializable]
   public class SubscriptionRegistration
   {
-    public List<QueueName> SubscriberQueueNames { get; set; }
+    public List<string> SubscriberQueueNames { get; set; }
 
     public SubscriptionRegistration()
     {
-      SubscriberQueueNames = new List<QueueName>();
+      SubscriberQueueNames = new List<string>();
     }
   }
 }

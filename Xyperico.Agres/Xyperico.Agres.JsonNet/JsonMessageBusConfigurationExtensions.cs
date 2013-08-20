@@ -31,5 +31,31 @@ namespace Xyperico.Agres.JsonNet
       Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetSubscriptionSerializer(cfg, serializer);
       return cfg;
     }
+
+
+    /// <summary>
+    /// Use BSON (binary JSON) for message serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithBsonMessageSerializer(this MessageBusConfiguration cfg)
+    {
+      ISerializer serializer = new BsonNetSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use BSON for subscription serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithBsonSubscriptionSerializer(this MessageBusConfiguration cfg)
+    {
+      IDocumentSerializer serializer = new BsonNetDocumentSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetSubscriptionSerializer(cfg, serializer);
+      return cfg;
+    }
   }
 }

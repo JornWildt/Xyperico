@@ -113,7 +113,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
 
       SubscriptionRegistration registration;
       if (Subscriptions.TryGet(messageType, out registration))
-        return registration.SubscriberQueueNames;
+        return registration.SubscriberQueueNames.Select(name => new QueueName(name));
       return Enumerable.Empty<QueueName>();
     }
 

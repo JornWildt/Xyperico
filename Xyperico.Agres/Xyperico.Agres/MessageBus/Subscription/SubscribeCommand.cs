@@ -1,18 +1,19 @@
-﻿using CuttingEdge.Conditions;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
+using CuttingEdge.Conditions;
 
 
 namespace Xyperico.Agres.MessageBus.Subscription
 {
   [DataContract]
+  [Serializable]
   public class SubscribeCommand : ICommand
   {
     [DataMember(Order=1)]
-    public string SubscribedMessagesTypeName { get; protected set; }
+    public string SubscribedMessagesTypeName { get; set; }
 
     [DataMember(Order=2)]
-    public string SubscriberQueueName { get; protected set; }
+    public string SubscriberQueueName { get; set; }
 
     public SubscribeCommand()
     {

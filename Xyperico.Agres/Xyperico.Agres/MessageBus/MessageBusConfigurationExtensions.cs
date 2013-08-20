@@ -50,6 +50,84 @@ namespace Xyperico.Agres.MessageBus
 
 
     /// <summary>
+    /// Use .NET XML serializer for message serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithXmlMessageSerializer(this MessageBusConfiguration cfg)
+    {
+      ISerializer serializer = new XmlSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use .NET XML serializer for subscription serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithXmlSubscriptionSerializer(this MessageBusConfiguration cfg)
+    {
+      IDocumentSerializer serializer = new XmlDocumentSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetSubscriptionSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use data contract XML for message serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithDataContractMessageSerializer(this MessageBusConfiguration cfg)
+    {
+      ISerializer serializer = new DataContractSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use data contract XML for subscription serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithDataContractSubscriptionSerializer(this MessageBusConfiguration cfg)
+    {
+      IDocumentSerializer serializer = new DataContractDocumentSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetSubscriptionSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use data .NET binary serializer for message serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithDotNetBinaryMessageSerializer(this MessageBusConfiguration cfg)
+    {
+      ISerializer serializer = new DotNetBinarySerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetMessageSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use data .NET binary serializer for subscription serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static MessageBusConfiguration WithDotNetBinarySubscriptionSerializer(this MessageBusConfiguration cfg)
+    {
+      IDocumentSerializer serializer = new DotNetBinaryDocumentSerializer();
+      Xyperico.Agres.MessageBus.MessageBusConfigurationExtensions.SetSubscriptionSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
     /// No more configuration needed for message bus - now configure something else or start the bus.
     /// </summary>
     /// <param name="cfg"></param>

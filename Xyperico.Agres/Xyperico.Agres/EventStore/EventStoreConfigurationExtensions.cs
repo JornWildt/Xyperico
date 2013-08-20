@@ -49,6 +49,32 @@ namespace Xyperico.Agres.EventStore
 
 
     /// <summary>
+    /// Use data contract XML for event serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static EventStoreConfiguration WithDataContractEventSerializer(this EventStoreConfiguration cfg)
+    {
+      ISerializer serializer = new DataContractSerializer();
+      Xyperico.Agres.EventStore.EventStoreConfigurationExtensions.SetMessageSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use data contract XML for document serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static EventStoreConfiguration WithDataContractDocumentSerializer(this EventStoreConfiguration cfg)
+    {
+      IDocumentSerializer serializer = new DataContractDocumentSerializer();
+      Xyperico.Agres.EventStore.EventStoreConfigurationExtensions.SetDocumentSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
     /// No more configuration needed for event store - now configure something else or start event store.
     /// </summary>
     /// <param name="cfg"></param>

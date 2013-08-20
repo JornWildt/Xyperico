@@ -5,7 +5,7 @@ using DCSerializer = System.Runtime.Serialization.DataContractSerializer;
 
 namespace Xyperico.Agres.Serialization
 {
-  class DataContractSerializerWorker : ISerializeWorker
+  public class DataContractSerializerWorker : ISerializeWorker
   {
     DCSerializer Serializer;
 

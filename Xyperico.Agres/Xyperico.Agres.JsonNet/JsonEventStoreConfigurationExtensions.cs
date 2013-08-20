@@ -31,5 +31,31 @@ namespace Xyperico.Agres.JsonNet
       Xyperico.Agres.EventStore.EventStoreConfigurationExtensions.SetDocumentSerializer(cfg, serializer);
       return cfg;
     }
+
+
+    /// <summary>
+    /// Use BSON (binary JSON) for event serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static EventStoreConfiguration WithBsonEventSerializer(this EventStoreConfiguration cfg)
+    {
+      ISerializer serializer = new BsonNetSerializer();
+      Xyperico.Agres.EventStore.EventStoreConfigurationExtensions.SetMessageSerializer(cfg, serializer);
+      return cfg;
+    }
+
+
+    /// <summary>
+    /// Use BSON (binary JSON) for document serialization.
+    /// </summary>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
+    public static EventStoreConfiguration WithBsonDocumentSerializer(this EventStoreConfiguration cfg)
+    {
+      IDocumentSerializer serializer = new BsonNetDocumentSerializer();
+      Xyperico.Agres.EventStore.EventStoreConfigurationExtensions.SetDocumentSerializer(cfg, serializer);
+      return cfg;
+    }
   }
 }
