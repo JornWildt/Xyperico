@@ -16,7 +16,6 @@ namespace Xyperico.Agres.Sql
     SqlCommand LoadCommand;
     SqlCommand ReadFromCommand;
     SqlCommand LastUsedIdCommand;
-    SqlTransaction Transaction;
 
     bool CommitOnClose;
 
@@ -27,7 +26,6 @@ namespace Xyperico.Agres.Sql
       CommitOnClose = commitOnClose;
 
       Connection.Open();
-      Transaction = Connection.BeginTransaction();
 
       const string appendSql = @"
 INSERT INTO EventStore
@@ -39,7 +37,6 @@ VALUES
       AppendCommand.Parameters.Add("@name", SqlDbType.VarChar, 50);
       AppendCommand.Parameters.Add("@data", SqlDbType.Image);
       AppendCommand.Parameters.Add("@version", SqlDbType.BigInt);
-      AppendCommand.Transaction = Transaction;
 
       const string loadSql = @"
 SELECT *
@@ -49,7 +46,6 @@ ORDER BY Version";
       
       LoadCommand = new SqlCommand(loadSql, Connection);
       LoadCommand.Parameters.Add("@name", SqlDbType.VarChar, 50);
-      LoadCommand.Transaction = Transaction;
 
       const string readFromSql = @"
 SELECT *
@@ -59,13 +55,11 @@ ORDER BY Id";
 
       ReadFromCommand = new SqlCommand(readFromSql, Connection);
       ReadFromCommand.Parameters.Add("@id", SqlDbType.BigInt);
-      ReadFromCommand.Transaction = Transaction;
 
       const string lastUsedIdSql = @"
 SELECT IDENT_CURRENT('EventStore')";
 
       LastUsedIdCommand = new SqlCommand(lastUsedIdSql, Connection);
-      LastUsedIdCommand.Transaction = Transaction;
     }
 
 
@@ -134,11 +128,84 @@ SELECT IDENT_CURRENT('EventStore')";
     
     public void Dispose()
     {
-      if (CommitOnClose)
-        Transaction.Commit();
-      else
-        Transaction.Rollback();
+      //if (CommitOnClose)
+      //  Transaction.Commit();
+      //else
+      //  Transaction.Rollback();
       Connection.Close();
+    }
+
+
+    public static void CreateTable(string connectionString)
+    {
+      using (var connection = new SqlConnection(connectionString))
+      {
+        connection.Open();
+
+        string createTableSQL = @"CREATE TABLE EventStore (
+	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
+	Data IMAGE NOT NULL,
+	Version BIGINT NOT NULL
+)";
+        using (SqlCommand cmd = new SqlCommand(createTableSQL, connection))
+        {
+          cmd.ExecuteNonQuery();
+        }
+
+        string indexSQL = @"CREATE UNIQUE INDEX IX_EventStore_NameVersion ON EventStore
+(
+	Name ASC,
+	Version ASC
+)";
+        using (SqlCommand cmd = new SqlCommand(indexSQL, connection))
+        {
+          cmd.ExecuteNonQuery();
+        }
+      }
+    }
+
+
+    public static void DropTable(string connectionString)
+    {
+      using (var connection = new SqlConnection(connectionString))
+      {
+        connection.Open();
+
+        using (SqlCommand cmd = new SqlCommand("DROP TABLE EventStore", connection))
+        {
+          cmd.ExecuteNonQuery();
+        }
+      }
+    }
+
+
+    public static bool TableExists(string connectionString)
+    {
+      using (var connection = new SqlConnection(connectionString))
+      {
+        connection.Open();
+
+        using (SqlCommand cmd = new SqlCommand("SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'EventStore'", connection))
+        {
+          object nameo = cmd.ExecuteScalar();
+          return nameo != null;
+        }
+      }
+    }
+
+
+    public static void CreateTableIfNotExists(string connectionString)
+    {
+      if (!TableExists(connectionString))
+        CreateTable(connectionString);
+    }
+
+
+    public static void DropTableIfExists(string connectionString)
+    {
+      if (TableExists(connectionString))
+        DropTable(connectionString);
     }
   }
 }
