@@ -59,7 +59,6 @@
     <Compile Include="EventStore\AbstractAggregate.cs" />
     <Compile Include="EventStore\ConsolePublisher.cs" />
     <Compile Include="DocumentStore\DocumentRepository.cs" />
-    <Compile Include="DocumentStore\DotNetBinaryDocumentSerializer.cs" />
     <Compile Include="DocumentStore\FileDocumentStore.cs" />
     <Compile Include="DocumentStore\FileDocumentStoreFactory.cs" />
     <Compile Include="DocumentStore\IDocumentStore.cs" />
@@ -100,7 +99,6 @@
     <Compile Include="MessageBus\Subscription\SubscribeCommand.cs" />
     <Compile Include="MessageBus\Subscription\SubscriptionService.cs" />
     <Compile Include="QueueName.cs" />
-    <Compile Include="Serialization\XmlDocumentSerializer.cs" />
     <Compile Include="Serialization\DataContractDocumentSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="EventStore\Log4NetPublisher.cs" />
@@ -115,15 +113,12 @@
     <Compile Include="MessageBus\MessageBusHost.cs" />
     <Compile Include="MessageBus\MessageDispatcher.cs" />
     <Compile Include="MessageBus\MessageHandlerRegistration.cs" />
-    <Compile Include="Serialization\XmlSerializer.cs" />
-    <Compile Include="Serialization\XmlSerializerWorker.cs" />
     <Compile Include="Utility\MethodInvoke.cs" />
     <Compile Include="Serialization\AbstractSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventStore\RepositoryItem.cs" />
     <Compile Include="Serialization\DataContractSerializer.cs" />
     <Compile Include="Serialization\DataContractSerializerWorker.cs" />
-    <Compile Include="Serialization\DotNetBinarySerializer.cs" />
     <Compile Include="EventStore\VersionConflictException.cs" />
   </ItemGroup>
   <ItemGroup>

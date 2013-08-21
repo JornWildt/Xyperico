@@ -10,6 +10,15 @@ namespace Xyperico.Agres.Tests
   {
     const string SqlConnectionString = "Server=localhost;Database=CommunitySite;User Id=comsite;Password=123456;";
 
+    
+    protected override void SetUp()
+    {
+      base.SetUp();
+      try { SqlAppendOnlyStore.DropTable(SqlConnectionString); }
+      catch { }
+      SqlAppendOnlyStore.CreateTable(SqlConnectionString);
+    }
+
 
     protected override IAppendOnlyStore BuildAppendOnlyStore()
     {

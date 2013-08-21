@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Xyperico.Agres.DocumentStore;
+using Xyperico.Agres.JsonNet;
 
 
 namespace Xyperico.Agres.Tests.DocumentStore
@@ -9,7 +10,7 @@ namespace Xyperico.Agres.Tests.DocumentStore
   {
     protected override IDocumentStoreFactory BuildFactory()
     {
-      IDocumentSerializer serializer = new DotNetBinaryDocumentSerializer();
+      IDocumentSerializer serializer = new JsonNetDocumentSerializer();
       return new FileDocumentStoreFactory(StorageBaseDir, serializer);
     }
   }

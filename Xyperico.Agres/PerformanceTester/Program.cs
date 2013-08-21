@@ -43,7 +43,6 @@ namespace PerformanceTestser
       {
         new DataContractSerializer(),
         new ProtoBufSerializer(),
-        new DotNetBinarySerializer(),
         new BsonNetSerializer(),
         new JsonNetSerializer()
       };

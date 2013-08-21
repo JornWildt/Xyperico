@@ -5,11 +5,11 @@ using Xyperico.Agres.Serialization;
 namespace Xyperico.Agres.Tests
 {
   [TestFixture]
-  public class DotNetBinarySerializerTests : AbstractSerializerTests
+  public class DataContractSerializerTests : AbstractSerializerTests
   {
     protected override Serialization.ISerializer BuildSerializer()
     {
-      return new DotNetBinarySerializer();
+      return new DataContractSerializer();
     }
   }
 }

@@ -3,7 +3,7 @@
 
 namespace Xyperico.Agres.Tests.TestUser
 {
-  [Serializable]
+  //[Serializable]
   public class UserPasswordChangedEvent : IEvent
   {
     public UserId Id { get; private set; }

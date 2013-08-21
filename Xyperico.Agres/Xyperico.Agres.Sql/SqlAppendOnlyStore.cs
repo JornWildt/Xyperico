@@ -57,7 +57,7 @@ ORDER BY Id";
       ReadFromCommand.Parameters.Add("@id", SqlDbType.BigInt);
 
       const string lastUsedIdSql = @"
-SELECT IDENT_CURRENT('EventStore')";
+SELECT IDENT_CURRENT('EventStore') - 1";
 
       LastUsedIdCommand = new SqlCommand(lastUsedIdSql, Connection);
     }

@@ -1,17 +1,20 @@
 ﻿using System;
 using CuttingEdge.Conditions;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 
 namespace Xyperico.Agres
 {
-  [Serializable]
+  //[Serializable]
+  [DataContract]
   public abstract class Identity<TId> : IIdentity
     where TId : IEquatable<TId>
   {
     /// <summary>
     /// Internal representation of ID. Not supposed to be unique between different aggregate types.
     /// </summary>
+    [DataMember(Order = 1)]
     protected TId Id { get; set; }
 
 

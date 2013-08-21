@@ -1,7 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
 using NUnit.Framework;
 using Xyperico.Agres.Serialization;
-using System.IO;
 
 
 namespace Xyperico.Agres.Tests
@@ -36,7 +37,8 @@ namespace Xyperico.Agres.Tests
       // Assert
       Assert.IsNotNull(result);
       Assert.IsNotNull(result.Id);
-      Assert.AreEqual(msg.Id, result.Id);
+      Assert.AreEqual(msg.Id.Literal, result.Id.Literal);
+      //Assert.AreEqual(msg.Id, result.Id);
       Assert.AreEqual(msg.Title, result.Title);
       Assert.AreEqual(msg.Description, result.Description);
     }
@@ -69,10 +71,16 @@ namespace Xyperico.Agres.Tests
 
 
   [Serializable]
-  class MySerializationMessage
+  [DataContract]
+  public class MySerializationMessage
   {
+    [DataMember(Order=1)]
     public MySerializationId Id { get; private set; }
+
+    [DataMember(Order = 2)]
     public string Title { get; private set; }
+
+    [DataMember(Order = 3)]
     public string Description { get; private set; }
 
 
@@ -89,14 +97,9 @@ namespace Xyperico.Agres.Tests
 
 
   [Serializable]
+  [DataContract]
   public class MySerializationId : Identity<Guid>
   {
-    public MySerializationId()
-      : base(Guid.NewGuid())
-    {
-    }
-
-
     protected override string Prefix
     {
       get { return "MyTest"; }

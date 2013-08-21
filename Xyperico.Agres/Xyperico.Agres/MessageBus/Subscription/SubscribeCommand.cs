@@ -10,10 +10,10 @@ namespace Xyperico.Agres.MessageBus.Subscription
   public class SubscribeCommand : ICommand
   {
     [DataMember(Order=1)]
-    public string SubscribedMessagesTypeName { get; set; }
+    public string SubscribedMessagesTypeName { get; private set; }
 
     [DataMember(Order=2)]
-    public string SubscriberQueueName { get; set; }
+    public string SubscriberQueueName { get; private set; }
 
     public SubscribeCommand()
     {

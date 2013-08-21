@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
+using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.EventStore;
+using Xyperico.Agres.JsonNet;
 using Xyperico.Agres.Serialization;
 using Xyperico.Agres.Tests.TestUser;
 
@@ -23,7 +25,7 @@ namespace Xyperico.Agres.Tests
       AppendOnlyStore = BuildAppendOnlyStore();
       
       // Use a simple serializer that works for just about everything
-      ISerializer serializer = new DotNetBinarySerializer();
+      ISerializer serializer = new JsonNetSerializer();
       
       EventStore = new EventStoreDB(AppendOnlyStore, serializer);
     }
@@ -157,7 +159,7 @@ namespace Xyperico.Agres.Tests
 
       IAppendOnlyStore appendOnlyStore = data.Store;
       {
-        ISerializer serializer = new DotNetBinarySerializer();
+        ISerializer serializer = new JsonNetSerializer();
         EventStoreDB store = new EventStoreDB(appendOnlyStore, serializer);
 
         UserId id = new UserId(data.N);
