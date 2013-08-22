@@ -6,16 +6,16 @@ namespace Xyperico.Agres.MessageBus.Subscription
 {
   public class RouteRegistration
   {
-    public string MessageTypeFilter { get; private set; }
+    public string MessageFilter { get; private set; }
     
     public QueueName Destination { get; private set; }
 
     
-    public RouteRegistration(string messageTypeFilter, QueueName destination)
+    public RouteRegistration(string messageFilter, QueueName destination)
     {
-      Condition.Requires(messageTypeFilter, "messageTypeFilter").IsNotNullOrEmpty();
+      Condition.Requires(messageFilter, "messageFilter").IsNotNullOrEmpty();
       Condition.Requires(destination, "destination").IsNotNull();
-      MessageTypeFilter = messageTypeFilter;
+      MessageFilter = messageFilter;
       Destination = destination;
     }
 
@@ -23,7 +23,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
     public bool Matches(Type messageType)
     {
       Condition.Requires(messageType, "messageType").IsNotNull();
-      return messageType.ToString().StartsWith(MessageTypeFilter);
+      return messageType.ToString().StartsWith(MessageFilter);
     }
   }
 }

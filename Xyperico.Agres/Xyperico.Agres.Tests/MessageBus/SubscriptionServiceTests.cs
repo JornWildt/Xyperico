@@ -91,9 +91,9 @@ namespace Xyperico.Agres.Tests.MessageBus
 
       IList<RouteRegistration> routes = service.GetRoutes().ToList();
       Assert.AreEqual(2, routes.Count);
-      Assert.AreEqual("Abc.Def", routes[0].MessageTypeFilter);
+      Assert.AreEqual("Abc.Def", routes[0].MessageFilter);
       Assert.AreEqual("Alibaba", routes[0].Destination.Name);
-      Assert.AreEqual("Xyz.Qwe", routes[1].MessageTypeFilter);
+      Assert.AreEqual("Xyz.Qwe", routes[1].MessageFilter);
       Assert.AreEqual("RobinHat", routes[1].Destination.Name);
     }
 

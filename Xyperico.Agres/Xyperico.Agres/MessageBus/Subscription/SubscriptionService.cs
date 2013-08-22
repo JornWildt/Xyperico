@@ -51,12 +51,12 @@ namespace Xyperico.Agres.MessageBus.Subscription
     public QueueName InputQueueName { get; protected set; }
 
 
-    public void AddRoute(string messageTypeFilter, QueueName destination)
+    public void AddRoute(string messageFilter, QueueName destination)
     {
-      Condition.Requires(messageTypeFilter, "messageTypeFilter").IsNotNull();
+      Condition.Requires(messageFilter, "messageFilter").IsNotNull();
       Condition.Requires(destination, "destination").IsNotNull();
 
-      Routes.Add(new RouteRegistration(messageTypeFilter, destination));
+      Routes.Add(new RouteRegistration(messageFilter, destination));
     }
 
 
