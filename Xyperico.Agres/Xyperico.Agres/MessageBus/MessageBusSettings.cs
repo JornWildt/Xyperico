@@ -31,11 +31,11 @@ namespace Xyperico.Agres.MessageBus
       }
 
 
-      [ConfigurationProperty("Endpoint", IsRequired = true)]
-      public string Endpoint
+      [ConfigurationProperty("Destination", IsRequired = true)]
+      public string Destination
       {
-        get { return (string)this["Endpoint"]; }
-        set { this["Endpoint"] = value; }
+        get { return (string)this["Destination"]; }
+        set { this["Destination"] = value; }
       }
 
 

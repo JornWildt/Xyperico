@@ -32,7 +32,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
     {
       Initialize(subscriptionStoreFactory, MessageBusSettings.Settings.InputQueue);
       foreach (MessageBusSettings.MessageRoute route in MessageBusSettings.Settings.Routes)
-        AddRoute(route.Messages, route.Endpoint);
+        AddRoute(route.Messages, route.Destination);
     }
 
 
