@@ -56,6 +56,8 @@ namespace Xyperico.Agres.MessageBus.Subscription
       Condition.Requires(messageFilter, "messageFilter").IsNotNull();
       Condition.Requires(destination, "destination").IsNotNull();
 
+      if (Routes.Any(r => r.MessageFilter == messageFilter && r.Destination == destination))
+        throw new InvalidOperationException(string.Format("The subscription for {0} at {1} is already added.", messageFilter, destination));
       Routes.Add(new RouteRegistration(messageFilter, destination));
     }
 

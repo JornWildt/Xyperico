@@ -118,6 +118,24 @@ namespace Xyperico.Agres.Tests.MessageBus
     }
 
 
+    [TestCase("Xyperico.Agres.Tests", "Trillian", typeof(MessageToSubscribe1))]
+    public void WhenSubscribingItChecksPrefixOfMessageFilter(string filter, string destination, Type message)
+    {
+      MessageSinkStub sink = new MessageSinkStub();
+      Service.AddRoute(filter, destination);
+
+      // Act
+      Service.Subscribe(message, sink);
+
+      // Assert
+      Assert.AreEqual(destination, sink.LastDestination.Name);
+      Assert.IsInstanceOf<SubscribeCommand>(sink.LastMessage.Body);
+      SubscribeCommand sc = (SubscribeCommand)sink.LastMessage.Body;
+      Assert.AreEqual(message.AssemblyQualifiedName, sc.SubscribedMessagesTypeName);
+    }
+
+
+
     [Test]
     public void ItCanHandleSubscribeMessage()
     {
@@ -132,6 +150,17 @@ namespace Xyperico.Agres.Tests.MessageBus
       IList<QueueName> subscribers = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
       Assert.AreEqual(1, subscribers.Count);
       Assert.AreEqual(new QueueName("WhollyBob"), subscribers[0]);
+    }
+
+
+    [Test]
+    public void WhenAddingSameRouteTwiceItThrows()
+    {
+      // Arrange
+      Service.AddRoute("Rofl.abc", "Max");
+
+      // Act + Assert
+      AssertThrows<InvalidOperationException>(() => Service.AddRoute("Rofl.abc", "Max"));
     }
 
 
