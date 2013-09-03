@@ -6,7 +6,6 @@ using CuttingEdge.Conditions;
 namespace Xyperico.Agres.MessageBus.Subscription
 {
   [DataContract]
-  [Serializable]
   public class SubscribeCommand : ICommand
   {
     [DataMember(Order=1)]

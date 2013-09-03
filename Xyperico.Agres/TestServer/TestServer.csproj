@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0571FEBE-4FD0-4DDB-A6B3-686E15BB7042}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestServer</RootNamespace>
+    <AssemblyName>TestServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CuttingEdge.Conditions">
+      <HintPath>..\..\..\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Discuss\Commands\CreateForumCommand.cs" />
+    <Compile Include="Discuss\Commands\UpdateForumCommand.cs" />
+    <Compile Include="Discuss\Events\ForumCreatedEvent.cs" />
+    <Compile Include="Discuss\Events\ForumUpdatedEvent.cs" />
+    <Compile Include="Discuss\Forum.cs" />
+    <Compile Include="Discuss\ForumApplicationService.cs" />
+    <Compile Include="Discuss\ForumEventTesterService.cs" />
+    <Compile Include="Discuss\ForumId.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xyperico.Agres.JsonNet\Xyperico.Agres.JsonNet.csproj">
+      <Project>{0A736229-1204-4F4B-87EC-6D44E811D75B}</Project>
+      <Name>Xyperico.Agres.JsonNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres.MSMQ\Xyperico.Agres.MSMQ.csproj">
+      <Project>{CE004F86-133C-4F7C-A185-30AFA42953F9}</Project>
+      <Name>Xyperico.Agres.MSMQ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres.ProtoBuf\Xyperico.Agres.ProtoBuf.csproj">
+      <Project>{D150EABC-E736-4BD1-9FC1-CB6F607E000E}</Project>
+      <Name>Xyperico.Agres.ProtoBuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres.SQLite\Xyperico.Agres.SQLite.csproj">
+      <Project>{563C8C4C-A0F7-4AEE-8D5A-93D7CCA39D83}</Project>
+      <Name>Xyperico.Agres.SQLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres.Sql\Xyperico.Agres.Sql.csproj">
+      <Project>{9BA99FF6-E704-47D2-9FF2-D1F311EBEE90}</Project>
+      <Name>Xyperico.Agres.Sql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xyperico.Agres\Xyperico.Agres.csproj">
+      <Project>{F7D3C1F6-7F4E-4DF5-9226-5AEC4180C74F}</Project>
+      <Name>Xyperico.Agres</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj">
+      <Project>{054A30BA-B232-4FF1-9F23-1040D075764A}</Project>
+      <Name>Xyperico.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
