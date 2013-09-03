@@ -10,6 +10,7 @@ using Xyperico.Agres.MessageBus;
 using Xyperico.Agres.MessageBus.Subscription;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
+using Xyperico.Agres.MessageBus.RouteHandling;
 
 
 namespace Xyperico.Agres.Configuration
@@ -120,8 +121,9 @@ namespace Xyperico.Agres.Configuration
       ISubscriptionService subscriptionService = MessageBusConfigurationExtensions.GetSubscriptionService(cfg);
       IMessageSink messageSink = MessageBusConfigurationExtensions.GetMessageSink(cfg);
       IObjectContainer container = ObjectContainerConfigurationExtensions.GetObjectContainer(cfg);
+      IRouteManager routeManager = container.Resolve<IRouteManager>();
 
-      Xyperico.Agres.MessageBus.Implementation.MessageBus bus = new Agres.MessageBus.Implementation.MessageBus(subscriptionService, messageSink);
+      Xyperico.Agres.MessageBus.Implementation.MessageBus bus = new Agres.MessageBus.Implementation.MessageBus(subscriptionService, routeManager, messageSink);
       container.RegisterInstance<IMessageBus>(bus);
 
       return bus;

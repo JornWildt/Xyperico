@@ -9,18 +9,6 @@ namespace Xyperico.Agres.MessageBus.Subscription
     QueueName InputQueueName { get; }
 
     /// <summary>
-    /// Add outgoing message route (defining the receiving subscription queue for subscriptions per message type)
-    /// </summary>
-    /// <param name="messageFilter"></param>
-    /// <param name="destination"></param>
-    void AddRoute(string messageFilter, QueueName destination);
-
-
-    IEnumerable<RouteRegistration> GetRoutes();
-
-    QueueName GetDestinationForMessage(Type messageType);
-
-    /// <summary>
     /// Local process making a subscription request to remote service
     /// </summary>
     /// <param name="messageType"></param>

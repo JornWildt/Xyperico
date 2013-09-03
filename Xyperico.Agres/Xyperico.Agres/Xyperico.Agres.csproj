@@ -89,10 +89,12 @@
     <Compile Include="MessageBus\IMessageBus.cs" />
     <Compile Include="MessageBus\Implementation\MessageBus.cs" />
     <Compile Include="MessageBus\MessageBusSettings.cs" />
+    <Compile Include="MessageBus\RouteHandling\IRouteManager.cs" />
+    <Compile Include="MessageBus\RouteHandling\RouteManager.cs" />
     <Compile Include="MessageBus\Subscription\ISubscriptionService.cs" />
     <Compile Include="MessageBus\MessageBusConfiguration.cs" />
     <Compile Include="Configuration\ObjectContainerConfiguration.cs" />
-    <Compile Include="MessageBus\Subscription\RouteRegistration.cs" />
+    <Compile Include="MessageBus\RouteHandling\RouteRegistration.cs" />
     <Compile Include="MessageBus\Subscription\SubscriptionMessageHandlers.cs" />
     <Compile Include="MessageBus\Subscription\SubscriptionSettings.cs" />
     <Compile Include="MessageBus\Subscription\SubscriptionRegistration.cs" />

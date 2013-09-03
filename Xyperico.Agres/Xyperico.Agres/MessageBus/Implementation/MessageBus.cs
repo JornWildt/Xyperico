@@ -1,6 +1,7 @@
 ﻿using System;
 using CuttingEdge.Conditions;
 using Xyperico.Agres.MessageBus.Subscription;
+using Xyperico.Agres.MessageBus.RouteHandling;
 
 
 namespace Xyperico.Agres.MessageBus.Implementation
@@ -9,14 +10,18 @@ namespace Xyperico.Agres.MessageBus.Implementation
   {
     ISubscriptionService SubscriptionService { get; set; }
 
+    IRouteManager RouteManager { get; set; }
+
     IMessageSink MessageSink { get; set; }
 
 
-    public MessageBus(ISubscriptionService subscriptionService, IMessageSink messageSink)
+    public MessageBus(ISubscriptionService subscriptionService, IRouteManager routeManager, IMessageSink messageSink)
     {
       Condition.Requires(subscriptionService, "subscriptionService").IsNotNull();
+      Condition.Requires(routeManager, "routeManager").IsNotNull();
       Condition.Requires(messageSink, "messageSink").IsNotNull();
       SubscriptionService = subscriptionService;
+      RouteManager = routeManager;
       MessageSink = messageSink;
     }
 
@@ -61,7 +66,7 @@ namespace Xyperico.Agres.MessageBus.Implementation
     public void Send(IMessage msg)
     {
       Condition.Requires(msg, "msg").IsNotNull();
-      QueueName destination = SubscriptionService.GetDestinationForMessage(msg.GetType());
+      QueueName destination = RouteManager.GetDestinationForMessage(msg.GetType());
       if (destination == null)
         throw new InvalidOperationException(string.Format("No route registered for message '{0}' - cannot send.", msg));
       Send(destination, msg);

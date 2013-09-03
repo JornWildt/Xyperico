@@ -1,8 +1,8 @@
-﻿using CuttingEdge.Conditions;
-using System;
+﻿using System;
+using CuttingEdge.Conditions;
 
 
-namespace Xyperico.Agres.MessageBus.Subscription
+namespace Xyperico.Agres.MessageBus.RouteHandling
 {
   public class RouteRegistration
   {

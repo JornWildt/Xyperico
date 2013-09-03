@@ -7,6 +7,7 @@ using Xyperico.Agres.MessageBus.Subscription;
 using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.JsonNet;
 using Xyperico.Agres.MessageBus;
+using Xyperico.Agres.MessageBus.RouteHandling;
 
 
 namespace Xyperico.Agres.Tests.MessageBus
@@ -16,6 +17,7 @@ namespace Xyperico.Agres.Tests.MessageBus
   {
     QueueName MyQueueName = "Wolla";
     ISubscriptionService Service;
+    IRouteManager RouteManager;
 
 
     protected override void SetUp()
@@ -23,7 +25,8 @@ namespace Xyperico.Agres.Tests.MessageBus
       base.SetUp();
       IDocumentSerializer serializer = new JsonNetDocumentSerializer();
       IDocumentStoreFactory store = new FileDocumentStoreFactory(StorageBaseDir, serializer);
-      Service = new SubscriptionService(store, MyQueueName);
+      RouteManager = new RouteManager();
+      Service = new SubscriptionService(store, RouteManager, MyQueueName);
       store.Create<Type, SubscriptionRegistration>().Clear();
     }
 
@@ -85,11 +88,12 @@ namespace Xyperico.Agres.Tests.MessageBus
       // Arrange
       IDocumentSerializer serializer = new JsonNetDocumentSerializer();
       IDocumentStoreFactory store = new FileDocumentStoreFactory(StorageBaseDir, serializer);
-      SubscriptionService service = new SubscriptionService(store);
+      IRouteManager routeManager = new RouteManager();
+      SubscriptionService service = new SubscriptionService(store, routeManager);
 
       Assert.AreEqual("Zebra", service.InputQueueName.Name);
 
-      IList<RouteRegistration> routes = service.GetRoutes().ToList();
+      IList<RouteRegistration> routes = routeManager.GetRoutes().ToList();
       Assert.AreEqual(2, routes.Count);
       Assert.AreEqual("Abc.Def", routes[0].MessageFilter);
       Assert.AreEqual("Alibaba", routes[0].Destination.Name);
@@ -103,8 +107,8 @@ namespace Xyperico.Agres.Tests.MessageBus
     {
       // Arrange
       MessageSinkStub sink = new MessageSinkStub();
-      Service.AddRoute("Xyperico.Agres.Tests.MessageBus", "Trilian");
-      Service.AddRoute("Rofl.abc", "Max");
+      RouteManager.AddRoute("Xyperico.Agres.Tests.MessageBus", "Trilian");
+      RouteManager.AddRoute("Rofl.abc", "Max");
 
       // Act
       Service.Subscribe(typeof(MessageToSubscribe1), sink);
@@ -122,7 +126,7 @@ namespace Xyperico.Agres.Tests.MessageBus
     public void WhenSubscribingItChecksPrefixOfMessageFilter(string filter, string destination, Type message)
     {
       MessageSinkStub sink = new MessageSinkStub();
-      Service.AddRoute(filter, destination);
+      RouteManager.AddRoute(filter, destination);
 
       // Act
       Service.Subscribe(message, sink);
@@ -150,17 +154,6 @@ namespace Xyperico.Agres.Tests.MessageBus
       IList<QueueName> subscribers = Service.GetSubscribers(typeof(MessageToSubscribe1)).ToList();
       Assert.AreEqual(1, subscribers.Count);
       Assert.AreEqual(new QueueName("WhollyBob"), subscribers[0]);
-    }
-
-
-    [Test]
-    public void WhenAddingSameRouteTwiceItThrows()
-    {
-      // Arrange
-      Service.AddRoute("Rofl.abc", "Max");
-
-      // Act + Assert
-      AssertThrows<InvalidOperationException>(() => Service.AddRoute("Rofl.abc", "Max"));
     }
 
 

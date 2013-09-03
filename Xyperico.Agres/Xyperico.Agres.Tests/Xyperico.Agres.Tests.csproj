@@ -76,6 +76,7 @@
     <Compile Include="MessageBus\ConfigurationSettingsTests.cs" />
     <Compile Include="MessageBus\DefaultMessageHandlerConventionTests.cs" />
     <Compile Include="MessageBus\MessageDispatcherTests.cs" />
+    <Compile Include="MessageBus\RouteManagerTests.cs" />
     <Compile Include="MessageBus\SubscriptionServiceTests.cs" />
     <Compile Include="ProtoBufSerializerTests.cs" />
     <Compile Include="SetupFixture.cs" />

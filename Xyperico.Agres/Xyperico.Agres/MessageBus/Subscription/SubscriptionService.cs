@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CuttingEdge.Conditions;
-using Xyperico.Agres.DocumentStore;
 using log4net;
+using Xyperico.Agres.DocumentStore;
+using Xyperico.Agres.MessageBus.RouteHandling;
 
 
 namespace Xyperico.Agres.MessageBus.Subscription
@@ -12,15 +13,21 @@ namespace Xyperico.Agres.MessageBus.Subscription
   {
     private static ILog Logger = LogManager.GetLogger(typeof(SubscriptionService));
 
+    #region Dependencies
+
+    public IRouteManager RouteManager { get; set; }
+
+    #endregion
+
 
     /// <summary>
     /// Create SubscriptionService with empty message routing and supplied input queue name.
     /// </summary>
     /// <param name="subscriptionStoreFactory"></param>
     /// <param name="inputQueueName"></param>
-    public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory, QueueName inputQueueName)
+    public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory, IRouteManager routeManager, QueueName inputQueueName)
     {
-      Initialize(subscriptionStoreFactory, inputQueueName);
+      Initialize(subscriptionStoreFactory, routeManager, inputQueueName);
     }
 
 
@@ -28,19 +35,20 @@ namespace Xyperico.Agres.MessageBus.Subscription
     /// Create SubscriptionService and configure it from configuration file.
     /// </summary>
     /// <param name="subscriptionStoreFactory"></param>
-    public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory)
+    public SubscriptionService(IDocumentStoreFactory subscriptionStoreFactory, IRouteManager routeManager)
     {
-      Initialize(subscriptionStoreFactory, MessageBusSettings.Settings.InputQueue);
+      Initialize(subscriptionStoreFactory, routeManager, MessageBusSettings.Settings.InputQueue);
       foreach (MessageBusSettings.MessageRoute route in MessageBusSettings.Settings.Routes)
-        AddRoute(route.Messages, route.Destination);
+        RouteManager.AddRoute(route.Messages, route.Destination);
     }
 
 
-    protected void Initialize(IDocumentStoreFactory subscriptionStoreFactory, QueueName inputQueueName)
+    protected void Initialize(IDocumentStoreFactory subscriptionStoreFactory, IRouteManager routeManager, QueueName inputQueueName)
     {
       Condition.Requires(subscriptionStoreFactory, "subscriptionStoreFactory").IsNotNull();
       Condition.Requires(inputQueueName, "inputQueueName").IsNotNull();
-      Routes = new List<RouteRegistration>();
+      Condition.Requires(routeManager, "routeManager").IsNotNull();
+      RouteManager = routeManager;
       Subscriptions = subscriptionStoreFactory.Create<Type, SubscriptionRegistration>();
       InputQueueName = inputQueueName;
     }
@@ -51,45 +59,19 @@ namespace Xyperico.Agres.MessageBus.Subscription
     public QueueName InputQueueName { get; protected set; }
 
 
-    public void AddRoute(string messageFilter, QueueName destination)
-    {
-      Condition.Requires(messageFilter, "messageFilter").IsNotNull();
-      Condition.Requires(destination, "destination").IsNotNull();
-
-      if (Routes.Any(r => r.MessageFilter == messageFilter && r.Destination == destination))
-        throw new InvalidOperationException(string.Format("The subscription for {0} at {1} is already added.", messageFilter, destination));
-      Routes.Add(new RouteRegistration(messageFilter, destination));
-    }
-
-
-    public IEnumerable<RouteRegistration> GetRoutes()
-    {
-      return Routes;
-    }
-
-
-    public QueueName GetDestinationForMessage(Type messageType)
-    {
-      RouteRegistration route = FindRoute(messageType);
-      if (route == null)
-        return null;
-      return route.Destination;
-    }
-
-
     public void Subscribe(Type messageType, IMessageSink messageSink)
     {
       Condition.Requires(messageType, "messageType").IsNotNull();
       Condition.Requires(messageSink, "messageSink").IsNotNull();
 
-      RouteRegistration route = FindRoute(messageType);
-      if (route == null)
+      QueueName destination = RouteManager.GetDestinationForMessage(messageType);
+      if (destination == null)
         throw new InvalidOperationException(string.Format("Could not find any message routing information for message type '{0}'.", messageType));
 
-      Logger.DebugFormat("Subscribing to {0} at {1}.", messageType, route.Destination);
+      Logger.DebugFormat("Subscribing to {0} at {1}.", messageType, destination);
       SubscribeCommand cmd = new SubscribeCommand(messageType, InputQueueName);
       Message msg = new Message(cmd);
-      messageSink.Send(route.Destination, msg);
+      messageSink.Send(destination, msg);
     }
 
 
@@ -124,21 +106,7 @@ namespace Xyperico.Agres.MessageBus.Subscription
 
     #region Internals
 
-    List<RouteRegistration> Routes { get; set; }
-
     IDocumentStore<Type, SubscriptionRegistration> Subscriptions { get; set; }
-
-
-    private RouteRegistration FindRoute(Type messageType)
-    {
-      string msgTypeName = messageType.ToString();
-      foreach (RouteRegistration route in Routes)
-      {
-        if (route.Matches(messageType))
-          return route;
-      }
-      return null;
-    }
 
     #endregion
   }

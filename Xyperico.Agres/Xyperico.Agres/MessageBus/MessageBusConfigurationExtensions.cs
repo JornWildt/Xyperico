@@ -6,6 +6,7 @@ using Xyperico.Agres.DocumentStore;
 using Xyperico.Agres.MessageBus.Subscription;
 using Xyperico.Agres.Serialization;
 using Xyperico.Base;
+using Xyperico.Agres.MessageBus.RouteHandling;
 
 
 namespace Xyperico.Agres.MessageBus
@@ -84,7 +85,12 @@ namespace Xyperico.Agres.MessageBus
     {
       IObjectContainer container = ObjectContainerConfigurationExtensions.GetObjectContainer(cfg);
       IDocumentStoreFactory subscriptionStoreFactory = GetSubscriptionStore(cfg);
-      ISubscriptionService subscriptionService = new SubscriptionService(subscriptionStoreFactory);
+      
+      if (!container.HasComponent(typeof(IRouteManager)))
+        container.AddComponent<IRouteManager, RouteManager>();
+      IRouteManager routeManager = container.Resolve<IRouteManager>();
+      
+      ISubscriptionService subscriptionService = new SubscriptionService(subscriptionStoreFactory, routeManager);
       cfg.Set(SubscriptionService_SettingsKey, subscriptionService);
       container.RegisterInstance<ISubscriptionService>(subscriptionService);
 
