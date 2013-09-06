@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 
 namespace Xyperico.Base.CommonDomainTypes
 {
   [Serializable]
+  [DataContract]
   public class EMail : IEquatable<EMail>
   {
-    private string _email;
+    [DataMember(Order = 1)]
+    private string _email { get; set; }
 
 
     public EMail(string email)

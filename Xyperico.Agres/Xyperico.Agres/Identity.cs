@@ -1,12 +1,11 @@
 ﻿using System;
-using CuttingEdge.Conditions;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using CuttingEdge.Conditions;
 
 
 namespace Xyperico.Agres
 {
-  //[Serializable]
   [DataContract]
   public abstract class Identity<TId> : IIdentity
     where TId : IEquatable<TId>
@@ -28,7 +27,7 @@ namespace Xyperico.Agres
       get 
       { 
         if (_literal == null)
-          _literal = Prefix + Id.ToString();
+          _literal = Prefix + (Id != null ? Id.ToString() : "<null>");
         return _literal;
       }
       set

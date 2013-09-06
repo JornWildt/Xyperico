@@ -7,7 +7,7 @@ using Xyperico.Agres.MessageBus;
 namespace TestServer.Discuss
 {
   public class ForumEventTesterService :
-    GenericApplicationService<Forum, ForumId>,
+    GenericApplicationService<Forum, ForumData, ForumId>,
     IHandleMessage<ForumCreatedEvent>
   {
     public ForumEventTesterService(IEventStore eventStore)

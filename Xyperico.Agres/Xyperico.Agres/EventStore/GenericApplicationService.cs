@@ -4,13 +4,14 @@ using CuttingEdge.Conditions;
 
 namespace Xyperico.Agres.EventStore
 {
-  public class GenericApplicationService<TAggregate, TId>
-    where TAggregate : AbstractAggregate<TId>
+  public class GenericApplicationService<TAggregate, TState, TId>
+    where TAggregate : AbstractAggregate<TId, TState>
     where TId : IIdentity
+    where TState : IHaveIdentity<TId>, new()
   {
     protected IEventStore EventStore { get; set; }
 
-    protected GenericRepository<TAggregate,TId> Repository { get; set; }
+    protected GenericRepository<TAggregate, TState,TId> Repository { get; set; }
 
 
     public GenericApplicationService(IEventStore eventStore)
@@ -18,7 +19,7 @@ namespace Xyperico.Agres.EventStore
       Condition.Requires(eventStore, "eventStore").IsNotNull();
 
       EventStore = eventStore;
-      Repository = new GenericRepository<TAggregate, TId>(eventStore);
+      Repository = new GenericRepository<TAggregate, TState, TId>(eventStore);
     }
 
 

@@ -7,18 +7,16 @@ namespace Xyperico.Agres.ProtoBuf
 {
   public static class SerializerSetup
   {
-    private static MetaType IdentityMeta = null;
     private static int IdentityTag = 10;
 
 
-    public static void RegisterIdentity(Type t)
+    public static void RegisterIdentity<TId,TCoreId>()
+      where TId : Identity<TCoreId>
+      where TCoreId : IEquatable<TCoreId>
     {
-      if (IdentityMeta == null)
-      {
-        IdentityMeta = RuntimeTypeModel.Default.Add(typeof(Identity<Guid>), false).Add(1, "Id");
-      }
+      MetaType meta = RuntimeTypeModel.Default.Add(typeof(Identity<TCoreId>), false);
 
-      IdentityMeta.AddSubType(IdentityTag++, t);
+      meta.AddSubType(IdentityTag++, typeof(TId));
     }
   }
 }

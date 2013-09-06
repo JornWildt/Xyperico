@@ -7,7 +7,7 @@ using Xyperico.Agres.MessageBus;
 namespace TestServer.Discuss
 {
   public class ForumApplicationService : 
-    GenericApplicationService<Forum, ForumId>,
+    GenericApplicationService<Forum, ForumData, ForumId>,
     IHandleMessage<CreateForumCommand>,
     IHandleMessage<UpdateForumCommand>
   {

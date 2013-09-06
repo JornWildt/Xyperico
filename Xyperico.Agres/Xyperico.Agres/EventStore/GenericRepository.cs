@@ -4,9 +4,10 @@ using CuttingEdge.Conditions;
 
 namespace Xyperico.Agres.EventStore
 {
-  public class GenericRepository<TAggregate, TId>
-    where TAggregate : AbstractAggregate<TId>
+  public class GenericRepository<TAggregate, TState, TId>
+    where TAggregate : AbstractAggregate<TId, TState>
     where TId : IIdentity
+    where TState : IHaveIdentity<TId>, new()
   {
     protected IEventStore EventStore { get; set; }
 

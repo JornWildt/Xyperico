@@ -75,6 +75,7 @@
     <Compile Include="EventStore\GenericRepository.cs" />
     <Compile Include="EventStore\EventStream.cs" />
     <Compile Include="EventStore\IAppendOnlyStore.cs" />
+    <Compile Include="EventStore\IHaveEmbeddedState.cs" />
     <Compile Include="EventStore\MessageBusEventPublisher.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Identity.cs" />

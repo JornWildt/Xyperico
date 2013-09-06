@@ -8,13 +8,37 @@ using Xyperico.Agres.EventStore;
 
 namespace TestServer.Discuss
 {
-  public class Forum : AbstractAggregate<ForumId>
+  public class ForumData : IHaveIdentity<ForumId>
   {
+    public ForumId Id { get; protected set; }
+
     public string Title { get; protected set; }
 
     public string Description { get; protected set; }
 
 
+    #region Restore state
+
+    protected void RestoreFrom(ForumCreatedEvent e)
+    {
+      Id = e.Id;
+      Title = e.Title;
+      Description = e.Description;
+    }
+
+
+    protected void RestoreFrom(ForumUpdatedEvent e)
+    {
+      Title = e.Title;
+      Description = e.Description;
+    }
+
+    #endregion
+  }
+
+
+  public class Forum : AbstractAggregate<ForumId, ForumData>
+  {
     public Forum(IEnumerable<IEvent> events)
       : base(events)
     {
@@ -50,24 +74,5 @@ namespace TestServer.Discuss
 
       Publish(new ForumUpdatedEvent(cmd.Id, cmd.Title, cmd.Description));
     }
-
-
-    #region Restore state
-
-    protected void RestoreFrom(ForumCreatedEvent e)
-    {
-      Id = e.Id;
-      Title = e.Title;
-      Description = e.Description;
-    }
-
-
-    protected void RestoreFrom(ForumUpdatedEvent e)
-    {
-      Title = e.Title;
-      Description = e.Description;
-    }
-
-    #endregion
   }
 }

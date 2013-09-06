@@ -11,8 +11,6 @@ namespace Xyperico.Agres.Tests
     public static void Setup(IObjectContainer container)
     {
       log4net.Config.XmlConfigurator.Configure();
-      AbstractSerializer.RegisterKnownType(typeof(MySerializationMessage));
-      AbstractSerializer.RegisterKnownType(typeof(MySerializationId));
     }
 
 

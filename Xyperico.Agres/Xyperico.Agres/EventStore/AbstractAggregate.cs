@@ -5,12 +5,15 @@ using Xyperico.Agres.Utility;
 
 namespace Xyperico.Agres.EventStore
 {
-  public abstract class AbstractAggregate<TId> : IHaveIdentity<TId>
+  public abstract class AbstractAggregate<TId, TState> : IHaveIdentity<TId>
     where TId : IIdentity
+    where TState : IHaveIdentity<TId>, new()
   {
     const string RestoreMethodName = "RestoreFrom";
 
-    public TId Id { get; protected set; }
+    public TState State { get; protected set; }
+
+    public TId Id { get { return State.Id; } }
 
     public int Version { get; private set; }
 
@@ -19,6 +22,7 @@ namespace Xyperico.Agres.EventStore
 
     protected AbstractAggregate()
     {
+      State = new TState();
       Changes = new List<IEvent>();
     }
 
@@ -64,7 +68,7 @@ namespace Xyperico.Agres.EventStore
 
     protected void Mutate(IEvent e)
     {
-      MethodInvoke.InvokeMethodOptional(this, RestoreMethodName, e);
+      MethodInvoke.InvokeMethodOptional(State, RestoreMethodName, e);
       ++Version;
     }
 
