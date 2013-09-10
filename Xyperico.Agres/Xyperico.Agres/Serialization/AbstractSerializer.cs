@@ -56,8 +56,11 @@ namespace Xyperico.Agres.Serialization
 
       foreach (Type t in KnownTypes)
       {
-        ISerializeWorker w = CreateWorker(t);
-        Workers.Add(t.FullName, w);
+        if (!Workers.ContainsKey(t.FullName))
+        {
+          ISerializeWorker w = CreateWorker(t);
+          Workers.Add(t.FullName, w);
+        }
       }
     }
 

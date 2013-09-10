@@ -2,6 +2,8 @@
 using System.IO;
 using System.Runtime.Serialization;
 using NUnit.Framework;
+using ProtoBuf;
+using ProtoBuf.Meta;
 using Xyperico.Agres.Serialization;
 
 
@@ -10,8 +12,17 @@ namespace Xyperico.Agres.Tests
   public abstract class AbstractSerializerTests<TId> : TestHelper where TId : IEquatable<TId>
   {
     [DataContract]
-    class MyIdentity : Identity<TId> 
+    protected class MyIdentity : Identity<TId> 
     {
+      public MyIdentity()
+      {
+      }
+
+      public MyIdentity(TId id)
+        : base(id)
+      {
+      }
+
       protected override string Prefix
       {
         get { return "X"; }
@@ -31,9 +42,7 @@ namespace Xyperico.Agres.Tests
       [DataMember(Order = 3)]
       public string Description { get; private set; }
 
-
       public MySerializationMessage() { }
-
 
       public MySerializationMessage(MyIdentity id, string title, string description)
       {
@@ -43,7 +52,10 @@ namespace Xyperico.Agres.Tests
       }
     }
 
+    
     protected abstract ISerializer BuildSerializer();
+
+    protected abstract MyIdentity BuildId();
 
     protected ISerializer Serializer { get; set; }
 
@@ -53,6 +65,7 @@ namespace Xyperico.Agres.Tests
       base.TestFixtureSetUp();
       AbstractSerializer.RegisterKnownType(typeof(MyIdentity));
       AbstractSerializer.RegisterKnownType(typeof(MySerializationMessage<MyIdentity>));
+      Xyperico.Agres.ProtoBuf.SerializerSetup.RegisterInheritance<Identity<TId>, MyIdentity>();
     }
 
 
@@ -64,10 +77,26 @@ namespace Xyperico.Agres.Tests
 
 
     [Test]
+    public void CanSerializeIdentity()
+    {
+      // Arrange
+      MyIdentity id1 = BuildId();
+
+      // Act
+      byte[] data = Serializer.Serialize(id1);
+      MyIdentity id2 = (MyIdentity)Serializer.Deserialize(data);
+
+      // Assert
+      Assert.IsNotNull(id2);
+      Assert.AreEqual(id1, id2);
+    }
+
+
+    [Test]
     public void CanWriteReadByteArray()
     {
       // Arrange
-      MySerializationMessage<MyIdentity> msg = new MySerializationMessage<MyIdentity>(new MyIdentity(), "Blah", "Blah blah ...");
+      MySerializationMessage<MyIdentity> msg = new MySerializationMessage<MyIdentity>(BuildId(), "Blah", "Blah blah ...");
 
       // Act
       byte[] data = Serializer.Serialize(msg);
@@ -92,7 +121,7 @@ namespace Xyperico.Agres.Tests
     public void CanWriteReadStream()
     {
       // Arrange
-      MySerializationMessage<MyIdentity> msg = new MySerializationMessage<MyIdentity>(new MyIdentity(), "Blah", "Blah blah ...");
+      MySerializationMessage<MyIdentity> msg = new MySerializationMessage<MyIdentity>(BuildId(), "Blah", "Blah blah ...");
 
       // Act
       using (var s1 = new MemoryStream())
