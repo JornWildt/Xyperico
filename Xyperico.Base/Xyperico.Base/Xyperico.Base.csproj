@@ -87,13 +87,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurrentDirContext_Empty.cs" />
+    <Compile Include="CurrentDirContext_HostingEnv.cs" />
+    <Compile Include="CurrentDirContext_Http.cs" />
     <Compile Include="DataAnnotations\LocalizedDisplayNameAttribute.cs" />
+    <Compile Include="FileUtility.cs" />
+    <Compile Include="ICurrentDirContext.cs" />
     <Compile Include="IO\FileUtils.cs" />
     <Compile Include="IO\HttpBaseDirContext.cs" />
     <Compile Include="IO\HttpBaseDirContextForHostingEnvironment.cs" />
     <Compile Include="IO\IBaseDirContext.cs" />
     <Compile Include="IO\StandaloneBaseDirContext.cs" />
     <Compile Include="LazyObjectResolver.cs" />
+    <Compile Include="ModuleAttribute.cs" />
     <Compile Include="ObjectContainers\Castle.cs" />
     <Compile Include="Collections\CallContextNamedValueCollection.cs" />
     <Compile Include="CommandLineParser\Command.cs" />
@@ -133,6 +139,7 @@
     <Compile Include="Validation\ValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Web\UriTemplateExtensions.cs" />
+    <Compile Include="XmlFileConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
