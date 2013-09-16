@@ -15,6 +15,7 @@ namespace Xyperico.Base
     private static XmlSerializer Serializer = new XmlSerializer(typeof(T));
 
     private static string ModuleDirectoryName;
+    private static bool EnableSubFolders = true;
 
     
     static XmlFileConfiguration()
@@ -23,6 +24,8 @@ namespace Xyperico.Base
         ModuleDirectoryName = ConfigurationManager.AppSettings["XmlFileConfiguration.ModuleDirectory"];
       else
         ModuleDirectoryName = "Areas";
+
+      bool.TryParse(ConfigurationManager.AppSettings["XmlFileConfiguration.EnableSubFolders"], out EnableSubFolders);
     }
 
 
@@ -51,7 +54,11 @@ namespace Xyperico.Base
         throw new InvalidOperationException(string.Format("Cannot get XML filename for configuration of type {0} since it has no Module attribute associated with it.", typeof(T)));
       if (string.IsNullOrEmpty(attr.ModuleName))
         throw new InvalidOperationException(string.Format("Cannot get XML filename for configuration of type {0} since the module name is empty.", typeof(T)));
-      return FileUtility.MapPathToBaseDir(string.Format("~/{0}/{1}/module.config", ModuleDirectoryName, attr.ModuleName));
+
+      if (EnableSubFolders)
+        return FileUtility.MapPathToBaseDir(string.Format("~/{0}/{1}/module.config", ModuleDirectoryName, attr.ModuleName));
+      else
+        return FileUtility.MapPathToBaseDir("module.config");
     }
   }
 }

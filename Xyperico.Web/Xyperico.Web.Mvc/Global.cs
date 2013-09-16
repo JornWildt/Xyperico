@@ -56,11 +56,5 @@ namespace Xyperico.Web.Mvc
       Exception ex = Server.GetLastError();
       Logger.Error("Got exception", ex);
     }
-
-
-    protected void LoadConfig()
-    {
-      System.Configuration.
-    }
   }
 }
