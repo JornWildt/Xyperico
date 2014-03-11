@@ -1,18 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{59D579A9-67AA-486E-AB95-8371D2021602}"
+	ProjectSection(SolutionItems) = preProject
+		Xyperico-All.config = Xyperico-All.config
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base", "Xyperico.Base\Xyperico.Base\Xyperico.Base.csproj", "{054A30BA-B232-4FF1-9F23-1040D075764A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base.MongoDB", "Xyperico.Base\Xyperico.Base.MongoDB\Xyperico.Base.MongoDB\Xyperico.Base.MongoDB.csproj", "{DF1A3B54-FD53-414F-8C54-0D9F6EDEB2C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base.Testing", "Xyperico.Base\Xyperico.Base.Testing\Xyperico.Base.Testing.csproj", "{0A6B133C-2DAD-49D9-9686-AF4E2021ACA7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5C172328-AA1D-4F8F-A2CD-7E8FFDA1BBA3}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Web.Mvc", "Xyperico.Web\Xyperico.Web.Mvc\Xyperico.Web.Mvc.csproj", "{5BAC1705-410B-4B27-AA97-03C1EF567E1A}"
 EndProject
@@ -25,11 +23,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base.StandardFormats", "Xyperico.Base\Xyperico.Base.StandardFormats\Xyperico.Base.StandardFormats.csproj", "{248BFF40-E542-418E-BDD2-F1E9FCD11021}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.Base.StandardFormats.Tests", "Xyperico.Base\Xyperico.Base.StandardFormats.Tests\Xyperico.Base.StandardFormats.Tests.csproj", "{04537BB0-B46F-4985-8E3F-FA2FF74E7E73}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{59D579A9-67AA-486E-AB95-8371D2021602}"
-	ProjectSection(SolutionItems) = preProject
-		Xyperico-All.config = Xyperico-All.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyperico.TestWebServer", "Xyperico.TestWebServer\Xyperico.TestWebServer.csproj", "{2C257DB4-39C2-4173-BE2E-F0856002C469}"
 EndProject
