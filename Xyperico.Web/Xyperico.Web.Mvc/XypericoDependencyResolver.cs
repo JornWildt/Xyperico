@@ -38,9 +38,16 @@ namespace Xyperico.Web.Mvc
             // OLD: AddComponentLifeStyle(controllerType.ToString(), controllerType, Castle.Core.LifestyleType.Transient);
           }
         }
+        catch (ReflectionTypeLoadException ex)
+        {
+          Logger.Warn(string.Format("Could not load assembly {0}.", a.FullName), ex);
+          foreach (Exception ex2 in ex.LoaderExceptions)
+            Logger.Warn("Loader exception", ex2);
+
+        }
         catch (Exception ex)
         {
-          Logger.Info(string.Format("Could not load assembly {0}.", a.FullName), ex);
+          Logger.Warn(string.Format("Could not load assembly {0}.", a.FullName), ex);
         }
       }
     }
@@ -54,8 +61,9 @@ namespace Xyperico.Web.Mvc
       {
         return Container.Resolve(serviceType);
       }
-      catch (Exception)
+      catch (Exception ex)
       {
+        Logger.Warn(ex);
         return null;
       }
     }

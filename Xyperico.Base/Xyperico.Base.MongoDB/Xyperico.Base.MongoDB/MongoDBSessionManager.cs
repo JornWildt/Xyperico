@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using Xyperico.Base.Collections;
 using MongoDB.Driver;
+using log4net;
 
 
 namespace Xyperico.Base.MongoDB
 {
   public class MongoDBSessionManager
   {
+    static ILog Logger = LogManager.GetLogger(typeof(MongoDBSessionManager));
+
     #region Thread-safe, lazy Singleton
 
     /// <summary>
@@ -62,7 +65,9 @@ namespace Xyperico.Base.MongoDB
           return Xyperico.Base.MongoDB.ConfigurationSettings.Settings.ConfigurationEntries["Default"];
       }
 
-      throw new ArgumentException("MongoDB configuration entry '" + configEntry + "' (and it's alternatives) does not exist.");
+      string msg = "MongoDB configuration entry '" + configEntry + "' (and it's alternatives) does not exist.";
+      Logger.Error(msg);
+      throw new ArgumentException(msg);
     }
 
 
