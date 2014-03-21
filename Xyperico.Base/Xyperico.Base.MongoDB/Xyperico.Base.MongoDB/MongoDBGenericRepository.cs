@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using CuttingEdge.Conditions;
-using Xyperico.Base.Exceptions;
+using log4net;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Wrappers;
-using MongoDB.Bson;
+using System.Collections.Generic;
+using Xyperico.Base.Exceptions;
 using MDBUpdate = MongoDB.Driver.Builders.Update;
 
 
@@ -14,6 +15,7 @@ namespace Xyperico.Base.MongoDB
   public class MongoDBGenericRepository<TEntity, TId> : MongoDBRepositoryBase
     where TEntity : class, IHaveId<TId>
   {
+    private static ILog Logger = LogManager.GetLogger(typeof(MongoDBGenericRepository<TEntity, TId>));
     private static bool SetupHasExecuted = false;
 
     public virtual string CollectionName { get { return typeof(TEntity).Name; } }
@@ -31,7 +33,15 @@ namespace Xyperico.Base.MongoDB
     {
       if (!SetupHasExecuted)
       {
-        Setup();
+        try
+        {
+          Setup();
+        }
+        catch (Exception ex)
+        {
+          Logger.Error(string.Format("Failed to setup MongoDB repository '{0}'", GetType()), ex);
+          throw;
+        }
         SetupHasExecuted = true;
       }
     }
